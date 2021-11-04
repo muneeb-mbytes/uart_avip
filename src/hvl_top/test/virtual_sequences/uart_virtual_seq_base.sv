@@ -8,9 +8,10 @@
 //--------------------------------------------------------------------------------------------
 class uart_virtual_seq_base extends uvm_sequence#(uvm_sequence_item);
   `uvm_object_utils(uart_virtual_seq_base)
+  `uvm_declare_p_sequencer(virtual_sequencer)
 
   //declaring virtual sequencer handle
-  virtual_sequencer  virtual_seqr_h;
+ // virtual_sequencer  virtual_seqr_h;
 
   //--------------------------------------------------------------------------------------------
   // declaring handles for master and slave sequencer and environment config
@@ -51,14 +52,14 @@ task uart_virtual_seq_base::body();
     `uvm_fatal("CONFIG","cannot get() e_cfg from uvm_config_db.Have you set() it?")
   end
 
-  if(!$cast(virtual_seqr_h,master_seqr_h))begin
+  if(!$cast(p_sequencer,m_sequencer))begin
       `uvm_error(get_full_name(),"Virtual sequencer pointer cast failed")
      end
             
-  //connecting master sequenver and slave sequencer in env to
+  //connecting master sequencer and slave sequencer in env to
   //master sequencer and slave sequencer in virtual sequencer
-  master_seqr_h=virtual_seqr_h.master_seqr_h;
-  slave_seqr_h=virtual_seqr_h.slave_seqr_h;
+  master_seqr_h=p_sequencer.master_seqr_h;
+  slave_seqr_h=p_sequencer.slave_seqr_h;
 
 endtask:body
 `endif
