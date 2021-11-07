@@ -21,6 +21,6 @@
  `include "device1_base_sequence.sv"
  `include "device1_uart_fd_seq.sv"
 
-endpackage :device1_uart_seq_pkg
+endpackage : device1_uart_seq_pkg
 
 `endif

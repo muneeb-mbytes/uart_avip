@@ -1,5 +1,5 @@
-`ifndef device1_BASE_SEQUENCE_INCLUDED_
-`define device1_BASE_SEQUENCE_INCLUDED_
+`ifndef DEVICE1_BASE_SEQUENCE_INCLUDED_
+`define DEVICE1_BASE_SEQUENCE_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
 // Class: device1_base_sequence

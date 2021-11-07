@@ -29,7 +29,7 @@ endclass
 //--------------------------------------------------------------------------------------------
 function uart_virtual_seqs::new(string name = "uart_virtual_seqs");
   super.new(name);
-endfunction: new
+endfunction : new
 
 //--------------------------------------------------------------------------------------------
 // task:body
@@ -42,7 +42,7 @@ endfunction: new
 task uart_virtual_seqs::body();
  super.body();//Sets up the sub-sequencer pointer
  // ...
-endtask: body
+endtask : body
 
 `endif
 

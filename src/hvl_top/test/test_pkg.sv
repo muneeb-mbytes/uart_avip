@@ -29,6 +29,6 @@ package test_pkg;
   //including base_test for testing
   `include "base_test.sv"
 
-endpackage :test_pkg
+endpackage : test_pkg
 
 `endif

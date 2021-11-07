@@ -1,5 +1,5 @@
-`ifndef device1_UART_FD_SEQ_INCLUDED_
-`define device1_UART_FD_SEQ_INCLUDED_
+`ifndef DEVICE1_UART_FD_SEQ_INCLUDED_
+`define DEVICE1_UART_FD_SEQ_INCLUDED_
 
 
 //--------------------------------------------------------------------------------------------
@@ -23,10 +23,10 @@ endclass : device1_uart_fd_seq
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
-// Initializes sseq1 class object 
+// Initializes device1 sequence class object 
 //
 // Parameters:
-//  name - sseq1
+//  name - device1_uart_fd_seq
 //--------------------------------------------------------------------------------------------
 function device1_uart_fd_seq::new(string name = "device1_uart_fd_seq");
   super.new(name);
