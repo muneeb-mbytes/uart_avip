@@ -1,3 +1,5 @@
+`ifndef DEVICE0_DRIVER_BFM_INCLUDED_
+`define DEVICE0_DRIVER_BFM_INCLUDED_
 //--------------------------------------------------------------------------------------------
 // Interface : UART_device0_driver_bfm
 //  Used as the HDL driver for UART
@@ -25,3 +27,4 @@ initial
 
 endinterface : device0_driver_bfm
 
+`endif
