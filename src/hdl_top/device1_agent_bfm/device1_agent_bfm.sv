@@ -19,12 +19,12 @@ module device1_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   //device1_driver_bfm device1_driver_bfm_h (intf.SLV_DRV_MP, intf.MON_MP);
   //-------------------------------------------------------
-  //apb device1 driver bfm instantiation
+  //device1 driver bfm instantiation
   //-------------------------------------------------------
   device1_driver_bfm device1_drv_bfm_h(intf);
 
   //-------------------------------------------------------
-  //apb device1 monitor bfm instantiation
+  // device1 monitor bfm instantiation
   //-------------------------------------------------------
   device1_monitor_bfm device1_mon_bfm_h(intf);
   

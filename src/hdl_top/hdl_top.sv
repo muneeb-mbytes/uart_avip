@@ -37,7 +37,7 @@ module hdl_top;
   device0_agent_bfm device0_agent_bfm_h(intf);
 
   //-------------------------------------------------------
-  // SPI BFM Agent Instantiation
+  // UART BFM Agent Instantiation
   //-------------------------------------------------------
   device1_agent_bfm device1_agent_bfm_h(intf);
 

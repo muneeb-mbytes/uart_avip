@@ -14,11 +14,11 @@ class device0_agent extends uvm_agent;
   device0_agent_config device0_agent_cfg_h;
 
   // Varible: device0_seqr_h 
-  // Handle for slave seuencer
+  // Handle for device0 sequencer
   device0_sequencer device0_seqr_h;
   
   // Variable: device0_drv_proxy_h
-  // Creating a Handle fordevice0 driver proxy
+  // Creating a Handle for device0 driver proxy
   device0_driver_proxy device0_drv_proxy_h;
   
   // Variable: device0_mon_proxy_h

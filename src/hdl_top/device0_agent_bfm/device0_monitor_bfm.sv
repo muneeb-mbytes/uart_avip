@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------
-// Inteface : Slave Monitor BFM
-// Connects the slave monitor bfm with the monitor proxy
+// Inteface : device0 Monitor BFM
+// Connects the device0 monitor bfm with the monitor proxy
 //--------------------------------------------------------------------------------------------
 interface device0_monitor_bfm(uart_if intf);
   
