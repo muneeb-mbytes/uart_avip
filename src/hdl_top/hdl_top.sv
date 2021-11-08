@@ -1,3 +1,6 @@
+`ifndef HDL_TOP_INCLUDED_
+`define HDL_TOP_INCLUDED_
+
 //--------------------------------------------------------------------------------------------
 // Module      : HDL Top
 // Description : Has a interface and device1 agent bfm.
@@ -42,3 +45,5 @@ module hdl_top;
   device1_agent_bfm device1_agent_bfm_h(intf);
 
 endmodule : hdl_top
+
+`endif
