@@ -6,24 +6,27 @@
 // This module is used as the configuration class for device0 agent bfm and its components
 //--------------------------------------------------------------------------------------------
 
-  module device0_agent_bfm(uart_if intf);
+module device0_agent_bfm(uart_if intf);
 
-   import uvm_pkg::*;
-  `include "uvm_macros.svh"
+ import uvm_pkg::*;
+`include "uvm_macros.svh"
 
-   initial
-   begin
-      $display("device0 Agent BFM");
-   end
-   
-   device0_driver_bfm device0_drv_bfm_h(intf);
-   device0_monitor_bfm device0_mon_bfm_h(intf);
-   
-   initial begin
-     uvm_config_db#(virtual device0_driver_bfm)::set(null,"*", "device0_driver_bfm", device0_drv_bfm_h); 
-     uvm_config_db#(virtual device0_monitor_bfm)::set(null,"*", "device0_monitor_bfm", device0_mon_bfm_h);
-   end
+ initial
+ begin
+    $display("device0 Agent BFM");
+ end
+ 
+ device0_driver_bfm device0_drv_bfm_h(intf);
+ device0_monitor_bfm device0_mon_bfm_h(intf);
 
-  endmodule : device0_agent_bfm
+ //-------------------------------------------------------
+ // Setting the virtual handle of BMFs into config_db
+ //-------------------------------------------------------
+ initial begin
+   uvm_config_db#(virtual device0_driver_bfm)::set(null,"*", "device0_driver_bfm", device0_drv_bfm_h); 
+   uvm_config_db#(virtual device0_monitor_bfm)::set(null,"*", "device0_monitor_bfm", device0_mon_bfm_h);
+ end
+
+endmodule : device0_agent_bfm
 
 `endif

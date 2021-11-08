@@ -32,6 +32,9 @@ module device1_agent_bfm(uart_if intf);
   
 
   // device1_monitor_bfm device1_monitor_bfm_h (intf.MON_MP);
+  //-------------------------------------------------------
+  //Setting the virtual handle of BMFs into config_db
+  //-------------------------------------------------------
 initial begin
    uvm_config_db#(virtual device1_driver_bfm)::set(null,"*", "device1_driver_bfm", device1_drv_bfm_h); 
    uvm_config_db #(virtual device1_monitor_bfm)::set(null,"*", "device1_monitor_bfm", device1_mon_bfm_h); 
