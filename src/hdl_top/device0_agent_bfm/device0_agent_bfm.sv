@@ -8,7 +8,7 @@
 module device0_agent_bfm(uart_if intf);
     
   //-------------------------------------------------------
-  // Package : Importing Uvm Pakckage and Test Package
+  //Package : Importing Uvm Package 
   //-------------------------------------------------------
   import uvm_pkg::*;
   `include "uvm_macros.svh"
@@ -18,7 +18,14 @@ module device0_agent_bfm(uart_if intf);
      $display("device0 Agent BFM");
   end
   
+  //-------------------------------------------------------
+  //device0 driver bfm instantiation
+  //-------------------------------------------------------
   device0_driver_bfm device0_drv_bfm_h(intf);
+ 
+  //-------------------------------------------------------
+  //device0 monitor bfm instantiation
+  //-------------------------------------------------------
   device0_monitor_bfm device0_mon_bfm_h(intf);
  
   //-------------------------------------------------------

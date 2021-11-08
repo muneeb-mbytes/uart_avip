@@ -8,7 +8,7 @@
 module device1_agent_bfm(uart_if intf);
   
   //-------------------------------------------------------
-  // Package : Importing Uvm Package and Test Package
+  // Package : Importing Uvm Package
   //-------------------------------------------------------
 
   import uvm_pkg::*;
