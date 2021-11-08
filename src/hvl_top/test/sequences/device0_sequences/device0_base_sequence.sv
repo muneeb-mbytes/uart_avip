@@ -5,7 +5,7 @@
 // Creating device0_base_seq extends from uvm_sequence 
 //--------------------------------------------------------------------------------------------
 class device0_base_sequence extends uvm_sequence #(device0_tx);
-  //register with factory so we can ovverride using uvm methods in future.
+  //register with factory so we can override using uvm methods in future.
 
   `uvm_object_utils(device0_base_sequence)
   //-------------------------------------------------------
