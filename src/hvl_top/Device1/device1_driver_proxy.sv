@@ -26,6 +26,7 @@ class device1_driver_proxy extends uvm_driver#(device1_tx);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  // extern virtual task drive_to_bfm();
 
 endclass : device1_driver_proxy
 
@@ -96,14 +97,26 @@ endfunction : start_of_simulation_phase
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task device1_driver_proxy::run_phase(uvm_phase phase);
-
+  
   super.run_phase(phase);
+  // device1_drv_bfm_h.wait_for_reset();
+  // device1_drv_bfm_h.drive_for_idle();
+  // device1_drv_bfm_h.drive_for_start_bit();
 
   seq_item_port.get_next_item(req);
   // Work here
   // ...
+  // drive_to_bfm();
+
   seq_item_port.item_done();
 
 endtask : run_phase
+//task device1_driver_proxy::drive_to_bfm();
+//drive the data
+//
+//device1_drv_bfm_h.drive_for_data();
+//device1_drv_bfm_h.drive_for_parity_bit();
+//device1_drv_bfm_h.drive_for_stop_bit();
+//endtask: drive_to_bfm
 
 `endif

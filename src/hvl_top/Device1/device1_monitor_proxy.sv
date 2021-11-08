@@ -29,6 +29,7 @@ class device1_monitor_proxy extends uvm_monitor;
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  //extern virtual task sample_from_bfm();
 
 endclass : device1_monitor_proxy
 
@@ -106,7 +107,10 @@ task device1_monitor_proxy::run_phase(uvm_phase phase);
   phase.raise_objection(this, "device1_monitor_proxy");
 
   super.run_phase(phase);
-
+  //  device1_mon_bfm_h.wait_for_reset();
+  //  device1_mon_bfm_h.sample_for_idle();
+  //  device1_mon_bfm_h.sample_for_start_bit();
+  //  sample_from_bfm();
   // Work here
   // ...
 
@@ -114,5 +118,11 @@ task device1_monitor_proxy::run_phase(uvm_phase phase);
 
 endtask : run_phase
 
+//task device1_monitor_proxy::sample_from_bfm();
+////sample the data
+////
+//device1_mon_bfm_h.sample_for_data();
+//device1_mon_bfm_h.sample_for_parity_bit();
+//endtask: sample_from_bfm
 `endif
 
