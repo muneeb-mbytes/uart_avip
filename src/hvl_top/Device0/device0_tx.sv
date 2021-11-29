@@ -13,13 +13,16 @@ class device0_tx extends uvm_sequence_item;
     
     //input signals
 
-    rand bit [CHAR_LENGTH-1:0]tx;
-        bit [CHAR_LENGTH-1:0]rx[$];
+    rand bit [CHAR_LENGTH-1:0]tx0[];
+        bit [CHAR_LENGTH-1:0]rx0[];
 
    //-------------------------------------------------------
    // constraints for uart
    //-------------------------------------------------------
    constraint length{CHAR_LENGTH>5 && CHAR_LENGTH<8;}
+   constraint tx{tx0.size<8;}
+ //constraint mod8{foreach(tx0[i])
+ //                   tx0[i]%8==0;}
 
    //-------------------------------------------------------
    // Externally defined Tasks and Functions
@@ -52,8 +55,8 @@ function void device0_tx::do_copy (uvm_object rhs);
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
-  tx= rhs_.tx;
-  rx=rhs_.rx;
+  tx0= rhs_.tx0;
+  rx0=rhs_.rx0;
 
 endfunction : do_copy
 
@@ -69,8 +72,8 @@ function bit  device0_tx::do_compare (uvm_object rhs,uvm_comparer comparer);
   end
   
   return super.do_compare(rhs,comparer) &&
-  tx == rhs_.tx &&
-  rx == rhs_.rx;
+  tx0 == rhs_.tx0 &&
+  rx0 == rhs_.rx0;
 
 endfunction : do_compare
 
@@ -81,10 +84,11 @@ endfunction : do_compare
 
 function void device0_tx::do_print(uvm_printer printer);
   super.do_print(printer);
-  printer.print_field( "tx", tx , $bits(tx),UVM_BIN);
-  
-  foreach(rx[i]) begin
-    printer.print_field($sformatf("rx[%0d]",i),this.rx[i] , $bits(rx),UVM_BIN);
+  foreach(tx0[i]) begin
+  printer.print_field($sformatf("tx0[%0d]",i), this.tx0[i], $bits(tx0),UVM_BIN);
+  end 
+  foreach(rx0[i]) begin
+    printer.print_field($sformatf("rx0[%0d]",i),this.rx0[i] , $bits(rx0),UVM_BIN);
   end
 endfunction : do_print
   

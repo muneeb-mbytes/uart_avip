@@ -28,3 +28,11 @@ endfunction : new
 
 `endif
 
+//convert string  to ASCII to 8bits
+//int i=0;
+//s=string[20];
+//while(str[i])
+//$display("%s",str[i++]);
+//
+//s.atob(ASCII to binary)
+//

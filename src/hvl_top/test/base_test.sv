@@ -96,6 +96,7 @@ function void base_test::setup_device0_agent_cfg();
 
   uvm_config_db #(device0_agent_config)::set(this,"*device0_agent*","device0_agent_config",
                                                           env_cfg_h.device0_agent_cfg_h);
+ env_cfg_h.device0_agent_cfg_h.print();
 
 endfunction: setup_device0_agent_cfg
 
