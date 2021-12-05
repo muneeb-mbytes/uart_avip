@@ -30,8 +30,8 @@ endclass : rx_coverage
 // Construct: new
 //
 // Parameters:
-//  name - rx_coverage
-//  parent - parent under which this component is created
+// name - rx_coverage
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function rx_coverage::new(string name = "rx_coverage",
                                  uvm_component parent = null);
@@ -43,7 +43,7 @@ endfunction : new
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::build_phase(uvm_phase phase);
   super.build_phase(phase);
@@ -54,7 +54,7 @@ endfunction : build_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -65,7 +65,7 @@ endfunction : connect_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
@@ -76,7 +76,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
@@ -87,7 +87,7 @@ endfunction : start_of_simulation_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task rx_coverage::run_phase(uvm_phase phase);
 

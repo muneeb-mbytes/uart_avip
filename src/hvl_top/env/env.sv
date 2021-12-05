@@ -39,8 +39,8 @@ endclass : env
 // Construct: new
 //
 // Parameters:
-//  name - env
-//  parent - parent under which this component is created
+// name - env
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function env::new(string name = "env",uvm_component parent = null);
   super.new(name, parent);
@@ -49,10 +49,10 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 // Function: build_phase
 // Description:
-//  Create required components
+// Create required components
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void env::build_phase(uvm_phase phase);
   super.build_phase(phase);
@@ -76,11 +76,11 @@ endfunction : build_phase
 //--------------------------------------------------------------------------------------------
 // Function: connect_phase
 // Description:
-//  To connect virtual sequencer handles with device0 and device1 sequencer  
-//  connect the monitor analysis port with scoreboard analysis fifo export
+// To connect virtual sequencer handles with device0 and device1 sequencer  
+// connect the monitor analysis port with scoreboard analysis fifo export
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void env::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -100,7 +100,7 @@ endfunction : connect_phase
 // Function: end_of_elaboration_phase
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void env::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);

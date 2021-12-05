@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------------------------
 // Class: device_agent
 // Description:
-// device_agentironment contains handles of  device0 agent,device1 agent,virtual sequencer,scoreboard 
+// device_agentironment contains handles of  tx agent,rx agent,virtual sequencer,scoreboard 
 //--------------------------------------------------------------------------------------------
 class device_agent extends uvm_agent;
 
@@ -26,7 +26,7 @@ class device_agent extends uvm_agent;
   extern function new(string name = "device_agent", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
- endclass : device_agent
+endclass : device_agent
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
@@ -63,7 +63,7 @@ endfunction : build_phase
 //--------------------------------------------------------------------------------------------
 // Function: connect_phase
 // Description:
-//  To connect virtual sequencer handles with device0 and device1 sequencer  
+//  To connect virtual sequencer handles with tx and rx sequencer  
 //  connect the monitor analysis port with scoreboard analysis fifo export
 //
 // Parameters:

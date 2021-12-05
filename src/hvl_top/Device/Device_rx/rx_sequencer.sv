@@ -88,8 +88,7 @@ endfunction : start_of_simulation_phase
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task rx_sequencer::run_phase(uvm_phase phase);
-
-//  phase.raise_objection(this, "rx_sequencer");
+  //phase.raise_objection(this, "rx_sequencer");
 
   super.run_phase(phase);
 

@@ -1,8 +1,8 @@
-`ifndef rx_CFG_CONVERTER_INCLUDED_
-`define rx_CFG_CONVERTER_INCLUDED_
+`ifndef RX_CFG_CONVERTER_INCLUDED_
+`define RX_CFG_CONVERTER_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Class: rx_cfg_converterzo
+// Class: rx_cfg_converter
 // Description:
 // class for converting master_cfg configurations into struct configurations
 //--------------------------------------------------------------------------------------------
@@ -72,9 +72,9 @@ function void rx_cfg_converter::do_print(uvm_printer printer);
   uart_transfer_cfg_s uart_st;
   rx_agent_config rx_agent_config_h;
   super.do_print(printer);
- // printer.print_string( "uart_type",device_agent_config_h.uart_type.name());
- // printer.print_field( "baudrate_divisor",uart_st.baudrate_divisor , 
- //                                        $bits(uart_st.baudrate_divisor),UVM_DEC);
+  //printer.print_string( "uart_type",device_agent_config_h.uart_type.name());
+  //printer.print_field( "baudrate_divisor",uart_st.baudrate_divisor , 
+  //                                        $bits(uart_st.baudrate_divisor),UVM_DEC);
   printer.print_string( "msb_first",rx_agent_config_h.shift_dir.name());
   printer.print_string( "msb_first",rx_agent_config_h.uart_type.name());
   printer.print_string( "msb_first",rx_agent_config_h.oversampling_bits.name());

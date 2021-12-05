@@ -41,8 +41,8 @@ endclass : uart_scoreboard
 // Construct: new
 //
 // Parameters:
-//  name - uart_scoreboard
-//  parent - parent under which this component is created
+// name - uart_scoreboard
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function uart_scoreboard::new(string name = "uart_scoreboard", uvm_component parent = null);
   super.new(name, parent);
@@ -78,18 +78,17 @@ endfunction : connect_phase
 // Used to give delays and check the wdata and rdata are similar or not
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task uart_scoreboard::run_phase(uvm_phase phase);
-
-//  phase.raise_objection(this, "uart_scoreboard");
+  //  phase.raise_objection(this, "uart_scoreboard");
 
   super.run_phase(phase);
 
   // Work here
   // ...
 
- // phase.drop_objection(this);
+  // phase.drop_objection(this);
 
 endtask : run_phase
 

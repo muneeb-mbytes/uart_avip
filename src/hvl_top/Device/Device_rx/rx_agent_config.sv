@@ -66,9 +66,9 @@ function void rx_agent_config::do_print(uvm_printer printer);
   super.do_print(printer);
 
   printer.print_string ("is_active",is_active.name());
-  printer.print_field ("has_parity",has_parity, 1, UVM_DEC);
+  printer.print_field  ("has_parity",has_parity, 1, UVM_DEC);
   printer.print_string ("shift_dir",shift_dir.name());
-  printer.print_field ("has_coverage",has_coverage, 1, UVM_DEC);
+  printer.print_field  ("has_coverage",has_coverage, 1, UVM_DEC);
   printer.print_string ("uart_type",uart_type.name());
   printer.print_string ("oversampling_type",oversampling_bits.name());
   printer.print_string ("patity_type",parity_bit.name());

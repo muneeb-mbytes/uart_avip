@@ -45,8 +45,8 @@ endclass : rx_agent
 // Initializes the rx_agent class object
 //
 // Parameters:
-//  name - instance name of the  rx_agent
-//  parent - parent under which this component is created
+// name - instance name of the  rx_agent
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function rx_agent::new(string name = "rx_agent",uvm_component parent=null);
   super.new(name, parent);
@@ -57,7 +57,7 @@ endfunction : new
 // Creates the required ports, gets the required configuration from config_db
 //
 // Parameters:
-//  phase - stores the current phase
+// phase - stores the current phase
 //--------------------------------------------------------------------------------------------
 function void rx_agent::build_phase(uvm_phase phase);
   super.build_phase(phase);

@@ -24,12 +24,9 @@ endclass : tx_cfg_converter
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
-//
-//
-//
 // Parameters:
 //
-//  name - tx_cfg_converter
+// name - tx_cfg_converter
 //--------------------------------------------------------------------------------------------
 function tx_cfg_converter::new(string name = "tx_cfg_converter");
   super.new(name);

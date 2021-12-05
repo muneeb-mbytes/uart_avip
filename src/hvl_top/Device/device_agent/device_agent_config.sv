@@ -87,10 +87,21 @@ function void device_agent_config::set_baudrate_divisor(int primary_prescalar, i
 
 endfunction : set_baudrate_divisor
 
+//--------------------------------------------------------------------------------------------
+// Function: post_randomize
+//
+// Parameters:
+//  primary_prescalar - Primary prescalar value for baudrate calculation
+//  secondary_prescalar - Secondary prescalar value for baudrate calculation
+//--------------------------------------------------------------------------------------------
 function void device_agent_config::post_randomize();
   set_baudrate_divisor(this.primary_prescalar,this.secondary_prescalar);
 endfunction: post_randomize
 
+//--------------------------------------------------------------------------------------------
+// Function: get_baudrate_divisor
+// Return the baudrate_divisor
+//--------------------------------------------------------------------------------------------
 function int device_agent_config::get_baudrate_divisor();
   return(this.baudrate_divisor);
 endfunction: get_baudrate_divisor

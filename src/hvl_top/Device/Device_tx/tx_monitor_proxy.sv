@@ -71,7 +71,7 @@ endfunction : build_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_monitor_proxy::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -83,7 +83,7 @@ endfunction : connect_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_monitor_proxy::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
@@ -94,7 +94,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_monitor_proxy::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
@@ -105,7 +105,7 @@ endfunction : start_of_simulation_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task tx_monitor_proxy::run_phase(uvm_phase phase);
 
@@ -116,7 +116,7 @@ task tx_monitor_proxy::run_phase(uvm_phase phase);
   // Work here
   // ...
 
- // phase.drop_objection(this);
+  // phase.drop_objection(this);
 
 endtask : run_phase
 

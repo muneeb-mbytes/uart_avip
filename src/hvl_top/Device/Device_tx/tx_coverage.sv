@@ -30,8 +30,8 @@ endclass : tx_coverage
 // Construct: new
 //
 // Parameters:
-//  name - tx_coverage
-//  parent - parent under which this component is created
+// name - tx_coverage
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function tx_coverage::new(string name = "tx_coverage",
                                  uvm_component parent = null);
@@ -43,7 +43,7 @@ endfunction : new
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::build_phase(uvm_phase phase);
   super.build_phase(phase);
@@ -54,7 +54,7 @@ endfunction : build_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -65,7 +65,7 @@ endfunction : connect_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
@@ -76,7 +76,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
@@ -87,7 +87,7 @@ endfunction : start_of_simulation_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task tx_coverage::run_phase(uvm_phase phase);
 
@@ -107,11 +107,10 @@ endtask : run_phase
 // 
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::write(device_tx t);
-//  device0_tx device0_tx_h;
-//  this.device0_tx_h = t;
+  //  device0_tx device0_tx_h;
+  //  this.device0_tx_h = t;
   // cg.sample(device0_agent_cfg_h, device0_tx_cov_data);     
 endfunction: write
-
 //extern function void write(device0_tx device0_tx_h);
 
 `endif

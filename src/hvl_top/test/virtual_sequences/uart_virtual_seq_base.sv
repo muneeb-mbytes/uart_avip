@@ -11,7 +11,7 @@ class uart_virtual_seq_base extends uvm_sequence#(uvm_sequence_item);
   `uvm_declare_p_sequencer(virtual_sequencer)
 
   //declaring virtual sequencer handle
- // virtual_sequencer  virtual_seqr_h;
+  // virtual_sequencer  virtual_seqr_h;
 
   //--------------------------------------------------------------------------------------------
   // declaring handles for device0 and device1 sequencer and environment config

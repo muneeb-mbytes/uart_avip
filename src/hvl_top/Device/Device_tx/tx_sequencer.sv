@@ -1,5 +1,5 @@
-`ifndef tx_SEQUENCER_INCLUDED_
-`define tx_SEQUENCER_INCLUDED_
+`ifndef TX_SEQUENCER_INCLUDED_
+`define TX_SEQUENCER_INCLUDED_
 
  //--------------------------------------------------------------------------------------------
  // Class: tx_sequencer
@@ -43,7 +43,7 @@ endfunction : new
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_sequencer::build_phase(uvm_phase phase);
   super.build_phase(phase);
@@ -54,7 +54,7 @@ endfunction : build_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_sequencer::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -65,7 +65,7 @@ endfunction : connect_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_sequencer::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
@@ -76,7 +76,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_sequencer::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
@@ -87,18 +87,18 @@ endfunction : start_of_simulation_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task tx_sequencer::run_phase(uvm_phase phase);
-
- // phase.raise_objection(this, "tx_sequencer");
+  
+  // phase.raise_objection(this, "tx_sequencer");
 
   super.run_phase(phase);
 
   // Work here
   // ...
 
- // phase.drop_objection(this);
+  // phase.drop_objection(this);
 
 endtask : run_phase
 

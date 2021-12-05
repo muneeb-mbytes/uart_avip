@@ -46,15 +46,15 @@ function void rx_seq_item_converter::to_class(input uart_transfer_char_s input_c
 
   // Storing the values in the respective arrays
   //for(int row_no = 0; row_no < output_cov_h.tx.size(); row_no++) begin
-    for(int i=0; i<input_conv.no_of_rx_bits_transfer; i++) begin
-      output_conv_h.rx[i] = input_conv.rx[i];
-      `uvm_info("device_seq_item_conv_class",
-      $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
-     // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
-     // `uvm_info("device_seq_item_conv_class",
-     // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
-     end
-   //end
+  for(int i=0; i<input_conv.no_of_rx_bits_transfer; i++) begin
+    output_conv_h.rx[i] = input_conv.rx[i];
+    `uvm_info("device_seq_item_conv_class",
+    $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
+    // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
+    // `uvm_info("device_seq_item_conv_class",
+    // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
+  end
+  //end
 
 endfunction : to_class
 

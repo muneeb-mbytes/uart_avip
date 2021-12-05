@@ -18,8 +18,8 @@ class env_config extends uvm_object;
 
   int no_of_agents;
   
- // tx_agent_config tx_agent_config_h[];
- // rx_agent_config rx_agent_config_h[];
+  // tx_agent_config tx_agent_config_h[];
+  // rx_agent_config rx_agent_config_h[];
 
 
   // Variable: device_cfg_h
@@ -46,6 +46,12 @@ function env_config::new(string name = "env_config");
   super.new(name);
 endfunction : new
 
+//-----------------------------------------------------------------------------
+//construct: do_copy
+//
+//parameters:
+//name: env_config
+//parent- parent under which this component is created
 function void env_config::do_print(uvm_printer printer);
   super.do_print(printer);
   printer.print_field ("has_scoreboard",has_scoreboard,1, UVM_DEC);

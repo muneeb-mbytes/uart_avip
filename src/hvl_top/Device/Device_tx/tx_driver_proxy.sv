@@ -83,7 +83,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_driver_proxy::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);

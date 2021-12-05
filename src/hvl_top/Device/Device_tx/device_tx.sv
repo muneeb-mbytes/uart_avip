@@ -15,23 +15,22 @@ class device_tx extends uvm_sequence_item;
 
     rand bit [CHAR_LENGTH-1:0]tx[];
     bit parity;
-
- //  //-------------------------------------------------------
- //  // constraints for uart
- //  //-------------------------------------------------------
- //  constraint length{CHAR_LENGTH>5 && CHAR_LENGTH<8;}
- //  constraint tx{tx0.size<8;}
- //constraint mod8{foreach(tx0[i])
- //                   tx0[i]%8==0;}
-
-   //-------------------------------------------------------
-   // Externally defined Tasks and Functions
-   //-------------------------------------------------------
-   extern function new(string name = "device_tx");
-   extern function void post_randomize();
-   extern function void do_copy(uvm_object rhs);
-   extern function bit do_compare(uvm_object rhs, uvm_comparer comparer);
-   extern function void do_print(uvm_printer printer);
+    //-------------------------------------------------------
+    // constraints for uart
+    //-------------------------------------------------------
+    //constraint length{CHAR_LENGTH>5 && CHAR_LENGTH<8;}
+    //constraint tx{tx0.size<8;}
+    //constraint mod8{foreach(tx0[i])
+    //                   tx0[i]%8==0;}
+    
+    //-------------------------------------------------------
+    // Externally defined Tasks and Functions
+    //-------------------------------------------------------
+    extern function new(string name = "device_tx");
+    extern function void post_randomize();
+    extern function void do_copy(uvm_object rhs);
+    extern function bit do_compare(uvm_object rhs, uvm_comparer comparer);
+    extern function void do_print(uvm_printer printer);
 
 endclass : device_tx
 
