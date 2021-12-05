@@ -10,13 +10,17 @@ import uart_globals_pkg::*;
 
 interface rx_monitor_bfm (uart_if intf);
   bit areset;  
+  
   //-------------------------------------------------------
-  // Creating the handle for proxy driver
+  //Importing UVM package
   //-------------------------------------------------------
-  import rx_pkg::rx_monitor_proxy;
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-
+  
+  //-------------------------------------------------------
+  //mporting and  Creating the handle for proxy driver
+  //-------------------------------------------------------
+  import rx_pkg::rx_monitor_proxy;
   rx_monitor_proxy rx_mon_proxy_h;
 
   initial begin
@@ -37,19 +41,27 @@ interface rx_monitor_bfm (uart_if intf);
  //   @(negedge areset);
  //   `uvm_info("rx driver bfm",$sformatf("driving start bit"),UVM_NONE)
  // endtask: drive_for_start_bit
- 
- task drive_for_data(); //5 to 8 bits
-   @(negedge areset);
-   `uvm_info("rx driver bfm",$sformatf("drive data"),UVM_NONE)
+
+//--------------------------------------------------------------------------------------------
+//Task : Drive_for_data
+//This task is used to drive the data 
+//--------------------------------------------------------------------------------------------
+task drive_for_data(); //5 to 8 bits
+  @(negedge areset);
+  `uvm_info("rx driver bfm",$sformatf("drive data"),UVM_NONE)
    //  for(i=0;i<8;i++)begin
    //  vif.rx=tx_data[i];
    //  end
- endtask: drive_for_data
- 
- task drive_for_parity_bit(); //1bit
-   @(negedge areset);
-   `uvm_info("rx driver bfm",$sformatf("drive parity bit"),UVM_NONE)
- endtask: drive_for_parity_bit
+endtask: drive_for_data
+
+//--------------------------------------------------------------------------------------------
+//Task : Drive_for_parity_bit
+//This task is used to drive theparity bit 
+//--------------------------------------------------------------------------------------------
+task drive_for_parity_bit(); //1bit
+  @(negedge areset);
+  `uvm_info("rx driver bfm",$sformatf("drive parity bit"),UVM_NONE)
+endtask: drive_for_parity_bit
  
  // task drive_for_stop_bit(); //1bit
  //   @(negedge areset);

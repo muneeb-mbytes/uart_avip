@@ -10,7 +10,6 @@ module rx_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   // Package : Importing Uvm Package
   //-------------------------------------------------------
-
   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
@@ -22,7 +21,6 @@ module rx_agent_bfm(uart_if intf);
   //rx driver bfm instantiation
   //-------------------------------------------------------
   //rx_driver_bfm rx_driver_bfm_h (intf.SLV_DRV_MP, intf.MON_MP);
-  
   rx_driver_bfm rx_drv_bfm_h(intf);
 
   //-------------------------------------------------------
@@ -30,15 +28,14 @@ module rx_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   rx_monitor_bfm rx_mon_bfm_h(intf);
   
-
   // rx_monitor_bfm rx_monitor_bfm_h (intf.MON_MP);
   //-------------------------------------------------------
   //Setting the virtual handle of BMFs into config_db
   //-------------------------------------------------------
-initial begin
-   uvm_config_db#(virtual rx_driver_bfm)::set(null,"*", "rx_driver_bfm", rx_drv_bfm_h); 
-   uvm_config_db #(virtual rx_monitor_bfm)::set(null,"*", "rx_monitor_bfm", rx_mon_bfm_h); 
- end
+  initial begin
+    uvm_config_db#(virtual rx_driver_bfm)::set(null,"*", "rx_driver_bfm", rx_drv_bfm_h);
+    uvm_config_db #(virtual rx_monitor_bfm)::set(null,"*", "rx_monitor_bfm", rx_mon_bfm_h);
+  end
 
 endmodule : rx_agent_bfm
 
