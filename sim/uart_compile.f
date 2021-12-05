@@ -4,7 +4,6 @@
 +incdir+../../src/hvl_top/Device/Device_tx/
 +incdir+../../src/hvl_top/Device/
 +incdir+../../src/hvl_top/Device/device_agent/
-+incdir+../../src/hvl_top/Device/device_agent_config/ 
 +incdir+../../src/hdl_top/Device/Device_agent_bfm/  
 +incdir+../../src/hvl_top/env/virtual_sequencer/ 
 +incdir+../../src/hvl_top/test/virtual_sequences/ 
@@ -16,7 +15,6 @@
 ../../src/hvl_top/Device/Device_rx/rx_pkg.sv
 ../../src/hvl_top/test/sequences/device_sequences/tx_sequences/tx_uart_seq_pkg.sv
 ../../src/hvl_top/test/sequences/device_sequences/rx_sequences/rx_uart_seq_pkg.sv
-../../src/hvl_top/Device/device_agent_config/device_agent_config_pkg.sv
 ../../src/hvl_top/Device/device_agent/device_agent_pkg.sv
 ../../src/hvl_top/env/uart_env_pkg.sv
 ../../src/hvl_top/test/virtual_sequences/uart_virtual_seq_pkg.sv

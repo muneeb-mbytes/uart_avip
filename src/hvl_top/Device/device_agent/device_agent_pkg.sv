@@ -17,12 +17,13 @@ package device_agent_pkg;
   import uart_globals_pkg::*;
   import tx_pkg::*;
   import rx_pkg::*;
-  import device_agent_config_pkg::*;
+ // import device_agent_config_pkg::*;
 
 
   //-------------------------------------------------------
   // Include all other files
   //-------------------------------------------------------
+  `include "device_agent_config.sv"
   `include "device_agent.sv"
  
   
