@@ -109,8 +109,8 @@ function void base_test::setup_env_cfg();
 endfunction: setup_env_cfg
 
 //--------------------------------------------------------------------------------------------
-// Function: setup_master_agent_cfg
-// Setup the master agent configuration with the required values
+// Function: setup_tx_agent_cfg
+// Setup the tx agent configuration with the required values
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
 function void base_test::setup_tx_agent_cfg();
@@ -125,8 +125,8 @@ function void base_test::setup_tx_agent_cfg();
 endfunction: setup_tx_agent_cfg
 
 //--------------------------------------------------------------------------------------------
-// Function: setup_slave_agents_cfg
-// Setup the slave agent(s) configuration with the required values
+// Function: setup_rx_agents_cfg
+// Setup the rx agent configuration with the required values
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
 function void base_test::setup_rx_agents_cfg();
