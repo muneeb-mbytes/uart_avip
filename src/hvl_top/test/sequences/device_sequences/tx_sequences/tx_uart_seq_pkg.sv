@@ -20,6 +20,10 @@ package tx_uart_seq_pkg;
   //-------------------------------------------------------
   `include "tx_base_sequence.sv"
   `include "tx_uart_fd_8b_seq.sv"
+  `include "tx_uart_fd_lsb_seq.sv"
+  `include "tx_uart_fd_msb_seq.sv"
+  `include "tx_uart_fd_baudrate_seq.sv"
+  `include "tx_uart_fd_string_seq.sv"
 
 endpackage : tx_uart_seq_pkg
 
