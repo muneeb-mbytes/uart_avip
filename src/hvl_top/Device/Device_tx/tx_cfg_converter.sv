@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------------------------
 // Class: tx_cfg_converterzo
 // Description:
-// class for converting master_cfg configurations into struct configurations
+// class for converting tx_cfg configurations into struct configurations
 //--------------------------------------------------------------------------------------------
 class tx_cfg_converter extends uvm_object;
   
@@ -37,7 +37,7 @@ endfunction : new
 
 //--------------------------------------------------------------------------------------------
 // function: from_class
-// converting device_uart_cfg configurations into structure configurations
+// converting tx_cfg configurations into structure configurations
 //--------------------------------------------------------------------------------------------
 function void tx_cfg_converter::from_class(input tx_agent_config input_conv_h,
                                                  output uart_transfer_cfg_s output_conv);
