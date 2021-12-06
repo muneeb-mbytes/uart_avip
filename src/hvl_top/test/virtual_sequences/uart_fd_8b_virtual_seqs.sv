@@ -54,7 +54,7 @@ task uart_fd_8b_virtual_seq::body();
    join_none
      
    //starting device_virtual sequencer with respective to p_sequencer declared in device_virtual seq base
-   repeat(5) begin : TX_SEQ_START
+   repeat(1) begin : TX_SEQ_START
      tx_uart_fd_8b_seq_h.start(p_sequencer.tx_seqr_h);
    end
 

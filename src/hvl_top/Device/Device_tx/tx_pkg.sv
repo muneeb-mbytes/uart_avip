@@ -20,8 +20,8 @@ package tx_pkg;
   //-------------------------------------------------------
   `include "device_tx.sv"
   `include "tx_agent_config.sv"
-  `include "tx_seq_item_converter.sv"
   `include "tx_cfg_converter.sv"
+  `include "tx_seq_item_converter.sv"
   `include "tx_sequencer.sv"
   `include "tx_driver_proxy.sv"
   `include "tx_monitor_proxy.sv"

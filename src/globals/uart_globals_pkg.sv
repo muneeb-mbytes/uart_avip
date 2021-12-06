@@ -11,7 +11,6 @@ package uart_globals_pkg;
 
   parameter NO_OF_ROWS = CHAR_LENGTH**2;
 
-
   parameter NO_OF_DEVICES=1;
 
 
@@ -32,20 +31,20 @@ typedef enum bit[1:0] {
 } stop_bit_e;
 
 typedef enum bit[3:0] {
-  UART_TYPE_FIVE_BIT      = 4'd5,
-  UART_TYPE_SIX_BIT       = 4'd6,
-  UART_TYPE_SEVEN_BIT     = 4'd7,
-  UART_TYPE_EIGHT_BIT     = 4'd8,
-  UART_TYPE_NO_TRANSFER   = 4'd0
+  UART_TYPE_FIVE_BIT      = 5,
+  UART_TYPE_SIX_BIT       = 6,
+  UART_TYPE_SEVEN_BIT     = 7,
+  UART_TYPE_EIGHT_BIT     = 8,
+  UART_TYPE_NO_TRANSFER   = 0
 } uart_type_e;
 
 
 typedef enum bit[3:0] {
-  OVERSAMPLING_TWO       = 4'd2,
-  OVERSAMPLING_FOUR      = 4'd4,
-  OVERSAMPLING_SIX       = 4'd6,
-  OVERSAMPLING_EIGHT     = 4'd8,
-  OVERSAMPLING_ZERO      = 4'd0
+  OVERSAMPLING_TWO       = 2,
+  OVERSAMPLING_FOUR      = 4,
+  OVERSAMPLING_SIX       = 6,
+  OVERSAMPLING_EIGHT     = 8,
+  OVERSAMPLING_ZERO      = 0
 } oversampling_e;
 
 

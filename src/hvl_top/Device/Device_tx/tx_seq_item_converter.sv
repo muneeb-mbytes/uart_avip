@@ -9,14 +9,14 @@
 class tx_seq_item_converter extends uvm_object;
   `uvm_object_utils(tx_seq_item_converter)
 
-  //static int uart_tx_bits;
+  static int uart_tx_bits;
   
 
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
   extern function new(string name = "tx_seq_item_converter");
-  //extern static function void tx_bits(tx_agent_config tx_agent_cfg_h,
+  extern static function void tx_bits(tx_agent_config tx_agent_cfg_h);
   //                                     uart_transfer_char_s output_conv);
   extern static function void from_class(input device_tx input_conv_h,
                                          output uart_transfer_char_s output_conv); 
@@ -35,16 +35,16 @@ function tx_seq_item_converter::new(string name = "tx_seq_item_converter");
   super.new(name);
 endfunction : new
 
-//function void tx_seq_item_converter::tx_bits(tx_agent_config tx_agent_cfg_h,
-  //                                      uart_transfer_char_s output_conv);
+function void tx_seq_item_converter::tx_bits(tx_agent_config tx_agent_cfg_h);
   // `uvm_info("device_seq_item_conv_class",$sformatf("tx_bits_class"),UVM_LOW); 
-  // `uvm_info("device_seq_item_conv_class",$sformatf("before no of tx bits = \n %p",output_conv.no_of_tx_bits_transfer),UVM_LOW);
-  //uart_tx_bits = uart_type_e'(tx_agent_cfg_h.uart_type);
+  // `uvm_info("device_seq_item_conv_class",$sformatf("before no of tx bits = \n %p",
+  // output_conv.no_of_tx_bits_transfer),UVM_LOW);
+  uart_tx_bits = uart_type_e'(tx_agent_cfg_h.uart_type);
   //output_conv.no_of_tx_bits_transfer = 8;
-  // output_conv.no_of_tx_bits_transfer = uart_tx_bits;
-
-  //  `uvm_info("device_seq_item_conv_class",$sformatf("no of tx bits = \n %p",output_conv.no_of_tx_bits_transfer),UVM_LOW);
-//endfunction : tx_bits
+  //output_conv.no_of_tx_bits_transfer = uart_tx_bits;
+  //`uvm_info("device_seq_item_conv_class",$sformatf("no of tx bits = \n %p",
+  //output_conv.no_of_tx_bits_transfer),UVM_LOW);
+endfunction : tx_bits
 
 //--------------------------------------------------------------------------------------------
 // function: from_class
@@ -52,14 +52,16 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
                                                        output uart_transfer_char_s output_conv); 
-  tx_agent_config tx_agent_cfg_h;
-   //uart_transfer_cfg_s uart_cfg_h;
+   tx_agent_config tx_agent_cfg_h;
+  // uart_transfer_cfg_s uart_cfg_h;
    //$cast(output_conv.no_of_tx_bits_transfer,tx_agent_cfg_h.uart_type);
    //output_conv.no_of_tx_bits_transfer= uart_type_e'(tx_agent_cfg_h.uart_type);
    //output_conv.no_of_tx_bits_transfer = 8;
    // output_conv.no_of_tx_bits_transfer = uart_cfg_h.uart_type;
    //`uvm_info("device_seq_item_conv_class",$sformatf("no of tx bits = \n %p",
-   //                                                 output_conv.no_of_tx_bits_transfer),UVM_LOW);
+   //                                             output_conv.no_of_tx_bits_transfer),UVM_LOW);
+   output_conv.no_of_tx_bits_transfer = uart_tx_bits;
+
 
    `uvm_info("device_seq_item_conv_class",$sformatf("tx_from_class"),UVM_LOW);
  // if(uart_type_cov == 2'b00) begin
@@ -76,18 +78,19 @@ function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
  // end
  //for(int row_no = 0; row_no < input_cov_h.tx.size(); row_no++) begin
  
-   //for(int i = 0; i <  uart_type_e'(tx_agent_cfg_h.uart_type); i++) begin
-   for(int i = 0; i < 8; i++) begin
+   for(int i = 0; i < output_conv.no_of_tx_bits_transfer; i++) begin
+   //for(int i = 0; i < 8; i++) begin
      //`uvm_info("device_seq_item_conv_class",$sformatf("After shift input_cov_h tx = \n %p",
      //input_conv_h.tx[i]),UVM_LOW)
      //output_conv.tx[row_no][i] = input_conv_h.tx[row_no][i];
      output_conv.tx[i] = input_conv_h.tx[i];
      //`uvm_info("device_seq_item_conv_class",$sformatf("After shift input_cov_h tx = \n %p",
      //input_conv_h.tx[i]),UVM_LOW)   
-     `uvm_info("device_seq_item_conv_class",$sformatf("tx = \n %p",output_conv.tx),UVM_LOW)
+     //`uvm_info("device_seq_item_conv_class",$sformatf("Bit tx = \n %p",output_conv.tx[i]),UVM_LOW)
    end
 
    output_conv.parity_bit = input_conv_h.parity;
+   `uvm_info("device_seq_item_conv_class",$sformatf("total tx = \n %p",output_conv.tx),UVM_LOW)
  //end
  endfunction : from_class 
   
@@ -120,13 +123,13 @@ function void tx_seq_item_converter::to_class(input uart_transfer_char_s input_c
     for(int i=0; i<input_conv.no_of_tx_bits_transfer; i++) begin
       //output_conv_h.tx[row_no][i] = input_conv.tx[row_no][i];
       output_conv_h.tx[i] = input_conv.tx[i];
-      `uvm_info("device_seq_item_conv_class",
-      $sformatf("To class tx = \n %p",output_conv_h.tx[i]),UVM_LOW)
-    // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
-    // `uvm_info("device_seq_item_conv_class",
-    // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
+     // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
+     // `uvm_info("device_seq_item_conv_class",
+     // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
     end
-   //end
+    `uvm_info("device_seq_item_conv_class",
+    $sformatf("To class tx = \n %p",output_conv_h.tx),UVM_LOW)
+ //end
 
 endfunction : to_class
 

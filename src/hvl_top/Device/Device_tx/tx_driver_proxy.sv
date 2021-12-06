@@ -27,6 +27,9 @@ class tx_driver_proxy extends uvm_driver#(device_tx);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  //extern virtual task drive_to_bfm(inout uart_transfer_char_s packet, input uart_transfer_cfg_s packet1);
+  //extern virtual function void reset_detected();
+  
 
 endclass : tx_driver_proxy
 
@@ -76,6 +79,7 @@ endfunction : connect_phase
 //--------------------------------------------------------------------------------------------
 function void tx_driver_proxy::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
+  tx_drv_bfm_h.tx_drv_proxy_h = this;
 endfunction  : end_of_elaboration_phase
 
 //--------------------------------------------------------------------------------------------
@@ -110,10 +114,13 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
     
     seq_item_port.get_next_item(req);
     //tx_seq_item_converter::tx_bits(tx_agent_cfg_h, struct_pkt);
+    tx_seq_item_converter::tx_bits(tx_agent_cfg_h);
+    tx_cfg_converter::from_class(tx_agent_cfg_h, struct_cfg);
+    `uvm_info(get_full_name(),$sformatf("strt cfg = \n %p",struct_cfg),UVM_LOW)
     tx_seq_item_converter::from_class(req, struct_pkt);
     `uvm_info(get_full_name(),$sformatf("strt pkt = \n %p",struct_pkt),UVM_LOW)
-    tx_cfg_converter::from_class(req, struct_cfg);
-    `uvm_info(get_full_name(),$sformatf("strt cfg = \n %p",struct_cfg),UVM_LOW)
+    tx_seq_item_converter::to_class(struct_pkt,req);
+    `uvm_info(get_full_name(),$sformatf("req pkt = \n %p",req.sprint()),UVM_LOW)
     //tx_agent_cfg_h.print();
 
     // Work here

@@ -26,7 +26,7 @@ interface tx_driver_bfm(uart_if intf);
   // Creating the handle for proxy driver
   //-------------------------------------------------------
   import tx_pkg::tx_driver_proxy;
-  tx_driver_proxy tx_drv_proxy;
+  tx_driver_proxy tx_drv_proxy_h;
   
   initial 
   begin
