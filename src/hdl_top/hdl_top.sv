@@ -11,6 +11,7 @@ module hdl_top;
 // Including UART interface and device1 Agent BFM Files
 //-------------------------------------------------------
  bit rst;
+ bit clk;
  
  //-------------------------------------------------------
  // Display statement for HDL_TOP
@@ -18,7 +19,15 @@ module hdl_top;
   initial begin
     $display("HDL_TOP");
   end
-  
+
+  //-------------------------------------------------------
+  // System Clock Generation
+  //-------------------------------------------------------
+  initial begin
+    clk = 1'b0;
+    forever #10 clk = ~clk;
+  end
+    
   //-------------------------------------------------------
   // System Reset Generation
   //-------------------------------------------------------
@@ -31,7 +40,9 @@ module hdl_top;
   //-------------------------------------------------------
   // UART Interface Instantiation
   //-------------------------------------------------------
-  uart_if intf();
+  uart_if intf(.pclk(clk),
+               .areset(rst)
+             );
 
   //-------------------------------------------------------
   // UART BFM Agent Instantiation

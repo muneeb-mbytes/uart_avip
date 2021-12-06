@@ -120,6 +120,7 @@ function void base_test::setup_tx_agent_cfg();
     env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].shift_dir            = shift_direction_e'(LSB_FIRST);
     env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].parity_bit           = parity_e'(EVEN_PARITY);
     env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].stop_bit             = stop_bit_e'(STOP_BIT_ONEBIT);
+    env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].tx_baudrate_divisor  = env_cfg_h.device_agent_cfg_h.get_baudrate_divisor();
     env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
   end
 endfunction: setup_tx_agent_cfg
@@ -135,12 +136,15 @@ function void base_test::setup_rx_agents_cfg();
     env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
     env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].shift_dir            = shift_direction_e'(LSB_FIRST);
     env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].parity_bit           = parity_e'(EVEN_PARITY);
+    env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].rx_baudrate_divisor  = env_cfg_h.device_agent_cfg_h.get_baudrate_divisor();
     env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
   end
 
 endfunction: setup_rx_agents_cfg
 
 function void base_test::setup_device_agent_cfg();
+
+  env_cfg_h.device_agent_cfg_h.set_baudrate_divisor(.primary_prescalar(0), .secondary_prescalar(0));
 
   // Setup the tx agent cfg 
   env_cfg_h.device_agent_cfg_h.tx_agent_config_h =  new[env_cfg_h.no_of_agents];
@@ -167,7 +171,6 @@ function void base_test::setup_device_agent_cfg();
     uvm_config_db #(rx_agent_config)::set(this,"*","rx_agent_config", env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i]);
     env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].print();
   end
-  env_cfg_h.device_agent_cfg_h.set_baudrate_divisor(.primary_prescalar(0), .secondary_prescalar(0));
 
 endfunction : setup_device_agent_cfg
 

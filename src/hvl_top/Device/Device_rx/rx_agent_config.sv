@@ -39,6 +39,7 @@ class rx_agent_config extends uvm_object;
   // Tells about even parity or odd parity
   parity_e parity_bit;
 
+  int rx_baudrate_divisor;
 
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
@@ -67,6 +68,7 @@ function void rx_agent_config::do_print(uvm_printer printer);
 
   printer.print_string ("is_active",is_active.name());
   printer.print_field  ("has_parity",has_parity, 1, UVM_DEC);
+  printer.print_field  ("rx_baudrate_divisor",rx_baudrate_divisor, $bits(rx_baudrate_divisor), UVM_DEC);  
   printer.print_string ("shift_dir",shift_dir.name());
   printer.print_field  ("has_coverage",has_coverage, 1, UVM_DEC);
   printer.print_string ("uart_type",uart_type.name());

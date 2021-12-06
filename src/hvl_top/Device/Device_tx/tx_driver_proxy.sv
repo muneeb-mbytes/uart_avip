@@ -27,8 +27,8 @@ class tx_driver_proxy extends uvm_driver#(device_tx);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  //extern virtual task drive_to_bfm(inout uart_transfer_char_s packet, input uart_transfer_cfg_s packet1);
-  //extern virtual function void reset_detected();
+  extern virtual task drive_to_bfm(inout uart_transfer_char_s packet, input uart_transfer_cfg_s packet1);
+  extern virtual function void reset_detected();
   
 
 endclass : tx_driver_proxy
@@ -107,28 +107,53 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
   begin
     $display("tx_drv_prox");
   end
+
+  // Wait for system reset 
+  // Drive the IDLE state for UART interface
+  //tx_drv_bfm_h.wait_for_reset_drive_idle_state();  
   
   forever begin
     uart_transfer_char_s struct_pkt;
     uart_transfer_cfg_s struct_cfg;
     
     seq_item_port.get_next_item(req);
-    //tx_seq_item_converter::tx_bits(tx_agent_cfg_h, struct_pkt);
+    
     tx_seq_item_converter::tx_bits(tx_agent_cfg_h);
     tx_cfg_converter::from_class(tx_agent_cfg_h, struct_cfg);
     `uvm_info(get_full_name(),$sformatf("strt cfg = \n %p",struct_cfg),UVM_LOW)
+
     tx_seq_item_converter::from_class(req, struct_pkt);
     `uvm_info(get_full_name(),$sformatf("strt pkt = \n %p",struct_pkt),UVM_LOW)
+    tx_agent_cfg_h.print();
+
+    drive_to_bfm(struct_pkt, struct_cfg);    
+    
     tx_seq_item_converter::to_class(struct_pkt,req);
     `uvm_info(get_full_name(),$sformatf("req pkt = \n %p",req.sprint()),UVM_LOW)
-    //tx_agent_cfg_h.print();
 
-    // Work here
-    // ...
     seq_item_port.item_done();
   end
 
 endtask : run_phase
+
+//--------------------------------------------------------------------------------------------
+// Task: drive_to_bfm
+// This task converts the transcation data packet to struct type and send
+// it to the device0_driver_bfm
+//--------------------------------------------------------------------------------------------
+
+task tx_driver_proxy::drive_to_bfm(inout uart_transfer_char_s packet, input uart_transfer_cfg_s packet1);
+  tx_drv_bfm_h.drive_data_pos_edge(packet,packet1); 
+  //`uvm_info(get_type_name(),$sformatf("AFTER STRUCT PACKET : , \n %p",packet1),UVM_LOW);
+endtask : drive_to_bfm
+
+//--------------------------------------------------------------------------------------------
+// Function reset_detected
+// This task detect the system reset appliction
+//--------------------------------------------------------------------------------------------
+function void tx_driver_proxy::reset_detected();
+  `uvm_info(get_type_name(), $sformatf("System reset is detected"), UVM_NONE);
+endfunction: reset_detected
 
 `endif
 

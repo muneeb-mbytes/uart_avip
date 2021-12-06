@@ -18,6 +18,10 @@ package uart_globals_pkg;
   //Define :NO_OF_DEVICES
   //Specifies the no of devices
   parameter NO_OF_DEVICES=1;
+  
+  //Define :STOP_BIT
+  //Specifes the start of the transaction
+  parameter START_BIT=0;
 
   // Enum: shift_direction_e
   // Specifies the shift direction

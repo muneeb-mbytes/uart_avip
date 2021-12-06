@@ -14,6 +14,7 @@ class device_agent_config extends uvm_object;
   bit has_tx_agent=1;
 
   bit has_rx_agent=1;
+
   // Variable: primary_prescalar
   // Used for setting the primary prescalar value for baudrate_divisor
   rand protected bit[2:0] primary_prescalar;
