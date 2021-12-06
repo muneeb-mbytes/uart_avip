@@ -24,9 +24,6 @@ endclass : tx_cfg_converter
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
-//
-//
-//
 // Parameters:
 //
 //  name - tx_cfg_converter
@@ -42,32 +39,31 @@ endfunction : new
 function void tx_cfg_converter::from_class(input tx_agent_config input_conv_h,
                                                  output uart_transfer_cfg_s output_conv);
 
-    //device_agent_config device_agent_config_h;
+  //device_agent_config device_agent_config_h;
 
-    //int typ;
-    //typ = uart_type_e'(input_conv_h.uart_type);
-    output_conv.uart_type = uart_type_e'(input_conv_h.uart_type);
-    //output_conv.uart_type = typ;
-    output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
-    output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
-    output_conv.stop_bit = stop_bit_e'(input_conv_h.stop_bit);
-    //output_conv.baudrate_divisor = device_agent_config_h.get_baudrate_divisor();
-    `uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",output_conv),UVM_LOW)
-    //`uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",input_conv_h.sprint()),UVM_LOW)
+  //int typ;
+  //typ = uart_type_e'(input_conv_h.uart_type);
+  output_conv.uart_type = uart_type_e'(input_conv_h.uart_type);
+  //output_conv.uart_type = typ;
+  output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
+  output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
+  output_conv.stop_bit = stop_bit_e'(input_conv_h.stop_bit);
+  //output_conv.baudrate_divisor = device_agent_config_h.get_baudrate_divisor();
+  `uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",output_conv),UVM_LOW)
+  //`uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",input_conv_h.sprint()),UVM_LOW)
 
-    //if(output_conv.oversampling_type == 2'b00) begin
-    //  output_conv.oversampling_bits = 2;
-    //end
-    //else if(output_conv.oversampling_type == 2'b01) begin
-    //  output_conv.oversampling_bits = 4;
-    //end
-    //else if(output_conv.oversampling_type == 2'b10) begin
-    //  output_conv.oversampling_bits = 6;
-    //end
-    //else begin
-    //  output_conv.oversampling_bits = 8;
-    //end
-
+  //if(output_conv.oversampling_type == 2'b00) begin
+  //  output_conv.oversampling_bits = 2;
+  //end
+  //else if(output_conv.oversampling_type == 2'b01) begin
+  //  output_conv.oversampling_bits = 4;
+  //end
+  //else if(output_conv.oversampling_type == 2'b10) begin
+  //  output_conv.oversampling_bits = 6;
+  //end
+  //else begin
+  //  output_conv.oversampling_bits = 8;
+  //end
       
 endfunction: from_class 
 
