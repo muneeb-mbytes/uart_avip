@@ -104,7 +104,7 @@ function void base_test::setup_env_cfg();
   env_cfg_h.print();
   // env_cfg_h.device_agent_cfg_h = 
   // device_agent_config::type_id::create($sformatf("env_cfg_h.device_agent_cfg_h"));
-  env_cfg_h.device_agent_cfg_h.print();
+  //env_cfg_h.device_agent_cfg_h.print();
  
 endfunction: setup_env_cfg
 
