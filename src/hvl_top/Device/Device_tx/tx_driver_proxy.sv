@@ -124,7 +124,6 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
 
     tx_seq_item_converter::from_class(req, struct_pkt);
     `uvm_info(get_full_name(),$sformatf("strt pkt = \n %p",struct_pkt),UVM_LOW)
-    tx_agent_cfg_h.print();
 
     drive_to_bfm(struct_pkt, struct_cfg);    
     

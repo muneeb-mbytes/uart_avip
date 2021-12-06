@@ -73,8 +73,8 @@ endfunction : do_compare
 function void device_rx::do_print(uvm_printer printer);
   super.do_print(printer);
   foreach(rx[i]) begin
-  printer.print_field($sformatf("rx[%0d]",i),this.rx[i],$bits(rx),UVM_DEC);
-end
+    printer.print_field($sformatf("rx[%0d]",i),this.rx[i],$bits(rx),UVM_DEC);
+  end
 endfunction : do_print
 
 `endif

@@ -24,9 +24,6 @@ endclass : rx_cfg_converter
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
-//
-//
-//
 // Parameters:
 //
 //  name - rx_cfg_converter
@@ -42,25 +39,11 @@ endfunction : new
 function void rx_cfg_converter::from_class(input rx_agent_config input_conv_h,
                                                  output uart_transfer_cfg_s output_conv);
 
-    output_conv.uart_type = uart_type_e'(input_conv_h.uart_type);
-    output_conv.baudrate_divisor = input_conv_h.rx_baudrate_divisor;
-    output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
-    output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
+  output_conv.uart_type = uart_type_e'(input_conv_h.uart_type);
+  output_conv.baudrate_divisor = input_conv_h.rx_baudrate_divisor;
+  output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
+  output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
 
-    //if(output_conv.oversampling_type == 2'b00) begin
-    //  output_conv.oversampling_bits = 2;
-    //end
-    //else if(output_conv.oversampling_type == 2'b01) begin
-    //  output_conv.oversampling_bits = 4;
-    //end
-    //else if(output_conv.oversampling_type == 2'b10) begin
-    //  output_conv.oversampling_bits = 6;
-    //end
-    //else begin
-    //  output_conv.oversampling_bits = 8;
-    //end
-
-      
 endfunction: from_class 
 
 //--------------------------------------------------------------------------------------------
@@ -72,7 +55,6 @@ function void rx_cfg_converter::do_print(uvm_printer printer);
   uart_transfer_cfg_s uart_st;
   rx_agent_config rx_agent_config_h;
   super.do_print(printer);
-  //printer.print_string( "uart_type",device_agent_config_h.uart_type.name());
   printer.print_field("baudrate_divisor",uart_st.baudrate_divisor , 
                                           $bits(uart_st.baudrate_divisor),UVM_DEC);
   printer.print_string( "msb_first",rx_agent_config_h.shift_dir.name());

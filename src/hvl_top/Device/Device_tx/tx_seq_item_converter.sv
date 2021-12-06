@@ -11,7 +11,6 @@ class tx_seq_item_converter extends uvm_object;
 
   static int uart_tx_bits;
   
-
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
@@ -61,7 +60,6 @@ function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
    //`uvm_info("device_seq_item_conv_class",$sformatf("no of tx bits = \n %p",
    //                                             output_conv.no_of_tx_bits_transfer),UVM_LOW);
    output_conv.no_of_tx_bits_transfer = uart_tx_bits;
-
 
    `uvm_info("device_seq_item_conv_class",$sformatf("tx_from_class"),UVM_LOW);
  // if(uart_type_cov == 2'b00) begin
@@ -117,15 +115,15 @@ function void tx_seq_item_converter::to_class(input uart_transfer_char_s input_c
   // Defining the size of arrays
   output_conv_h.tx = new[CHAR_LENGTH/CHAR_LENGTH];
   //output_conv_h.rx = new[CHAR_LENGTH/CHAR_LENGTH];
-
+ 
   // Storing the values in the respective arrays
   //for(int row_no = 0; row_no < output_cov_h.tx.size(); row_no++) begin
-    for(int i=0; i<input_conv.no_of_tx_bits_transfer; i++) begin
-      //output_conv_h.tx[row_no][i] = input_conv.tx[row_no][i];
-      output_conv_h.tx[i] = input_conv.tx[i];
-     // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
-     // `uvm_info("device_seq_item_conv_class",
-     // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
+  for(int i=0; i<input_conv.no_of_tx_bits_transfer; i++) begin
+    //output_conv_h.tx[row_no][i] = input_conv.tx[row_no][i];
+    output_conv_h.tx[i] = input_conv.tx[i];
+    // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
+    // `uvm_info("device_seq_item_conv_class",
+    // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
     end
     `uvm_info("device_seq_item_conv_class",
     $sformatf("To class tx = \n %p",output_conv_h.tx),UVM_LOW)
