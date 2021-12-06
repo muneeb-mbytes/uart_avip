@@ -26,24 +26,26 @@ typedef enum bit {
 } shift_direction_e;
 
 typedef enum bit[1:0] {
-  STOP_BIT_ONEBIT       = 2'b01,
-  STOP_BIT_ONE_HALFBITS = 2'b11,
-  STOP_BIT_TWOBITS      = 2'b10
+  STOP_BIT_ONEBIT       = 1,
+  STOP_BIT_ONE_HALFBITS = 0,
+  STOP_BIT_TWOBITS      = 2
 } stop_bit_e;
 
 typedef enum bit[3:0] {
-  UART_TYPE_FIVE_BIT   = 4'b0101,
-  UART_TYPE_SIX_BIT    = 4'b0110,
-  UART_TYPE_SEVEN_BIT  = 4'b0111,
-  UART_TYPE_EIGHT_BIT  = 4'b1000
+  UART_TYPE_FIVE_BIT      = 4'd5,
+  UART_TYPE_SIX_BIT       = 4'd6,
+  UART_TYPE_SEVEN_BIT     = 4'd7,
+  UART_TYPE_EIGHT_BIT     = 4'd8,
+  UART_TYPE_NO_TRANSFER   = 4'd0
 } uart_type_e;
 
 
 typedef enum bit[3:0] {
-  OVERSAMPLING_TWO       = 4'b0010,
-  OVERSAMPLING_FOUR      = 4'b0100,
-  OVERSAMPLING_SIX       = 4'b0110,
-  OVERSAMPLING_EIGHT     = 4'b1000
+  OVERSAMPLING_TWO       = 4'd2,
+  OVERSAMPLING_FOUR      = 4'd4,
+  OVERSAMPLING_SIX       = 4'd6,
+  OVERSAMPLING_EIGHT     = 4'd8,
+  OVERSAMPLING_ZERO      = 4'd0
 } oversampling_e;
 
 
@@ -66,12 +68,12 @@ typedef struct {
   int no_of_rx_bits_transfer;
 } uart_transfer_char_s;
 
-typedef struct{
+typedef struct {
   int baudrate_divisor;
-  bit [1:0] stop_bit;
-  int msb_first;
-  bit [1:0] uart_type;
-  int oversampling_bits;
+  bit [3:0] stop_bit;
+  bit msb_first;
+  bit [3:0] uart_type;
+  bit [3:0] oversampling_bits;
 } uart_transfer_cfg_s;
 
 

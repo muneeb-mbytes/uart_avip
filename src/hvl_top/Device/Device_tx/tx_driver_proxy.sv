@@ -83,7 +83,7 @@ endfunction  : end_of_elaboration_phase
 // <Description_here>
 //
 // Parameters:
-// phase - uvm phase
+//  phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_driver_proxy::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
@@ -100,10 +100,26 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
 
   super.run_phase(phase);
 
-  seq_item_port.get_next_item(req);
-  // Work here
-  // ...
-  seq_item_port.item_done();
+  begin
+    $display("tx_drv_prox");
+  end
+  
+  forever begin
+    uart_transfer_char_s struct_pkt;
+    uart_transfer_cfg_s struct_cfg;
+    
+    seq_item_port.get_next_item(req);
+    //tx_seq_item_converter::tx_bits(tx_agent_cfg_h, struct_pkt);
+    tx_seq_item_converter::from_class(req, struct_pkt);
+    `uvm_info(get_full_name(),$sformatf("strt pkt = \n %p",struct_pkt),UVM_LOW)
+    tx_cfg_converter::from_class(req, struct_cfg);
+    `uvm_info(get_full_name(),$sformatf("strt cfg = \n %p",struct_cfg),UVM_LOW)
+    //tx_agent_cfg_h.print();
+
+    // Work here
+    // ...
+    seq_item_port.item_done();
+  end
 
 endtask : run_phase
 
