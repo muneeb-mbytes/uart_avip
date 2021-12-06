@@ -33,11 +33,11 @@ endclass : base_test
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
-//  Initializes class object
+// Initializes class object
 //
 // Parameters:
-//  name - base_test
-//  parent - parent under which this component is created
+// name - base_test
+// parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
 function base_test::new(string name = "base_test",uvm_component parent = null);
   super.new(name, parent);
@@ -140,6 +140,11 @@ function void base_test::setup_rx_agents_cfg();
 
 endfunction: setup_rx_agents_cfg
 
+//--------------------------------------------------------------------------------------------
+// Function: setup_device_agents_cfg
+// Setup the device agent configuration with the required values
+// and store the handle into the config_db
+//--------------------------------------------------------------------------------------------
 function void base_test::setup_device_agent_cfg();
 
   // Setup the tx agent cfg 
@@ -177,7 +182,7 @@ endfunction : setup_device_agent_cfg
 // Used for printing the testbench topology
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void base_test::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
@@ -188,7 +193,7 @@ endfunction : end_of_elaboration_phase
 // Used for giving basic delay for simulation 
 //
 // Parameters:
-//  phase - uvm phase
+// phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task base_test::run_phase(uvm_phase phase);
 
