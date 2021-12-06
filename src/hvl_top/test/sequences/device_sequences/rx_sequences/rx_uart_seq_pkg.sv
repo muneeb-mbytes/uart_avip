@@ -20,6 +20,10 @@ package rx_uart_seq_pkg;
   //-------------------------------------------------------
   `include "rx_base_sequence.sv"
   `include "rx_uart_fd_8b_seq.sv"
+  `include "rx_uart_fd_lsb_seq.sv"
+  `include "rx_uart_fd_msb_seq.sv"
+  `include "rx_uart_fd_baudrate_seq.sv"
+  `include "rx_uart_fd_string_seq.sv"
 
 endpackage : rx_uart_seq_pkg
 
