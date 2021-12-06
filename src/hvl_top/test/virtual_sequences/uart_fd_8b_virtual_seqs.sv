@@ -47,7 +47,7 @@ task uart_fd_8b_virtual_seq::body();
 
    //configuring no of devices and starting device sequencers
    fork 
-     //starting slave sequencer with respective to p_sequencer declared in device seq base
+     //starting rx sequencer with respective to p_sequencer declared in device seq base
      forever begin : RX_SEQ_START
        rx_uart_fd_8b_seq_h.start(p_sequencer.rx_seqr_h);
      end
@@ -55,6 +55,7 @@ task uart_fd_8b_virtual_seq::body();
      
    //starting device_virtual sequencer with respective to p_sequencer declared in device_virtual seq base
    repeat(1) begin : TX_SEQ_START
+   //starting tx_virtual sequencer with respective to p_sequencer declared in device_virtual seq base
      tx_uart_fd_8b_seq_h.start(p_sequencer.tx_seqr_h);
    end
 
