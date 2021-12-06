@@ -1,64 +1,63 @@
-`ifndef UART_FD_8B_VIRTUAL_SEQ_INCLUDED_
-`define UART_FD_8B_VIRTUAL_SEQ_INCLUDED_
+`ifndef UART_FD_MSB_VIRTUAL_SEQ_INCLUDED_
+`define UART_FD_MSB_VIRTUAL_SEQ_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Class: uart_fd_8b_virtual_seq
-// Extended class from UART virtual sequence 
+// Extended class from uart device_virtual sequence
 //--------------------------------------------------------------------------------------------
-class uart_fd_8b_virtual_seq extends uart_virtual_seq_base;
-  `uvm_object_utils(uart_fd_8b_virtual_seq)
- 
-  tx_uart_fd_8b_seq tx_uart_fd_8b_seq_h;
-  rx_uart_fd_8b_seq rx_uart_fd_8b_seq_h;
+class uart_fd_msb_virtual_seq extends uart_virtual_seq_base;
+  `uvm_object_utils(uart_fd_msb_virtual_seq)
 
+  
+  tx_uart_fd_msb_seq tx_uart_fd_msb_seq_h;
+  rx_uart_fd_msb_seq rx_uart_fd_msb_seq_h;
+  
   //--------------------------------------------------------------------------------------------
   // Externally defined tasks and functions
   //--------------------------------------------------------------------------------------------
-  extern function new(string name="uart_fd_8b_virtual_seq");
+  extern function new(string name="uart_fd_msb_virtual_seq");
   extern task body();
 
-endclass : uart_fd_8b_virtual_seq
+endclass : uart_fd_msb_virtual_seq
 
 //--------------------------------------------------------------------------------------------
-// Constructor:new
+//Constructor:new
 //
-// Paramters:
-// name - Instance name of the virtual_sequence
-// parent - parent under which this component is created
+//Paramters:
+//name - Instance name of the device_virtual_sequence
+//parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
-function uart_fd_8b_virtual_seq::new(string name = "uart_fd_8b_virtual_seq");
+function uart_fd_msb_virtual_seq::new(string name="uart_fd_msb_virtual_seq");
   super.new(name);
-endfunction : new
+endfunction: new
 
 //--------------------------------------------------------------------------------------------
-// task:body
-// Creates the required ports
+//task:body
+//Creates the required ports
 //
-// Parameters:
+//Parameters:
 // phase - stores the current phase
 //--------------------------------------------------------------------------------------------
+task uart_fd_msb_virtual_seq::body();
+ super.body(); //Sets up the sub-sequencer pointer
 
-task uart_fd_8b_virtual_seq::body();
- super.body();//Sets up the sub-sequencer pointer
- 
    //creating device_virtual sequence handles here  
-   tx_uart_fd_8b_seq_h=tx_uart_fd_8b_seq::type_id::create("tx_uart_fd_8b_seq_h");
-   rx_uart_fd_8b_seq_h=rx_uart_fd_8b_seq::type_id::create("rx_uart_fd_8b_seq_h");
+
+   tx_uart_fd_msb_seq_h=tx_uart_fd_msb_seq::type_id::create("tx_uart_fd_msb_seq_h");
+   rx_uart_fd_msb_seq_h=rx_uart_fd_msb_seq::type_id::create("rx_uart_fd_msb_seq_h");
 
    //configuring no of devices and starting device sequencers
    fork 
      //starting rx sequencer with respective to p_sequencer declared in device seq base
      forever begin : RX_SEQ_START
-       rx_uart_fd_8b_seq_h.start(p_sequencer.rx_seqr_h);
+       rx_uart_fd_msb_seq_h.start(p_sequencer.rx_seqr_h);
      end
    join_none
      
-   //starting tx_virtual sequencer with respective to p_sequencer declared in device_virtual seq base
+   //starting tx _virtual sequencer with respective to p_sequencer declared in device_virtual seq base
    repeat(5) begin : TX_SEQ_START
-     tx_uart_fd_8b_seq_h.start(p_sequencer.tx_seqr_h);
+     tx_uart_fd_msb_seq_h.start(p_sequencer.tx_seqr_h);
    end
 
-endtask : body
+endtask: body
 
 `endif
-
