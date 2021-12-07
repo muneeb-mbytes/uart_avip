@@ -6,16 +6,18 @@
 //  Declaration of pin level signals for UART interface
 //--------------------------------------------------------------------------------------------
 interface uart_if(input pclk,input areset);
-
+  
+  // Variable: bclk
+  // Uart clock 
   logic bclk;
 
-  //transaction signals 
+  // Transaction signals 
   logic tx0;
   logic tx1;
   logic tx2;
   logic tx3;
 
-  //reciving signals
+  // Reciving signals
   logic rx;
 
 endinterface : uart_if 

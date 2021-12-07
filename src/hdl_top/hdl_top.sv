@@ -8,7 +8,7 @@
 module hdl_top;
 
 //-------------------------------------------------------
-// Including UART interface and device1 Agent BFM Files
+// Clock and reset signals
 //-------------------------------------------------------
  bit rst;
  bit clk;
@@ -32,9 +32,18 @@ module hdl_top;
   // System Reset Generation
   //-------------------------------------------------------
   initial begin
-    rst = 1'b0;
-    #80;
     rst = 1'b1;
+
+    repeat (4) begin
+      @(posedge clk);
+    end
+    rst = 1'b0;
+
+    repeat (2) begin
+      @(posedge clk);
+    end
+    rst = 1'b1;
+
   end
 
   //-------------------------------------------------------

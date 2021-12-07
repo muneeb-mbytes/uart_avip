@@ -40,6 +40,8 @@ class tx_agent_config extends uvm_object;
   // Tells about even parity or odd parity
   parity_e parity_bit;
 
+  // Variable: tx_baudrate_divisor
+  // Specifies the baudrate divisor for the transmitter
   int tx_baudrate_divisor;
   
   //-------------------------------------------------------
@@ -66,8 +68,6 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 function void tx_agent_config::do_print(uvm_printer printer);
   super.do_print(printer);
-
-
   printer.print_string ("is_active",is_active.name());
   printer.print_field ("has_parity",has_parity, 1, UVM_DEC);
   printer.print_field ("tx_baudrate_divisor",tx_baudrate_divisor, $bits(tx_baudrate_divisor), UVM_DEC);

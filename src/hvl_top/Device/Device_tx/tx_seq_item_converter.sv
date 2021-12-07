@@ -60,6 +60,7 @@ function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
    //`uvm_info("device_seq_item_conv_class",$sformatf("no of tx bits = \n %p",
    //                                             output_conv.no_of_tx_bits_transfer),UVM_LOW);
    output_conv.no_of_tx_bits_transfer = uart_tx_bits;
+  // output_conv.no_of_bits_transfer = input_cov_h.tx.size() * CHAR_LENGTH;
 
    `uvm_info("device_seq_item_conv_class",$sformatf("tx_from_class"),UVM_LOW);
  // if(uart_type_cov == 2'b00) begin
