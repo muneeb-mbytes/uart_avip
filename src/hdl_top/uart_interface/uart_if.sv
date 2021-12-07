@@ -5,7 +5,7 @@
 // Interface : uart_if
 //  Declaration of pin level signals for UART interface
 //--------------------------------------------------------------------------------------------
-interface uart_if(input pclk,input areset);
+interface uart_if(input bit pclk,input bit areset);
   
   // Variable: bclk
   // Uart clock 

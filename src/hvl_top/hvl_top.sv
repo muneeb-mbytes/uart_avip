@@ -12,7 +12,7 @@ module hvl_top;
   //-------------------------------------------------------
   // Declaring UART Interface
   //-------------------------------------------------------
-  uart_if vif();
+  //uart_if vif();
 
   //-------------------------------------------------------
   // run_test for simulation
@@ -21,7 +21,7 @@ module hvl_top;
     //-------------------------------------------------------
     // Setting UART Interface
     //-------------------------------------------------------
-    uvm_config_db #(virtual uart_if)::set(null,"*","vif",vif); 
+    //uvm_config_db #(virtual uart_if)::set(null,"*","vif",vif); 
     run_test("base_test");
   end
 
