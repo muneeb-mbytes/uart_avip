@@ -204,14 +204,7 @@ task base_test::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
   super.run_phase(phase);
-
-  // TODO(mshariff): 
-  // Need to be replaced with delay task in BFM interface
-  // in-order to get rid of time delays in HVL side
-  //spi_fd_8b_master_seq_h = spi_fd_8b_master_seq::type_id::create("spi_fd_8b_master_seq_h"); 
-  //spi_fd_8b_master_seq_h.start(env_h.master_agent_h.master_seqr_h);
   #100;
-  
   `uvm_info(get_type_name(), $sformatf("Done BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);
 
