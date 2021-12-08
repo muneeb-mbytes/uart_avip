@@ -12,13 +12,15 @@
 import uart_globals_pkg::*;
 
 interface tx_driver_bfm(input pclk, input areset, 
-                         output reg bclk,   
+                         //output reg bclk,   
                          output reg tx0, tx1, tx2, tx3
                        );
   
   //Declare interface handle  
   //virtual uart_if vif;
   
+  bit bclk;
+
   //-------------------------------------------------------
   //package : Importing UVM pacakges
   //-------------------------------------------------------
@@ -55,15 +57,14 @@ interface tx_driver_bfm(input pclk, input areset,
   // Used for generating the bclk with regards to baudrate 
   //-------------------------------------------------------
   task gen_bclk(uart_transfer_cfg_s pkt);
-    bclk <= pclk;
-    @(posedge pclk);
-    bclk <= ~bclk;
-    
-    repeat(pkt.baudrate_divisor - 1) begin
+    forever begin
       @(posedge pclk);
-      bclk <= ~bclk;
+      
+      repeat(pkt.baudrate_divisor - 1) begin
+        @(posedge pclk);
+        bclk <= ~bclk;
+      end
     end
-  
   endtask: gen_bclk
 
   //-------------------------------------------------------
@@ -71,8 +72,8 @@ interface tx_driver_bfm(input pclk, input areset,
   //-------------------------------------------------------
   task drive_data_pos_edge(inout uart_transfer_char_s data_packet, 
                                 input uart_transfer_cfg_s cfg_pkt); 
-  @(posedge pclk);
 
+  @(posedge pclk);
   tx0 <= START_BIT;  
 
   repeat(cfg_pkt.baudrate_divisor-1) begin

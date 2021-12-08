@@ -12,7 +12,7 @@ class device_tx extends uvm_sequence_item;
   `uvm_object_utils(device_tx)
   
   //input signals
-  rand bit [CHAR_LENGTH-1:0]tx[];
+  rand bit[CHAR_LENGTH-1:0] tx[];
   bit parity;
   //-------------------------------------------------------
   // constraints for uart

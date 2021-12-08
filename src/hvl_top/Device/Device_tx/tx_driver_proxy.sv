@@ -112,6 +112,14 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
   // Drive the IDLE state for UART interface
   //tx_drv_bfm_h.wait_for_reset_drive_idle_state();  
   
+  // Generating the BCLK
+  fork 
+    tx_drv_bfm_h.gen_bclk();
+  join_none
+
+  // Drive IDLE state
+  //tx_drv_bfm_h.drive_idle_state();
+
   forever begin
     uart_transfer_char_s struct_pkt;
     uart_transfer_cfg_s struct_cfg;
