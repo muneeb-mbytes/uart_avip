@@ -1,12 +1,12 @@
-`ifndef DEVICE_AGENT_CONFIG_INCLUDED_
-`define DEVICE_AGENT_CONFIG_INCLUDED_
+`ifndef DEVICE_CONFIG_INCLUDED_
+`define DEVICE_CONFIG_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Class: device_agent_config
+// Class: device_config
 // Used as the configuration class for device agent and it's components
 //--------------------------------------------------------------------------------------------
-class device_agent_config extends uvm_object;
-  `uvm_object_utils(device_agent_config)
+class device_config extends uvm_object;
+  `uvm_object_utils(device_config)
 
   tx_agent_config tx_agent_config_h[];
   rx_agent_config rx_agent_config_h[];
@@ -34,22 +34,22 @@ class device_agent_config extends uvm_object;
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
-  extern function new(string name = "device_agent_config");
+  extern function new(string name = "device_config");
   extern function void set_baudrate_divisor(int primary_prescalar, int secondary_prescalar);
   extern function int get_baudrate_divisor();
   extern function void post_randomize();
   extern function void do_print(uvm_printer printer);
 
-endclass : device_agent_config
+endclass : device_config
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
 //
 // Parameters:
-// name - device_agent_config
+// name - device_config
 // parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
-function device_agent_config::new(string name = "device_agent_config");
+function device_config::new(string name = "device_config");
   super.new(name);
 endfunction : new
 
@@ -58,7 +58,7 @@ endfunction : new
 // Function: do_print method
 // Print method can be added to display the data members values
 //--------------------------------------------------------------------------------------------
-function void device_agent_config::do_print(uvm_printer printer);
+function void device_config::do_print(uvm_printer printer);
   super.do_print(printer);
 
   printer.print_field ("primary_prescalar",primary_prescalar, 3, UVM_DEC);
@@ -80,7 +80,7 @@ endfunction : do_print
 //  primary_prescalar - Primary prescalar value for baudrate calculation
 //  secondary_prescalar - Secondary prescalar value for baudrate calculation
 //--------------------------------------------------------------------------------------------
-function void device_agent_config::set_baudrate_divisor(int primary_prescalar, int secondary_prescalar);
+function void device_config::set_baudrate_divisor(int primary_prescalar, int secondary_prescalar);
   this.primary_prescalar = primary_prescalar;
   this.secondary_prescalar = secondary_prescalar;
 
@@ -95,7 +95,7 @@ endfunction : set_baudrate_divisor
 //  primary_prescalar - Primary prescalar value for baudrate calculation
 //  secondary_prescalar - Secondary prescalar value for baudrate calculation
 //--------------------------------------------------------------------------------------------
-function void device_agent_config::post_randomize();
+function void device_config::post_randomize();
   set_baudrate_divisor(this.primary_prescalar,this.secondary_prescalar);
 endfunction: post_randomize
 
@@ -103,7 +103,7 @@ endfunction: post_randomize
 // Function: get_baudrate_divisor
 // Return the baudrate_divisor
 //--------------------------------------------------------------------------------------------
-function int device_agent_config::get_baudrate_divisor();
+function int device_config::get_baudrate_divisor();
   return(this.baudrate_divisor);
 endfunction: get_baudrate_divisor
 

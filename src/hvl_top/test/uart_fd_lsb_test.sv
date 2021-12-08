@@ -46,8 +46,8 @@ endfunction : build_phase
 //--------------------------------------------------------------------------------------------
 function void uart_fd_lsb_test::setup_tx_agent_cfg();
   super.setup_tx_agent_cfg();
-  foreach(env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i]) begin
-  env_cfg_h.device_agent_cfg_h.tx_agent_config_h[i].shift_dir = shift_direction_e'(LSB_FIRST);
+  foreach(env_cfg_h.device_cfg_h.tx_agent_config_h[i]) begin
+  env_cfg_h.device_cfg_h.tx_agent_config_h[i].shift_dir = shift_direction_e'(LSB_FIRST);
 end
 endfunction : setup_tx_agent_cfg
 
@@ -58,8 +58,8 @@ endfunction : setup_tx_agent_cfg
 //--------------------------------------------------------------------------------------------
 function void uart_fd_lsb_test::setup_rx_agents_cfg();
   super.setup_rx_agents_cfg();
-  foreach(env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i]) begin
- env_cfg_h.device_agent_cfg_h.rx_agent_config_h[i].shift_dir = shift_direction_e'(LSB_FIRST);
+  foreach(env_cfg_h.device_cfg_h.rx_agent_config_h[i]) begin
+ env_cfg_h.device_cfg_h.rx_agent_config_h[i].shift_dir = shift_direction_e'(LSB_FIRST);
 end
 endfunction : setup_rx_agents_cfg
 

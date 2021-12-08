@@ -1,81 +1,70 @@
-`ifndef TX_MONITOR_PROXY_INCLUDED_
-`define TX_MONITOR_PROXY_INCLUDED_
+`ifndef RX_DRIVER_PROXY_INCLUDED_
+`define RX_DRIVER_PROXY_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Class: tx_monitor_proxy
-// Description:
-// Monitor is written by extending uvm_monitor,uvm_monitor is inherited from uvm_component, 
-// A monitor is a passive entity that samples the DUT signals through virtual interface and 
-// converts the signal level activity to transaction level,monitor samples DUT signals but does not drive them.
-// Monitor should have analysis port (TLM port) and virtual interface handle that points to DUT signal
+// Class: rx_driver_proxy
+// This is the proxy driver on the HVL side
+// It receives the transactions and converts them to task calls for the HDL driver
 //--------------------------------------------------------------------------------------------
-class tx_monitor_proxy extends uvm_component;
-  
-  //register with factory so can use create uvm_method and
-  //override in future if necessary
-  
-  `uvm_component_utils(tx_monitor_proxy)
-  
-  // Variable: m_cfg
-  // Declaring handle for tx agent config class 
-  tx_agent_config tx_agent_cfg_h;
+class rx_driver_proxy extends uvm_driver#(rx_xtn);
+  `uvm_component_utils(rx_driver_proxy)
 
-  //declaring analysis port for the monitor port
-  uvm_analysis_port #(device_tx)tx_analysis_port;
-  
+  // Variable: rx_driver_bfm_h;
+  // Handle for rx driver bfm
+  virtual rx_driver_bfm rx_drv_bfm_h;
+
+  // Variable: rx_agent_cfg_h;
+  // Handle for rx agent configuration
+  rx_agent_config rx_agent_cfg_h;
+
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
-  extern function new(string name = "tx_monitor_proxy", uvm_component parent = null);
+  extern function new(string name = "rx_driver_proxy", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  // extern virtual task drive_to_bfm();
 
-endclass : tx_monitor_proxy
+endclass : rx_driver_proxy
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
 //
 // Parameters:
-// name - tx_monitor_proxy
+// name - rx_driver_proxy
 // parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
-function tx_monitor_proxy::new(string name = "tx_monitor_proxy",
+function rx_driver_proxy::new(string name = "rx_driver_proxy",
                                  uvm_component parent = null);
   super.new(name, parent);
-  
-  //creating monitor port
-  tx_analysis_port=new("tx_analysis_port",this);
 endfunction : new
 
 //--------------------------------------------------------------------------------------------
 // Function: build_phase
-// <Description_here>
+// Description_here:rx_driver_bfm congiguration is obtained in build phase
 //
 // Parameters:
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void tx_monitor_proxy::build_phase(uvm_phase phase);
+function void rx_driver_proxy::build_phase(uvm_phase phase);
   super.build_phase(phase);
-  
-  if(!uvm_config_db #(tx_agent_config)::get(this,"","tx_agent_config",tx_agent_cfg_h))begin
-    `uvm_fatal("FATAL_tx_MONITOR_PROXY_CANNOT_GET_tx_AGENT_CONFIG","cannot get() tx_agent_cfg_h from uvm_config_db");
-  end 
-
+  if(!uvm_config_db #(virtual rx_driver_bfm)::get(this,"","rx_driver_bfm",rx_drv_bfm_h)) begin
+    `uvm_fatal("FATAL_SDP_CANNOT_GET_rx_DRIVER_BFM","cannot get() rx_drv_bfm_h");
+  end
 endfunction : build_phase
 
 //--------------------------------------------------------------------------------------------
 // Function: connect_phase
-// <Description_here>
+// Description_here: Connects driver_proxy and driver_bfm
 //
 // Parameters:
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void tx_monitor_proxy::connect_phase(uvm_phase phase);
+function void rx_driver_proxy::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
-  
 endfunction : connect_phase
 
 //--------------------------------------------------------------------------------------------
@@ -85,7 +74,7 @@ endfunction : connect_phase
 // Parameters:
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void tx_monitor_proxy::end_of_elaboration_phase(uvm_phase phase);
+function void rx_driver_proxy::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
 endfunction  : end_of_elaboration_phase
 
@@ -96,7 +85,7 @@ endfunction  : end_of_elaboration_phase
 // Parameters:
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void tx_monitor_proxy::start_of_simulation_phase(uvm_phase phase);
+function void rx_driver_proxy::start_of_simulation_phase(uvm_phase phase);
   super.start_of_simulation_phase(phase);
 endfunction : start_of_simulation_phase
 
@@ -107,18 +96,27 @@ endfunction : start_of_simulation_phase
 // Parameters:
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
-task tx_monitor_proxy::run_phase(uvm_phase phase);
-
- // phase.raise_objection(this, "tx_monitor_proxy");
-
+task rx_driver_proxy::run_phase(uvm_phase phase);
+  
   super.run_phase(phase);
+  // rx_drv_bfm_h.wait_for_reset();
+  // rx_drv_bfm_h.drive_for_idle();
+  // rx_drv_bfm_h.drive_for_start_bit();
 
+  seq_item_port.get_next_item(req);
   // Work here
   // ...
+  // drive_to_bfm();
 
-  // phase.drop_objection(this);
+  seq_item_port.item_done();
 
 endtask : run_phase
+//task rx_driver_proxy::drive_to_bfm();
+//drive the data
+//
+//rx_drv_bfm_h.drive_for_data();
+//rx_drv_bfm_h.drive_for_parity_bit();
+//rx_drv_bfm_h.drive_for_stop_bit();
+//endtask: drive_to_bfm
 
 `endif
-

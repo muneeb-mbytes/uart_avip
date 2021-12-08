@@ -38,7 +38,7 @@ endfunction:new
 //based on the request from driver task will drive the transaction
 //-----------------------------------------------------------------------------
 task rx_uart_fd_string_seq::body();
-  req = device_rx::type_id::create("req");
+  req = rx_xtn::type_id::create("req");
   start_item(req);
   //for(int i=0;i<8;i++) begin
   if(!req.randomize())

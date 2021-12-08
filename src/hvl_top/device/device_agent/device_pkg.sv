@@ -1,11 +1,11 @@
-`ifndef RX_PKG_INCLUDED_
-`define RX_PKG_INCLUDED_
+`ifndef DEVICE_PKG_INCLUDED_
+`define DEVICE_PKG_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Package: rx_pkg
-// Includes all the files related to UART rx
+// Package: device_pkg
+// Includes all the files related to UART device_config
 //--------------------------------------------------------------------------------------------
-package rx_pkg;
+package device_pkg;
   
   //-------------------------------------------------------
   // Import uvm package
@@ -15,21 +15,19 @@ package rx_pkg;
 
   // Import uart_globals_pkg 
   import uart_globals_pkg::*;
+  import tx_pkg::*;
+  import rx_pkg::*;
+  //import device_agent_config_pkg::*;
+
 
   //-------------------------------------------------------
   // Include all other files
   //-------------------------------------------------------
-  `include "device_rx.sv"
-  `include "rx_agent_config.sv"
-  `include "rx_seq_item_converter.sv"
-  `include "rx_cfg_converter.sv"
-  `include "rx_sequencer.sv"
-  `include "rx_driver_proxy.sv"
-  `include "rx_monitor_proxy.sv"
-  `include "rx_coverage.sv"
-  `include "rx_agent.sv"
+  `include "device_config.sv"
+  `include "device.sv"
  
   
-endpackage : rx_pkg
+endpackage : device_pkg
 
 `endif
+

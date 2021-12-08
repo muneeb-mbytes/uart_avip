@@ -4,7 +4,7 @@
  //--------------------------------------------------------------------------------------------
  // Class: tx_sequencer
  //--------------------------------------------------------------------------------------------
- class tx_sequencer extends uvm_sequencer #(device_tx);
+ class tx_sequencer extends uvm_sequencer #(tx_xtn);
   
   //register with factory so we can override it in further by using uvm method.
 

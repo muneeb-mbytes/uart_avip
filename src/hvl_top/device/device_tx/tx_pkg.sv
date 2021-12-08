@@ -18,7 +18,7 @@ package tx_pkg;
   //-------------------------------------------------------
   // Include all other files
   //-------------------------------------------------------
-  `include "device_tx.sv"
+  `include "tx_xtn.sv"
   `include "tx_agent_config.sv"
   `include "tx_cfg_converter.sv"
   `include "tx_seq_item_converter.sv"

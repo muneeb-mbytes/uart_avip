@@ -4,7 +4,7 @@
 // Class: tx_base_sequence
 // Creating tx_base_seq extends from uvm_sequence 
 //--------------------------------------------------------------------------------------------
-class tx_base_sequence extends uvm_sequence #(device_tx);
+class tx_base_sequence extends uvm_sequence #(tx_xtn);
   //register with factory so we can override using uvm methods in future.
 
   `uvm_object_utils(tx_base_sequence)

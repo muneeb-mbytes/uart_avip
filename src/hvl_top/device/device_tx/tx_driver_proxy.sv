@@ -9,7 +9,7 @@
 // uvm_driver is a parameterized class and it is parameterized with the type of the request 
 // sequence_item and the type of the response sequence_item 
 //--------------------------------------------------------------------------------------------
-class tx_driver_proxy extends uvm_driver#(device_tx);
+class tx_driver_proxy extends uvm_driver#(tx_xtn);
   `uvm_component_utils(tx_driver_proxy)
   
   virtual tx_driver_bfm tx_drv_bfm_h;
@@ -113,9 +113,9 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
   //tx_drv_bfm_h.wait_for_reset_drive_idle_state();  
   
   // Generating the BCLK
-  fork 
-    tx_drv_bfm_h.gen_bclk();
-  join_none
+//  fork 
+  //  tx_drv_bfm_h.gen_bclk();
+ // join_none
 
   // Drive IDLE state
   //tx_drv_bfm_h.drive_idle_state();

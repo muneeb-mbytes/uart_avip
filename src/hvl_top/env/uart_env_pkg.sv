@@ -19,7 +19,7 @@ package uart_env_pkg;
   import uart_globals_pkg::*;
   import tx_pkg::*;
   import rx_pkg::*;
-  import device_agent_pkg::*;
+  import device_pkg::*;
 
   //-------------------------------------------------------
   // Include all env related files

@@ -38,7 +38,7 @@ endfunction : new
 //-------------------------------------------------------
 
 task rx_uart_fd_8b_seq::body();
-  req=device_rx::type_id::create("req"); begin
+  req=rx_xtn::type_id::create("req"); begin
   start_item(req);
   // ..
   // randomize the signals

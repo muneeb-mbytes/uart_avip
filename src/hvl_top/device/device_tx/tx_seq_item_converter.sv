@@ -17,10 +17,10 @@ class tx_seq_item_converter extends uvm_object;
   extern function new(string name = "tx_seq_item_converter");
   extern static function void tx_bits(tx_agent_config tx_agent_cfg_h);
   //                                     uart_transfer_char_s output_conv);
-  extern static function void from_class(input device_tx input_conv_h,
+  extern static function void from_class(input tx_xtn input_conv_h,
                                          output uart_transfer_char_s output_conv); 
   extern static function void to_class(input uart_transfer_char_s input_conv,
-                                       output device_tx output_conv_h);
+                                       output tx_xtn output_conv_h);
   extern function void do_print(uvm_printer printer);
 endclass : tx_seq_item_converter
 
@@ -49,7 +49,7 @@ endfunction : tx_bits
 // function: from_class
 // converting seq_item transactions into struct data items
 //--------------------------------------------------------------------------------------------
-function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
+function void tx_seq_item_converter::from_class(input tx_xtn input_conv_h,
                                                        output uart_transfer_char_s output_conv); 
    tx_agent_config tx_agent_cfg_h;
   // uart_transfer_cfg_s uart_cfg_h;
@@ -82,7 +82,7 @@ function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
      //`uvm_info("device_seq_item_conv_class",$sformatf("After shift input_cov_h tx = \n %p",
      //input_conv_h.tx[i]),UVM_LOW)
      //output_conv.tx[row_no][i] = input_conv_h.tx[row_no][i];
-     output_conv.tx[i] = input_conv_h.tx[i];
+     output_conv.tx[i] = input_conv_h.tx_data[i];
      //`uvm_info("device_seq_item_conv_class",$sformatf("After shift input_cov_h tx = \n %p",
      //input_conv_h.tx[i]),UVM_LOW)   
      //`uvm_info("device_seq_item_conv_class",$sformatf("Bit tx = \n %p",output_conv.tx[i]),UVM_LOW)
@@ -110,24 +110,24 @@ function void tx_seq_item_converter::from_class(input device_tx input_conv_h,
 // converting struct data items into seq_item transactions
 //--------------------------------------------------------------------------------------------  
 function void tx_seq_item_converter::to_class(input uart_transfer_char_s input_conv,
-                                                      output device_tx output_conv_h);
+                                                      output tx_xtn output_conv_h);
   output_conv_h = new();
 
   // Defining the size of arrays
-  output_conv_h.tx = new[CHAR_LENGTH/CHAR_LENGTH];
+  output_conv_h.tx_data = new[CHAR_LENGTH/CHAR_LENGTH];
   //output_conv_h.rx = new[CHAR_LENGTH/CHAR_LENGTH];
  
   // Storing the values in the respective arrays
   //for(int row_no = 0; row_no < output_cov_h.tx.size(); row_no++) begin
   for(int i=0; i<input_conv.no_of_tx_bits_transfer; i++) begin
     //output_conv_h.tx[row_no][i] = input_conv.tx[row_no][i];
-    output_conv_h.tx[i] = input_conv.tx[i];
+    output_conv_h.tx_data[i] = input_conv.tx[i];
     // output_conv_h.rx[row_no][i] = input_conv.rx[row_no][i];
     // `uvm_info("device_seq_item_conv_class",
     // $sformatf("To class rx = \n %p",output_conv_h.rx[i]),UVM_LOW)
     end
     `uvm_info("device_seq_item_conv_class",
-    $sformatf("To class tx = \n %p",output_conv_h.tx),UVM_LOW)
+    $sformatf("To class tx = \n %p",output_conv_h.tx_data),UVM_LOW)
  //end
 
 endfunction : to_class

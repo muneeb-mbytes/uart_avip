@@ -8,13 +8,13 @@
 class uart_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(uart_scoreboard)
 
-  //Variable : device_tx_h
+  //Variable : tx_xtn_h
   //declaring device transaction handle
-  device_tx device_tx_h;
+  tx_xtn tx_xtn_h;
   
-  //Variable : device_rx_h
+  //Variable : rx_xtn_h
   //declaring device transaction handle
-  device_rx device_rx_h;
+  rx_xtn rx_xtn_h;
   
   //Variable : env_cfg_h
   //declaring env config handle
@@ -22,11 +22,11 @@ class uart_scoreboard extends uvm_scoreboard;
 
   //Variable : device_analysis_fifo
   //declaring analysis fifo
-  uvm_tlm_analysis_fifo#(device_tx)device_tx_analysis_fifo;
+  uvm_tlm_analysis_fifo#(tx_xtn)tx_xtn_analysis_fifo;
  
   //Variable : device_analysis_fifo
   //declaring analysis fifo
-  uvm_tlm_analysis_fifo#(device_rx)device_rx_analysis_fifo;
+  uvm_tlm_analysis_fifo#(rx_xtn)rx_xtn_analysis_fifo;
   
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
@@ -58,8 +58,8 @@ endfunction : new
 function void uart_scoreboard::build_phase(uvm_phase phase);
   super.build_phase(phase);
   
-  device_tx_analysis_fifo = new("device_tx_analysis_fifo",this);
-  device_rx_analysis_fifo = new("device_rx_analysis_fifo",this);
+  tx_xtn_analysis_fifo = new("tx_xtn_analysis_fifo",this);
+  rx_xtn_analysis_fifo = new("rx_xtn_analysis_fifo",this);
   
 endfunction : build_phase
 

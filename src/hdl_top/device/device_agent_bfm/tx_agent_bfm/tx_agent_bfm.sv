@@ -23,7 +23,6 @@ module tx_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   tx_driver_bfm tx_drv_bfm_h(.pclk(intf.pclk), 
                              .areset(intf.areset),
-                             .bclk(intf.bclk),
                              .tx0(intf.tx0),
                              .tx1(intf.tx1), 
                              .tx2(intf.tx2),

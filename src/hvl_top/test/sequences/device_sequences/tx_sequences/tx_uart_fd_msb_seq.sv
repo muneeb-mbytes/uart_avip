@@ -34,9 +34,9 @@ endfunction:new
 //based on the request from driver task will drive the transaction
 //-----------------------------------------------------------------------------
 task tx_uart_fd_msb_seq::body();
-  req = device_tx::type_id::create("req");
+  req = tx_xtn::type_id::create("req");
   start_item(req);
-  if(!req.randomize() with {req.tx.size() == 1;}) begin
+  if(!req.randomize() with {req.tx_data.size() == 1;}) begin
     `uvm_fatal(get_type_name(),"Randomization failed")
   end
   req.print();

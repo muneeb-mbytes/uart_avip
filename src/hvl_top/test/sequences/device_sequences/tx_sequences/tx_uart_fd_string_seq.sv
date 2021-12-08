@@ -40,12 +40,12 @@ endfunction:new
 //based on the request from driver task will drive the transaction
 //-----------------------------------------------------------------------------
 task tx_uart_fd_string_seq::body();
-  req = device_tx::type_id::create("req");
+  req = tx_xtn::type_id::create("req");
   start_item(req);
   //for(int i=0;i<8;i++) begin
-  if(!req.randomize() with {req.tx.size() == 6;
+  if(!req.randomize() with {req.tx_data.size() == 6;
                             foreach(str[i]) 
-                            req.tx[i] == str[i];
+                            req.tx_data[i] == str[i];
                            })begin
     `uvm_fatal(get_type_name(),"Randomization failed")
   //end

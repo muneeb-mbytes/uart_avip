@@ -34,7 +34,7 @@ endfunction:new
 //based on the request from driver task will drive the transaction
 //-----------------------------------------------------------------------------
 task rx_uart_fd_lsb_seq::body();
-  req = device_rx::type_id::create("req"); begin
+  req = rx_xtn::type_id::create("req"); begin
   start_item(req);
   req.print();
   finish_item(req);

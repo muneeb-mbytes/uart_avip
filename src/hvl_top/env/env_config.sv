@@ -24,7 +24,7 @@ class env_config extends uvm_object;
 
   // Variable: device_cfg_h
   // Handle for device agent configuration
-  device_agent_config device_agent_cfg_h;
+  device_config device_cfg_h;
 
 
   //-------------------------------------------------------

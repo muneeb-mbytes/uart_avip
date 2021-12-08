@@ -1,18 +1,18 @@
-`ifndef DEVICE_AGENT_INCLUDED_
-`define DEVICE_AGENT_INCLUDED_
+`ifndef DEVICE_INCLUDED_
+`define DEVICE_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
-// Class: device_agent
+// Class: device
 // Description:
-// device_agentironment contains handles of  tx agent,rx agent,virtual sequencer,scoreboard 
+// deviceironment contains handles of  tx agent,rx agent,virtual sequencer,scoreboard 
 //--------------------------------------------------------------------------------------------
-class device_agent extends uvm_agent;
+class device extends uvm_env;
 
   // Factory registration to create uvm_method and override it
-  `uvm_component_utils(device_agent)
+  `uvm_component_utils(device)
   
-  //declaring handle for device_agent_config
-  device_agent_config device_agent_cfg_h;
+  //declaring handle for device_config
+  device_config device_cfg_h;
 
   // declaring tx_agent handles
   tx_agent tx_agent_h;
@@ -23,19 +23,19 @@ class device_agent extends uvm_agent;
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
-  extern function new(string name = "device_agent", uvm_component parent = null);
+  extern function new(string name = "device", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
-endclass : device_agent
+endclass : device
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
 //
 // Parameters:
-//  name - device_agent
+//  name - device
 //  parent - parent under which this component is created
 //--------------------------------------------------------------------------------------------
-function device_agent::new(string name = "device_agent",uvm_component parent = null);
+function device::new(string name = "device",uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
 
@@ -47,13 +47,13 @@ endfunction : new
 // Parameters:
 //  phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void device_agent::build_phase(uvm_phase phase);
+function void device::build_phase(uvm_phase phase);
   super.build_phase(phase);
   
-  `uvm_info(get_full_name(),"device_agent: build_phase",UVM_LOW);
-  if(!uvm_config_db #(device_agent_config)::get(this,"","device_agent_config",device_agent_cfg_h)) begin
+  `uvm_info(get_full_name(),"device: build_phase",UVM_LOW);
+  if(!uvm_config_db #(device_config)::get(this,"","device_config",device_cfg_h)) begin
     `uvm_fatal("FATAL_SA_AGENT_CONFIG", 
-                $sformatf("Couldn't get the device_agent_config from config_db"))
+                $sformatf("Couldn't get the device_config from config_db"))
   end
   tx_agent_h=tx_agent::type_id::create("tx_agent_h",this);
   rx_agent_h=rx_agent::type_id::create("rx_agent_h",this);
@@ -69,7 +69,7 @@ endfunction : build_phase
 // Parameters:
 //  phase - uvm phase
 //--------------------------------------------------------------------------------------------
-function void device_agent::connect_phase(uvm_phase phase);
+function void device::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
  endfunction : connect_phase
 

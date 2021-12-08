@@ -53,11 +53,11 @@ task uart_fd_8b_test::run_phase(uvm_phase phase);
 
   uart_fd_8b_virtual_seq_h = uart_fd_8b_virtual_seq::type_id::create("uart_fd_8b_virtual_seq_h");
 
-  //phase.raise_objection(this);
+  phase.raise_objection(this);
 
   uart_fd_8b_virtual_seq_h.start(env_h.virtual_seqr_h); 
   
-  //phase.drop_objection(this);
+  phase.drop_objection(this);
 
 endtask : run_phase
 

@@ -15,7 +15,7 @@ class env extends uvm_env;
   env_config env_cfg_h;
   
   //declare handle for device agent
-  device_agent device_agent_h;
+  device device_h;
  
   //handle for virtual seqr
   virtual_sequencer virtual_seqr_h;
@@ -60,9 +60,9 @@ function void env::build_phase(uvm_phase phase);
   `uvm_info(get_full_name(),"ENV: build_phase",UVM_LOW);
   if(!uvm_config_db #(env_config)::get(this,"","env_config",env_cfg_h)) begin
     `uvm_fatal("FATAL_SA_AGENT_CONFIG", 
-                $sformatf("Couldn't get the device_agent_config from config_db"))
+                $sformatf("Couldn't get the device_config from config_db"))
   end
-  device_agent_h=device_agent::type_id::create("device_agent_h",this);
+  device_h=device::type_id::create("device_h",this);
    if(env_cfg_h.has_virtual_seqr) begin
     virtual_seqr_h = virtual_sequencer::type_id::create("virtual_seqr_h",this);
   end
@@ -85,13 +85,13 @@ endfunction : build_phase
 function void env::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
   if(env_cfg_h.has_virtual_seqr) begin
-    virtual_seqr_h.tx_seqr_h = device_agent_h.tx_agent_h.tx_seqr_h;
-    virtual_seqr_h.rx_seqr_h = device_agent_h.rx_agent_h.rx_seqr_h;
+    virtual_seqr_h.tx_seqr_h = device_h.tx_agent_h.tx_seqr_h;
+    virtual_seqr_h.rx_seqr_h = device_h.rx_agent_h.rx_seqr_h;
   end
   
   //connecting analysis port to analysis fifo
-  device_agent_h.tx_agent_h.tx_mon_proxy_h.tx_analysis_port.connect(scoreboard_h.device_tx_analysis_fifo.analysis_export);
-  device_agent_h.rx_agent_h.rx_mon_proxy_h.rx_analysis_port.connect(scoreboard_h.device_rx_analysis_fifo.
+  device_h.tx_agent_h.tx_mon_proxy_h.tx_analysis_port.connect(scoreboard_h.tx_xtn_analysis_fifo.analysis_export);
+  device_h.rx_agent_h.rx_mon_proxy_h.rx_analysis_port.connect(scoreboard_h.rx_xtn_analysis_fifo.
                                                                                   analysis_export);
 
 endfunction : connect_phase

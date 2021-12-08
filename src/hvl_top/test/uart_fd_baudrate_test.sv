@@ -16,7 +16,7 @@ class uart_fd_baudrate_test extends uart_fd_8b_test;
   //-------------------------------------------------------
   extern function new(string name = "uart_fd_baudrate_test", uvm_component parent);
   extern function void build_phase(uvm_phase phase);
-  extern virtual function void setup_device_agent_cfg();
+  extern virtual function void setup_device_cfg();
 
 endclass : uart_fd_baudrate_test
 
@@ -43,11 +43,11 @@ endfunction : build_phase
 // Setup the tx agent configuration with the required values
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
-function void uart_fd_baudrate_test::setup_device_agent_cfg();
-  super.setup_device_agent_cfg();
-  env_cfg_h.device_agent_cfg_h.set_baudrate_divisor(.primary_prescalar(1), .secondary_prescalar(0));
+function void uart_fd_baudrate_test::setup_device_cfg();
+  super.setup_device_cfg();
+  env_cfg_h.device_cfg_h.set_baudrate_divisor(.primary_prescalar(1), .secondary_prescalar(0));
 
-endfunction : setup_device_agent_cfg
+endfunction : setup_device_cfg
 
 `endif
 
