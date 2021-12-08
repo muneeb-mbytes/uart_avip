@@ -25,7 +25,7 @@ class base_test extends uvm_test;
   extern virtual function void setup_env_cfg();
   extern virtual function void setup_device_cfg();
   extern virtual function void setup_tx_agent_cfg();
-  extern virtual function void setup_rx_agents_cfg();
+  extern virtual function void setup_rx_agent_cfg();
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
 
@@ -53,7 +53,7 @@ function void base_test::build_phase(uvm_phase phase);
   super.build_phase(phase);
   // Setup the environemnt cfg 
   env_cfg_h = env_config::type_id::create("env_cfg_h");
-  env_cfg_h.device_cfg_h = device_config::type_id::create("device_cfg_h");
+
   setup_env_cfg();  
   // Create the environment
   env_h = env::type_id::create("env_h",this);
@@ -65,41 +65,48 @@ endfunction : build_phase
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
 function void base_test::setup_env_cfg();
-  env_cfg_h.no_of_agents = NO_OF_DEVICES;
+  env_cfg_h.no_of_devices = NO_OF_DEVICES;
   env_cfg_h.has_scoreboard = 1;
   env_cfg_h.has_virtual_seqr = 1;
-  // Setup device agent cfg
-  setup_device_cfg();
-  uvm_config_db #(device_config)::set(this,"*","device_config",env_cfg_h.device_cfg_h);
-  env_cfg_h.device_cfg_h.print();
+  // Setup device cfg
 
-  // Setup the tx agent cfg 
-  //env_cfg_h.tx_agent_config_h =  new[env_cfg_h.no_of_agents];
-  //foreach(env_cfg_h.tx_agent_config_h[i]) begin
-  //  env_cfg_h.tx_agent_config_h[i] =
-  //  tx_agent_config::type_id::create($sformatf("env_cfg_h.tx_agent_config_h[%0d]",i));
-  //end
-  //setup_tx_agent_cfg();
+ env_cfg_h.device_cfg_h =  new[env_cfg_h.no_of_devices];
+ foreach(env_cfg_h.device_cfg_h[i]) begin
+   env_cfg_h.device_cfg_h[i] =
+   device_config::type_id::create($sformatf("env_cfg_h.device_cfg_h[%0d]",i));
+ end
+ setup_device_cfg();
 
-  //foreach(env_cfg_h.tx_agent_config_h[i]) begin
-  //  uvm_config_db #(tx_agent_config)::set(this,"*","tx_agent_config", env_cfg_h.tx_agent_config_h[i]);
-  //  env_cfg_h.tx_agent_config_h[i].print();
-  //end
-  //
-  //env_cfg_h.rx_agent_config_h =  new[env_cfg_h.no_of_agents];
-  //foreach(env_cfg_h.rx_agent_config_h[i]) begin
-  //  env_cfg_h.rx_agent_config_h[i] =
-  //  rx_agent_config::type_id::create($sformatf("env_cfg_h.rx_agent_config_h[%0d]",i));
-  //end
-  //
-  //setup_rx_agents_cfg();
-  //
-  //foreach(env_cfg_h.rx_agent_config_h[i]) begin
-  //  uvm_config_db #(rx_agent_config)::set(this,"*","rx_agent_config", env_cfg_h.rx_agent_config_h[i]);
-  //  env_cfg_h.rx_agent_config_h[i].print();
-  //end
+ foreach(env_cfg_h.device_cfg_h[i]) begin
+   uvm_config_db #(device_config)::set(this,"*","device_config", env_cfg_h.device_cfg_h[i]);
+   env_cfg_h.device_cfg_h[i].print();
+ end
+  
+  foreach(env_cfg_h.device_cfg_h[i]) begin
+   env_cfg_h.device_cfg_h[i].rx_agent_config_h =
+   rx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h[%0d].rx_agent_config_h",i));
+  end
+ 
+ setup_rx_agent_cfg();
+ foreach(env_cfg_h.device_cfg_h[i]) begin
+   uvm_config_db #(rx_agent_config)::set(this,"*","rx_agent_config", env_cfg_h.device_cfg_h[i].rx_agent_config_h);
+   env_cfg_h.device_cfg_h[i].rx_agent_config_h.print();
+ end
 
-  // set method for env_cfg
+ 
+  foreach(env_cfg_h.device_cfg_h[i]) begin
+   env_cfg_h.device_cfg_h[i].tx_agent_config_h =
+   tx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h[%0d].tx_agent_config_h",i));
+ end
+ 
+ setup_tx_agent_cfg();
+  foreach(env_cfg_h.device_cfg_h[i]) begin
+   uvm_config_db #(tx_agent_config)::set(this,"*","tx_agent_config", env_cfg_h.device_cfg_h[i].tx_agent_config_h);
+   env_cfg_h.device_cfg_h[i].tx_agent_config_h.print();
+ end
+
+
+  //set method for env_cfg
   uvm_config_db #(env_config)::set(this,"*","env_config",env_cfg_h);
   env_cfg_h.print();
   // env_cfg_h.device_cfg_h = 
@@ -114,14 +121,14 @@ endfunction: setup_env_cfg
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
 function void base_test::setup_tx_agent_cfg();
-  foreach(env_cfg_h.device_cfg_h.tx_agent_config_h[i]) begin
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].shift_dir            = shift_direction_e'(LSB_FIRST);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].parity_bit           = parity_e'(EVEN_PARITY);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].stop_bit             = stop_bit_e'(STOP_BIT_ONEBIT);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].tx_baudrate_divisor  = env_cfg_h.device_cfg_h.get_baudrate_divisor();
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
+  foreach(env_cfg_h.device_cfg_h[i]) begin
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.shift_dir            = shift_direction_e'(LSB_FIRST);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.parity_scheme        = parity_e'(EVEN_PARITY);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.stop_bit_duration    = stop_bit_e'(STOP_BIT_ONEBIT);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.tx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
   end
 endfunction: setup_tx_agent_cfg
 
@@ -130,17 +137,17 @@ endfunction: setup_tx_agent_cfg
 // Setup the rx agent configuration with the required values
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
-function void base_test::setup_rx_agents_cfg();
-  foreach(env_cfg_h.device_cfg_h.rx_agent_config_h[i]) begin
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].shift_dir            = shift_direction_e'(LSB_FIRST);
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].parity_bit           = parity_e'(EVEN_PARITY);
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].rx_baudrate_divisor  = env_cfg_h.device_cfg_h.get_baudrate_divisor();
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
+function void base_test::setup_rx_agent_cfg();
+  foreach(env_cfg_h.device_cfg_h[i]) begin
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.shift_dir            = shift_direction_e'(LSB_FIRST);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.parity_scheme        = parity_e'(EVEN_PARITY);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.rx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
   end
 
-endfunction: setup_rx_agents_cfg
+endfunction: setup_rx_agent_cfg
 
 //--------------------------------------------------------------------------------------------
 // Function: setup_devices_cfg
@@ -148,35 +155,34 @@ endfunction: setup_rx_agents_cfg
 // and store the handle into the config_db
 //--------------------------------------------------------------------------------------------
 function void base_test::setup_device_cfg();
-
-  env_cfg_h.device_cfg_h.set_baudrate_divisor(.primary_prescalar(0), .secondary_prescalar(0));
-
-  // Setup the tx agent cfg 
-  env_cfg_h.device_cfg_h.tx_agent_config_h =  new[env_cfg_h.no_of_agents];
-  foreach(env_cfg_h.device_cfg_h.tx_agent_config_h[i]) begin
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i] =
-    tx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h.tx_agent_config_h[%0d]",i));
-  end
-  setup_tx_agent_cfg();
-
-  foreach(env_cfg_h.device_cfg_h.tx_agent_config_h[i]) begin
-    uvm_config_db #(tx_agent_config)::set(this,"*","tx_agent_config", env_cfg_h.device_cfg_h.tx_agent_config_h[i]);
-    env_cfg_h.device_cfg_h.tx_agent_config_h[i].print();
-  end
+ foreach(env_cfg_h.device_cfg_h[i]) begin
+   env_cfg_h.device_cfg_h[i].set_baudrate_divisor(.primary_prescalar(0), .secondary_prescalar(0));
+ end
   
-  env_cfg_h.device_cfg_h.rx_agent_config_h =  new[env_cfg_h.no_of_agents];
-  foreach(env_cfg_h.device_cfg_h.rx_agent_config_h[i]) begin
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i] =
-    rx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h.rx_agent_config_h[%0d]",i));
-  end
-  
-  setup_rx_agents_cfg();
-  
-  foreach(env_cfg_h.device_cfg_h.rx_agent_config_h[i]) begin
-    uvm_config_db #(rx_agent_config)::set(this,"*","rx_agent_config", env_cfg_h.device_cfg_h.rx_agent_config_h[i]);
-    env_cfg_h.device_cfg_h.rx_agent_config_h[i].print();
-  end
-
+//  foreach(env_cfg_h.device_cfg_h[i].rx_agent_config_h) begin
+//   env_cfg_h.device_cfg_h[i].rx_agent_config_h =
+//   rx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h[%0d].rx_agent_config_h",i));
+// end
+// 
+// setup_rx_agents_cfg();
+// 
+//   uvm_config_db #(rx_agent_config)::set(this,"*","rx_agent_config", env_cfg_h.device_cfg_h[i].rx_agent_config_h);
+//   env_cfg_h.device_cfg_h[i].rx_agent_config_h.print();
+// end
+//
+// 
+//  foreach(env_cfg_h.device_cfg_h[i].tx_agent_config_h) begin
+//   env_cfg_h.device_cfg_h[i].tx_agent_config_h =
+//   tx_agent_config::type_id::create($sformatf("env_cfg_h.device_cfg_h[%0d].tx_agent_config_h",i));
+// end
+// 
+// setup_tx_agents_cfg();
+// 
+//   uvm_config_db #(tx_agent_config)::set(this,"*","tx_agent_config", env_cfg_h.device_cfg_h[i].tx_agent_config_h);
+//   env_cfg_h.device_cfg_h[i].tx_agent_config_h.print();
+// end
+//
+//
 endfunction : setup_device_cfg
 
 

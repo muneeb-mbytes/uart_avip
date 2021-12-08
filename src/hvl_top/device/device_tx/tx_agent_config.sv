@@ -26,7 +26,7 @@ class tx_agent_config extends uvm_object;
   
   // Variable: stop_bit
   // Used to indicate how many stop bits required 
-  stop_bit_e stop_bit;
+  stop_bit_e stop_bit_duration;
   
   // Variable: uart_type
   // Used to indicate how many stop bits required 
@@ -38,7 +38,7 @@ class tx_agent_config extends uvm_object;
 
   // Variable: parity_bit
   // Tells about even parity or odd parity
-  parity_e parity_bit;
+  parity_e parity_scheme;
 
   // Variable: tx_baudrate_divisor
   // Specifies the baudrate divisor for the transmitter
@@ -73,10 +73,10 @@ function void tx_agent_config::do_print(uvm_printer printer);
   printer.print_field ("tx_baudrate_divisor",tx_baudrate_divisor, $bits(tx_baudrate_divisor), UVM_DEC);
   printer.print_string ("shift_dir",shift_dir.name());
   printer.print_string ("uart_type",uart_type.name());
-  printer.print_string ("stop_bit",stop_bit.name());
+  printer.print_string ("stop_bit",stop_bit_duration.name());
   printer.print_field ("has_coverage",has_coverage, 1, UVM_DEC);
   printer.print_string ("oversampling_type",oversampling_bits.name());
-  printer.print_string ("patity_type",parity_bit.name());
+  printer.print_string ("parity_type",parity_scheme.name());
   //printer.print_string ("has_transmitter",has_transmitter,1,UVM_DEC);
 endfunction : do_print
 `endif

@@ -37,7 +37,7 @@ class rx_agent_config extends uvm_object;
 
   // Variable: parity_bit
   // Tells about even parity or odd parity
-  parity_e parity_bit;
+  parity_e parity_scheme;
 
   // Variable: rx_baudrate_divisor
   // Specifies the baudrate divisor for the receiver
@@ -74,7 +74,7 @@ function void rx_agent_config::do_print(uvm_printer printer);
   printer.print_field  ("has_coverage",has_coverage, 1, UVM_DEC);
   printer.print_string ("uart_type",uart_type.name());
   printer.print_string ("oversampling_type",oversampling_bits.name());
-  printer.print_string ("patity_type",parity_bit.name());
+  printer.print_string ("parity_type",parity_scheme.name());
 endfunction : do_print
 `endif
 

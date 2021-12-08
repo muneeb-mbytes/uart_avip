@@ -16,7 +16,7 @@ class env_config extends uvm_object;
   // Enables the virtual sequencer. Default value is 1
   bit has_virtual_seqr = 1;
 
-  int no_of_agents;
+  int no_of_devices;
   
   // tx_agent_config tx_agent_config_h[];
   // rx_agent_config rx_agent_config_h[];
@@ -24,7 +24,7 @@ class env_config extends uvm_object;
 
   // Variable: device_cfg_h
   // Handle for device agent configuration
-  device_config device_cfg_h;
+  device_config device_cfg_h[];
 
 
   //-------------------------------------------------------
@@ -56,6 +56,8 @@ function void env_config::do_print(uvm_printer printer);
   super.do_print(printer);
   printer.print_field ("has_scoreboard",has_scoreboard,1, UVM_DEC);
   printer.print_field ("has_virtual_sqr",has_virtual_seqr,1, UVM_DEC);
+  printer.print_field ("no_of_devices",no_of_devices,1, UVM_DEC);
+ 
 endfunction : do_print
 
 
