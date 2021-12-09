@@ -56,7 +56,16 @@ package uart_globals_pkg;
     UART_TYPE_EIGHT_BIT     = 8,
     UART_TYPE_NO_TRANSFER   = 0
   } uart_type_e;
-  
+
+  //Enum:uart_fsm_state
+  //specifies the uart fsm states
+  typedef enum bit[3:0] {
+    IDLE_STATE         = 0,
+    START_BIT_STATE    = 1,
+    DATA_BITS_STATE    = 2,
+    PARITY_BIT_STATE   = 3,
+    STOP_BIT_STATE     = 4 
+  } uart_fsm_state_e;
   //Enum: oversampling_e
   //specifies for how many clock cycles the single bit data remains stable
 
