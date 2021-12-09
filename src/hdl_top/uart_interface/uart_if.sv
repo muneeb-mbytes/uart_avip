@@ -12,10 +12,7 @@ interface uart_if(input bit pclk,input bit areset);
   logic bclk;
 
   // Transaction signals 
-  logic tx0;
-  logic tx1;
-  logic tx2;
-  logic tx3;
+  logic tx;
 
   // Reciving signals
   logic rx;

@@ -38,7 +38,9 @@ endfunction : new
 //-------------------------------------------------------
 
 task tx_uart_fd_8b_seq::body();
+  super.body();
   req=tx_xtn::type_id::create("req"); begin
+  req.tx_agent_cfg_h = p_sequencer.tx_agent_cfg_h;  
   start_item(req);
   if(!req.randomize()with{req.tx_data.size() == 1;}) begin
     `uvm_fatal(get_type_name(),"Randomization failed")

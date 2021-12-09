@@ -19,6 +19,10 @@ package uart_globals_pkg;
   //Specifies the no of devices
   parameter NO_OF_DEVICES=1;
   
+  //Define :NO_OF_LANES
+  //Specifies the no of lanses for Tx and Rx
+  parameter NO_OF_LANES=1;
+  
   //Define :STOP_BIT
   //Specifes the start of the transaction
   parameter START_BIT=0;
@@ -75,18 +79,23 @@ package uart_globals_pkg;
   
   //Struct: uart_transfer_char_s
   //tx array which holds the tx seq_item transactions
-  //rx array which holds the rx seq_item transactions
   //no_of_tx_bits_transfer  specifies how many tx bits to trasnfer
-  //no_of_rx_bits_transfer  specifies how many rx bits to trasnfer
   
   typedef struct {
     bit [NO_OF_ROWS-1:0][CHAR_LENGTH-1:0] tx;
     int no_of_tx_bits_transfer;
     int parity_bit;
+    int no_of_tx_elements;
+  } uart_transfer_char_s;
+
+  //Struct: uart_reciver_char_s
+  //rx array which holds the rx seq_item transactions
+  //no_of_rx_bits_transfer  specifies how many rx bits to trasnfer
+
+  typedef struct {
     bit [NO_OF_ROWS-1:0][CHAR_LENGTH-1:0] rx;
     int no_of_rx_bits_transfer;
-    int no_of_bits_transfer;
-  } uart_transfer_char_s;
+  } uart_reciver_char_s;
   
   //struct: uart_transfer_cfg_s
   //baudrate_divisor: specifies the speed of the transaction

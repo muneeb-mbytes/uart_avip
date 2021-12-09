@@ -12,8 +12,7 @@
 import uart_globals_pkg::*;
 
 interface tx_driver_bfm(input pclk, input areset, 
-                         //output reg bclk,   
-                         output reg tx0, tx1, tx2, tx3
+                         output reg tx
                        );
   
   //Declare interface handle  
@@ -43,26 +42,38 @@ interface tx_driver_bfm(input pclk, input areset,
   // Task: wait_for_reset
   // Waiting for system reset to be active
   //-------------------------------------------------------
-  task wait_for_reset_drive_idle_state();
+  task wait_for_reset();
     @(negedge areset);
-    `uvm_info("TX0_DRIVER_BFM", $sformatf("System reset detected"), UVM_HIGH);
-    `uvm_info("TX0_DRIVER_BFM", $sformatf("Driving the IDLE state"), UVM_HIGH);
-    tx0 = 1;
+    `uvm_info("TX_DRIVER_BFM", $sformatf("System reset detected"), UVM_HIGH);
     @(posedge areset);
-    `uvm_info("Tx0_DRIVER_BFM", $sformatf("System reset deactivated"), UVM_HIGH);
-  endtask: wait_for_reset_drive_idle_state
+    `uvm_info("Tx_DRIVER_BFM", $sformatf("System reset deactivated"), UVM_HIGH);
+  endtask: wait_for_reset
+
+  //-------------------------------------------------------
+  // Task: wait_for_reset
+  // Waiting for system reset to be active
+  //-------------------------------------------------------
+  task drive_idle_state();
+    @(negedge areset);
+    `uvm_info("TX_DRIVER_BFM", $sformatf("Driving the IDLE state"), UVM_HIGH);
+    tx <= 1;
+    @(posedge areset);
+    `uvm_info("Tx_DRIVER_BFM", $sformatf("IDLE state Completed"), UVM_HIGH);
+  endtask: drive_idle_state
+
 
   //-------------------------------------------------------
   // Task: gen_bclk
   // Used for generating the bclk with regards to baudrate 
   //-------------------------------------------------------
-  task gen_bclk(uart_transfer_cfg_s pkt);
+  task gen_bclk();
+    uart_transfer_cfg_s pkt;
     forever begin
       @(posedge pclk);
       
       repeat(pkt.baudrate_divisor - 1) begin
         @(posedge pclk);
-        bclk <= ~bclk;
+        bclk = ~bclk;
       end
     end
   endtask: gen_bclk
@@ -70,48 +81,51 @@ interface tx_driver_bfm(input pclk, input areset,
   //-------------------------------------------------------
   // Task: drive_data_pos_edge
   //-------------------------------------------------------
-  task drive_data_pos_edge(inout uart_transfer_char_s data_packet, 
-                                input uart_transfer_cfg_s cfg_pkt); 
-
-  @(posedge pclk);
-  tx0 <= START_BIT;  
-
-  repeat(cfg_pkt.baudrate_divisor-1) begin
+  task drive_data_pos_edge(inout uart_transfer_char_s data_packet,
+                           input uart_transfer_cfg_s cfg_pkt
+                         );
+  for(int row_no=0; row_no < data_packet.no_of_tx_elements; row_no++) begin
+    
     @(posedge pclk);
-  end
-  
- // for(int row_no=0; row_no < data_packet.no_of_bits_transfer; row_no++) begin
-    for(int k=0, bit_no=0; k<data_packet.no_of_tx_bits_transfer; k++) begin
+    tx <= START_BIT;
+    
+    repeat(cfg_pkt.baudrate_divisor-1) begin
+      @(posedge pclk);
+    end
+    
+    for(int k=0, bit_no=0; k<=data_packet.no_of_tx_bits_transfer; k++) begin
       
       // Logic for MSB first or LSB first 
       bit_no = cfg_pkt.msb_first ? ((data_packet.no_of_tx_bits_transfer - 1) - k) : k;
       @(posedge pclk);
-      tx0 <= data_packet.tx[bit_no];
+      tx <= data_packet.tx[row_no][bit_no];
 
       // oversampling_period for each bit
       repeat((cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor)-1) begin
         @(posedge pclk);
       end
     end
-  //end
-  
-  // Driving Parity Bit
-  @(posedge pclk);
-  tx0 <= data_packet.parity_bit;
-  
-  repeat(cfg_pkt.baudrate_divisor-1) begin
+    
     @(posedge pclk);
-  end
-  
-  //stop_bit = stop_bit_e'(stop_bit.STOP_BIT_ONEBIT);
-  @(posedge pclk);
-  tx0 <= cfg_pkt.stop_bit;
-  
-  repeat(cfg_pkt.baudrate_divisor-1) begin
-    @(posedge pclk);
+    tx <= cfg_pkt.stop_bit;
+    
+    repeat(cfg_pkt.baudrate_divisor-1) begin
+      @(posedge pclk);
+    end
   end
 
-endtask
+endtask: drive_data_pos_edge
+  
+  //// Driving Parity Bit
+  //@(posedge pclk);
+  //tx0 <= data_packet.parity_bit;
+  //
+  //repeat(cfg_pkt.baudrate_divisor-1) begin
+  //  @(posedge pclk);
+  //end
+  
+  //stop_bit = stop_bit_e'(stop_bit.STOP_BIT_ONEBIT);
+  
   
 endinterface : tx_driver_bfm
 

@@ -101,7 +101,7 @@ endfunction : start_of_simulation_phase
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
 task tx_driver_proxy::run_phase(uvm_phase phase);
-
+  
   super.run_phase(phase);
 
   begin
@@ -110,27 +110,28 @@ task tx_driver_proxy::run_phase(uvm_phase phase);
 
   // Wait for system reset 
   // Drive the IDLE state for UART interface
-  //tx_drv_bfm_h.wait_for_reset_drive_idle_state();  
+  tx_drv_bfm_h.wait_for_reset();  
   
   // Generating the BCLK
-//  fork 
-  //  tx_drv_bfm_h.gen_bclk();
- // join_none
+  fork 
+    tx_drv_bfm_h.gen_bclk();
+  join_none
 
   // Drive IDLE state
-  //tx_drv_bfm_h.drive_idle_state();
+//  tx_drv_bfm_h.drive_idle_state();
 
   forever begin
+    
     uart_transfer_char_s struct_pkt;
     uart_transfer_cfg_s struct_cfg;
-    
+       
     seq_item_port.get_next_item(req);
     
-    tx_seq_item_converter::tx_bits(tx_agent_cfg_h);
+    //tx_seq_item_converter::tx_bits(tx_agent_cfg_h);
     tx_cfg_converter::from_class(tx_agent_cfg_h, struct_cfg);
     `uvm_info(get_full_name(),$sformatf("strt cfg = \n %p",struct_cfg),UVM_LOW)
 
-    tx_seq_item_converter::from_class(req, struct_pkt);
+    tx_seq_item_converter::from_class(req,tx_agent_cfg_h,struct_pkt);
     `uvm_info(get_full_name(),$sformatf("strt pkt = \n %p",struct_pkt),UVM_LOW)
 
     drive_to_bfm(struct_pkt, struct_cfg);    
