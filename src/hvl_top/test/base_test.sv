@@ -125,7 +125,7 @@ function void base_test::setup_tx_agent_cfg();
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.shift_dir            = shift_direction_e'(LSB_FIRST);
-    env_cfg_h.device_cfg_h[i].tx_agent_config_h.parity_scheme        = parity_e'(EVEN_PARITY);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.parity_scheme        = parity_e'(ODD_PARITY);
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.stop_bit_duration    = stop_bit_e'(STOP_BIT_ONEBIT);
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.tx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
@@ -142,7 +142,7 @@ function void base_test::setup_rx_agent_cfg();
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.is_active            = uvm_active_passive_enum'(UVM_ACTIVE);
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.uart_type            = uart_type_e'(UART_TYPE_EIGHT_BIT);
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.shift_dir            = shift_direction_e'(LSB_FIRST);
-    env_cfg_h.device_cfg_h[i].rx_agent_config_h.parity_scheme        = parity_e'(EVEN_PARITY);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.parity_scheme        = parity_e'(ODD_PARITY);
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.rx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
   end

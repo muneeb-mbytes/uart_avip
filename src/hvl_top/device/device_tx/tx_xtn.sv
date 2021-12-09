@@ -13,16 +13,15 @@ class tx_xtn extends uvm_sequence_item;
   `uvm_object_utils(tx_xtn)
   
   //input signals
-  rand bit[CHAR_LENGTH:0] tx_data[];
+  rand bit[CHAR_LENGTH-1:0] tx_data[];
   bit parity;
-  bit parity_element;
   int uart_type;
   tx_agent_config tx_agent_cfg_h;
 
   //-------------------------------------------------------
   // constraints for uart
   //-------------------------------------------------------
-  constraint tx_data_size{tx_data.size() > 0; tx_data[0] %2 !=0; }
+  constraint tx_data_size{tx_data.size() > 0; tx_data[0]%2==0;}
     
   
   //-------------------------------------------------------
@@ -47,14 +46,6 @@ function tx_xtn::new(string name = "tx_xtn");
   super.new(name);
 endfunction : new
 
-
-//function void tx_xtn::cast(input tx_agent_config tx_agent_cfg_h);
-//  
-//  parity =  parity_e'(tx_agent_cfg_h.parity_bit);
-//  $display("parity in cast = %0d",parity);
-//
-//endfunction : cast
-
 //--------------------------------------------------------------------------------------------
 // function: post_randomize()
 // Descripition: Returns the parity bit for each transaction
@@ -65,19 +56,23 @@ function void tx_xtn::post_randomize();
   $display("uart_bits_xtn = %0d", uart_type);
   
   foreach(tx_data[i]) begin
-    bit parity;
 
     // Parity generation
     if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
-      parity = ^tx_data[i][0 +: (uart_type-1)*1 ];
+      for(int row_no=0; row_no < tx_data.size(); row_no++)begin
+        for(int i=0; i < uart_type; i++)begin
+          parity = ^tx_data[row_no][i];
+        end
+      end
     end
     else begin
-      parity = ~(^tx_data[i][0 +: (uart_type-1)*1 ]);
+      for(int row_no=0; row_no < tx_data.size(); row_no++)begin
+        for(int i=0; i < uart_type; i++)begin
+          parity = ~(^tx_data[row_no][i]);
+        end
+      end
     end
-
-    tx_data[i][uart_type] = parity;
-
-    `uvm_info("DEBUG_MSHA", $sformatf("tx_data[%0d]=%0b and parity=%0d",i, tx_data[i], tx_data[i][uart_type]), UVM_NONE) 
+    `uvm_info("DEBUG_MSHA", $sformatf("parity=%0b",parity), UVM_NONE) 
   end
 
   // MSHA:if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin

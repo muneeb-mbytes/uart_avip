@@ -43,6 +43,7 @@ function void rx_cfg_converter::from_class(input rx_agent_config input_conv_h,
   output_conv.baudrate_divisor = input_conv_h.rx_baudrate_divisor;
   output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
   output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
+  output_conv.parity_scheme = parity_e'(input_conv_h.parity_scheme);
 
 endfunction: from_class 
 

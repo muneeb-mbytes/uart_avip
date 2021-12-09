@@ -48,6 +48,9 @@ interface tx_driver_bfm(input pclk, input areset,
   // Waiting for system reset to be active
   //-------------------------------------------------------
   task wait_for_reset();
+    state = state.first();
+    //`uvm_info("DEBUG_MSHA", $sformatf("drive_idle_state state = %0s and state = %0d",
+                                      //state.name(), state), UVM_NONE)
     @(negedge areset);
     `uvm_info(name, $sformatf("System reset detected"), UVM_HIGH);
     @(posedge areset);
@@ -74,9 +77,8 @@ interface tx_driver_bfm(input pclk, input areset,
   // Used for generating the bclk with regards to baudrate 
   //-------------------------------------------------------
   task gen_bclk(input int baudrate_divisor);
+   // @(posedge pclk);
     forever begin
-      @(posedge pclk);
-      
       repeat(baudrate_divisor - 1) begin
         @(posedge pclk);
         bclk = ~bclk;
@@ -112,7 +114,7 @@ interface tx_driver_bfm(input pclk, input areset,
     end
     
     // Driving data payload and parity bit
-    for(int k=0, bit_no=0; k<=data_packet.no_of_tx_bits_transfer; k++) begin
+    for(int k=0, bit_no=0; k<data_packet.no_of_tx_bits_transfer; k++) begin
       
       // Logic for MSB first or LSB first 
       bit_no = cfg_pkt.msb_first ? ((data_packet.no_of_tx_bits_transfer - 1) - k) : k;
@@ -127,6 +129,18 @@ interface tx_driver_bfm(input pclk, input areset,
       repeat(bit_clock_divisor-1) begin
         @(posedge pclk);
       end
+    end
+
+    //Driving Parity bit 
+    @(posedge pclk);
+    tx <= data_packet.parity_bit;
+    state = PARITY;
+    
+    `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
+
+    repeat(bit_clock_divisor-1) begin
+      @(posedge pclk);
     end
     
     // Driving the STOP bit

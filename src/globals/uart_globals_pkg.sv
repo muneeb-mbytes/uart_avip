@@ -133,9 +133,9 @@ package uart_globals_pkg;
     bit msb_first;
     bit [3:0] uart_type;
     bit [3:0] oversampling_bits;
+    bit parity_scheme;
   } uart_transfer_cfg_s;
 
-  //bit parity_scheme;
 
 endpackage: uart_globals_pkg
 

@@ -49,8 +49,8 @@ function void tx_seq_item_converter::from_class(input tx_xtn input_conv_h,
     for(int i = 0; i <= output_conv.no_of_tx_bits_transfer; i++) begin
       output_conv.tx[row_no][i] = input_conv_h.tx_data[row_no][i];
     end
-    //output_conv.parity_bit = input_conv_h.parity;
-    `uvm_info("device_seq_item_conv_class",$sformatf("total tx = \n %b",output_conv.tx),UVM_LOW)
+    output_conv.parity_bit = input_conv_h.parity;
+    `uvm_info("device_seq_item_conv_class",$sformatf("total tx = \n %p",output_conv),UVM_LOW)
   end
 endfunction : from_class 
   
