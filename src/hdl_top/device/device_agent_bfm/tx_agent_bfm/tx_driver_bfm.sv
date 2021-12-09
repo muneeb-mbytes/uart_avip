@@ -20,6 +20,11 @@ interface tx_driver_bfm(input pclk, input areset,
   
   bit bclk;
 
+  string name = "UART_TX_DRIVER_BFM";
+
+  // Used for holding the UART transfer state
+  uart_fsm_state_e state;
+
   //-------------------------------------------------------
   //package : Importing UVM pacakges
   //-------------------------------------------------------
@@ -44,21 +49,23 @@ interface tx_driver_bfm(input pclk, input areset,
   //-------------------------------------------------------
   task wait_for_reset();
     @(negedge areset);
-    `uvm_info("TX_DRIVER_BFM", $sformatf("System reset detected"), UVM_HIGH);
+    `uvm_info(name, $sformatf("System reset detected"), UVM_HIGH);
     @(posedge areset);
-    `uvm_info("Tx_DRIVER_BFM", $sformatf("System reset deactivated"), UVM_HIGH);
+    `uvm_info(name, $sformatf("System reset de-assertion detected"), UVM_HIGH);
   endtask: wait_for_reset
 
   //-------------------------------------------------------
-  // Task: wait_for_reset
-  // Waiting for system reset to be active
+  // Task: drive_idle_state
+  // Driving the TX lane to be logc 1 for IDLE condition 
   //-------------------------------------------------------
   task drive_idle_state();
-    @(negedge areset);
-    `uvm_info("TX_DRIVER_BFM", $sformatf("Driving the IDLE state"), UVM_HIGH);
+    @(posedge pclk);
+    `uvm_info(name, $sformatf("Driving the IDLE state"), UVM_HIGH);
     tx <= 1;
-    @(posedge areset);
-    `uvm_info("Tx_DRIVER_BFM", $sformatf("IDLE state Completed"), UVM_HIGH);
+    state = IDLE;
+    `uvm_info("DEBUG_MSHA", $sformatf("drive_idle_state state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
+    `uvm_info(name, $sformatf("IDLE state Completed"), UVM_HIGH);
   endtask: drive_idle_state
 
 
@@ -66,12 +73,11 @@ interface tx_driver_bfm(input pclk, input areset,
   // Task: gen_bclk
   // Used for generating the bclk with regards to baudrate 
   //-------------------------------------------------------
-  task gen_bclk();
-    uart_transfer_cfg_s pkt;
+  task gen_bclk(input int baudrate_divisor);
     forever begin
       @(posedge pclk);
       
-      repeat(pkt.baudrate_divisor - 1) begin
+      repeat(baudrate_divisor - 1) begin
         @(posedge pclk);
         bclk = ~bclk;
       end
@@ -79,42 +85,64 @@ interface tx_driver_bfm(input pclk, input areset,
   endtask: gen_bclk
 
   //-------------------------------------------------------
-  // Task: drive_data_pos_edge
+  // Task: drive_uart_packet
+  // Driving the UART packet on to the TX lane(s)
   //-------------------------------------------------------
-  task drive_data_pos_edge(inout uart_transfer_char_s data_packet,
-                           input uart_transfer_cfg_s cfg_pkt
-                         );
+  task drive_uart_packet(inout uart_transfer_char_s data_packet,
+                         input uart_transfer_cfg_s cfg_pkt);
+
+  int bit_clock_divisor;
+
+  @(posedge pclk);
+
+  // Derving the bit clock divisor
+  bit_clock_divisor = cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor;
+
+  // Driving an array of UART packets
   for(int row_no=0; row_no < data_packet.no_of_tx_elements; row_no++) begin
     
-    @(posedge pclk);
+    // Driving the start condition
     tx <= START_BIT;
-    
-    repeat(cfg_pkt.baudrate_divisor-1) begin
+    state = START;
+    `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
+
+    repeat(bit_clock_divisor-1) begin
       @(posedge pclk);
     end
     
+    // Driving data payload and parity bit
     for(int k=0, bit_no=0; k<=data_packet.no_of_tx_bits_transfer; k++) begin
       
       // Logic for MSB first or LSB first 
       bit_no = cfg_pkt.msb_first ? ((data_packet.no_of_tx_bits_transfer - 1) - k) : k;
+
       @(posedge pclk);
       tx <= data_packet.tx[row_no][bit_no];
+      state = uart_fsm_state_e'(bit_no);
+      `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
 
       // oversampling_period for each bit
-      repeat((cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor)-1) begin
+      repeat(bit_clock_divisor-1) begin
         @(posedge pclk);
       end
     end
     
+    // Driving the STOP bit
+    // // TODO(mshariff): Need to add logic for STOP_1_5 and STOP_2
     @(posedge pclk);
     tx <= cfg_pkt.stop_bit;
+    state = STOP;
+    `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
     
-    repeat(cfg_pkt.baudrate_divisor-1) begin
+    repeat(bit_clock_divisor-1) begin
       @(posedge pclk);
     end
   end
 
-endtask: drive_data_pos_edge
+endtask: drive_uart_packet
   
   //// Driving Parity Bit
   //@(posedge pclk);

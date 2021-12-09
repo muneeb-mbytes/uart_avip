@@ -22,7 +22,8 @@ class tx_xtn extends uvm_sequence_item;
   //-------------------------------------------------------
   // constraints for uart
   //-------------------------------------------------------
-  constraint tx_data_size{tx_data.size() > 0;}
+  constraint tx_data_size{tx_data.size() > 0; tx_data[0] %2 !=0; }
+    
   
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
@@ -60,36 +61,51 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 function void tx_xtn::post_randomize();
   
-  parity    =  parity_e'(tx_agent_cfg_h.parity_scheme);
   uart_type =  uart_type_e'(tx_agent_cfg_h.uart_type);
-  $display("parity xtn = %b", parity);
   $display("uart_bits_xtn = %0d", uart_type);
   
-  if(parity == 1'b0) begin
-    foreach(tx_data[i]) begin
-      if(($countones(tx_data[i])%2)!==0) begin
-        parity_element = 1;
-      end
-      else begin
-        parity_element = 0;
-      end
+  foreach(tx_data[i]) begin
+    bit parity;
+
+    // Parity generation
+    if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
+      parity = ^tx_data[i][0 +: (uart_type-1)*1 ];
     end
-    $display("parity ele = %b",parity_element);
-  end
-  
-  else begin
-    foreach(tx_data[i]) begin
-      if(($countones(tx_data[i])%2)!==0) begin
-        parity_element = 0;
-      end
-      else begin
-        parity_element = 1;
-      end
+    else begin
+      parity = ~(^tx_data[i][0 +: (uart_type-1)*1 ]);
     end
-    $display("parity ele = %b",parity_element);
+
+    tx_data[i][uart_type] = parity;
+
+    `uvm_info("DEBUG_MSHA", $sformatf("tx_data[%0d]=%0b and parity=%0d",i, tx_data[i], tx_data[i][uart_type]), UVM_NONE) 
   end
+
+  // MSHA:if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
+  // MSHA:  foreach(tx_data[i]) begin
+  // MSHA:    if(($countones(tx_data[i])%2)!==0) begin
+  // MSHA:      parity_element = 1;
+  // MSHA:    end
+  // MSHA:    else begin
+  // MSHA:      parity_element = 0;
+  // MSHA:    end
+  // MSHA:    tx_data[i][uart_type] = parity_element;
+  // MSHA:  end
+  // MSHA:  $display("parity ele = %b",parity_element);
+  // MSHA:end
+  // MSHA:
+  // MSHA:else begin
+  // MSHA:  foreach(tx_data[i]) begin
+  // MSHA:    if(($countones(tx_data[i])%2)!==0) begin
+  // MSHA:      parity_element = 0;
+  // MSHA:    end
+  // MSHA:    else begin
+  // MSHA:      parity_element = 1;
+  // MSHA:    end
+  // MSHA:    tx_data[i][uart_type] = parity_element;
+  // MSHA:  end
+  // MSHA:  $display("parity ele = %b",parity_element);
+  // MSHA:end
   
-  tx_data[uart_type] = parity_element;
   foreach(tx_data[i]) begin
     //tx_data[]
     $display("parity arrat xtn = %b",tx_data[i]);

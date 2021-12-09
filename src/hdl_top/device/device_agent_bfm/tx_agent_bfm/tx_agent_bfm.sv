@@ -29,7 +29,10 @@ module tx_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   //tx monitor bfm instantiation
   //-------------------------------------------------------
-  tx_monitor_bfm tx_mon_bfm_h(intf);
+  tx_monitor_bfm tx_mon_bfm_h(.pclk(intf.pclk), 
+                             .areset(intf.areset),
+                             .tx(intf.tx)
+                             );
  
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db

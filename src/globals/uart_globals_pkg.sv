@@ -60,12 +60,22 @@ package uart_globals_pkg;
   //Enum:uart_fsm_state
   //specifies the uart fsm states
   typedef enum bit[3:0] {
-    IDLE_STATE         = 0,
-    START_BIT_STATE    = 1,
-    DATA_BITS_STATE    = 2,
-    PARITY_BIT_STATE   = 3,
-    STOP_BIT_STATE     = 4 
+    IDLE = 15,       
+    START = 14,
+    DATA0 = 0,
+    DATA1,
+    DATA2,
+    DATA3,
+    DATA4,
+    DATA5,
+    DATA6,
+    DATA7,
+    PARITY,
+    STOP,
+    STOP_1_5,
+    STOP_2
   } uart_fsm_state_e;
+
   //Enum: oversampling_e
   //specifies for how many clock cycles the single bit data remains stable
 
