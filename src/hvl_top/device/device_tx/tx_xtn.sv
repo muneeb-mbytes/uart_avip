@@ -60,7 +60,7 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 function void tx_xtn::post_randomize();
   
-  parity    =  parity_e'(tx_agent_cfg_h.parity_bit);
+  parity    =  parity_e'(tx_agent_cfg_h.parity_scheme);
   uart_type =  uart_type_e'(tx_agent_cfg_h.uart_type);
   $display("parity xtn = %b", parity);
   $display("uart_bits_xtn = %0d", uart_type);

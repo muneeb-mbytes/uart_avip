@@ -154,7 +154,7 @@ interface tx_monitor_bfm( input pclk,
       counter++;
     end
 
-         parity_bit_local=parity_e'(cfg_pkt.parity_scheme);
+         //parity_bit_local=parity_e'(cfg_pkt.parity_scheme);
         if(parity_bit_local==EVEN_PARITY)begin
          foreach(data_packet.tx[i]) begin
             if(($countones(data_packet.tx)%2)!==0) begin

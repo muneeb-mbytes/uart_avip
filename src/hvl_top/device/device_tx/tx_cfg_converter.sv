@@ -42,7 +42,7 @@ function void tx_cfg_converter::from_class(input tx_agent_config input_conv_h,
   output_conv.uart_type = uart_type_e'(input_conv_h.uart_type);
   output_conv.msb_first = shift_direction_e'(input_conv_h.shift_dir);
   output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
-  output_conv.stop_bit = stop_bit_e'(input_conv_h.stop_bit);
+  output_conv.stop_bit = stop_bit_e'(input_conv_h.stop_bit_duration);
   output_conv.baudrate_divisor = input_conv_h.tx_baudrate_divisor;
   `uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",output_conv),UVM_LOW)
 

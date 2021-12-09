@@ -77,6 +77,11 @@ package uart_globals_pkg;
   ODD_PARITY   = 1'b1
   } parity_e;
   
+  typedef enum bit[1:0] {
+  POSEDGE  = 2'b01,
+  NEGEDGE =  2'b10
+  } edge_detect_e;
+
   //Struct: uart_transfer_char_s
   //tx array which holds the tx seq_item transactions
   //no_of_tx_bits_transfer  specifies how many tx bits to trasnfer
@@ -110,6 +115,8 @@ package uart_globals_pkg;
     bit [3:0] uart_type;
     bit [3:0] oversampling_bits;
   } uart_transfer_cfg_s;
+
+  //bit parity_scheme;
 
 endpackage: uart_globals_pkg
 
