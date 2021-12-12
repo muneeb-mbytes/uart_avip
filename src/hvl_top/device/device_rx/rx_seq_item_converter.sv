@@ -13,6 +13,8 @@ class rx_seq_item_converter extends uvm_object;
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
   extern function new(string name = "rx_seq_item_converter");
+  extern static function void from_class(input rx_xtn input_conv_h,rx_agent_config rx_agent_cfg_h,
+                                         output uart_reciver_char_s output_conv);
   extern static function void to_class(input uart_reciver_char_s input_conv,
                                        rx_agent_config rx_agent_cfg_h,output rx_xtn output_conv_h);
   extern function void do_print(uvm_printer printer);
@@ -27,6 +29,17 @@ endclass : rx_seq_item_converter
 function rx_seq_item_converter::new(string name = "rx_seq_item_converter");
   super.new(name);
 endfunction : new
+
+//--------------------------------------------------------------------------------------------
+// function:from_class
+// converting seq_item transactions into struct data items 
+//--------------------------------------------------------------------------------------------  
+
+function void rx_seq_item_converter::from_class(input rx_xtn input_conv_h,
+                            rx_agent_config rx_agent_cfg_h,output uart_reciver_char_s output_conv);
+  
+  output_conv.no_of_rx_bits_transfer = uart_type_e'(rx_agent_cfg_h.uart_type);
+endfunction
 
 //--------------------------------------------------------------------------------------------
 // function:to_class

@@ -26,7 +26,10 @@ module rx_agent_bfm(uart_if intf);
   //-------------------------------------------------------
   // rx monitor bfm instantiation
   //-------------------------------------------------------
-  rx_monitor_bfm rx_mon_bfm_h(intf);
+  rx_monitor_bfm rx_mon_bfm_h(.pclk(intf.pclk),
+                              .areset(intf.areset),
+                              .rx(intf.rx)
+                            );
   
   // rx_monitor_bfm rx_monitor_bfm_h (intf.MON_MP);
   //-------------------------------------------------------

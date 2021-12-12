@@ -44,6 +44,7 @@ function void tx_cfg_converter::from_class(input tx_agent_config input_conv_h,
   output_conv.oversampling_bits = oversampling_e'(input_conv_h.oversampling_bits);
   output_conv.stop_bit = stop_bit_e'(input_conv_h.stop_bit_duration);
   output_conv.baudrate_divisor = input_conv_h.tx_baudrate_divisor;
+  output_conv.parity_scheme = parity_e'(input_conv_h.parity_scheme);
   `uvm_info("cfg_converter",$sformatf("uart_cfg=\n %p",output_conv),UVM_LOW)
 
 endfunction: from_class 

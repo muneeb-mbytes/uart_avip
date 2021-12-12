@@ -25,10 +25,10 @@ class rx_monitor_proxy extends uvm_monitor;
   //-------------------------------------------------------
   extern function new(string name = "rx_monitor_proxy", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
-  extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
-  extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual function void reset_detected();
+  extern virtual task read(uart_reciver_char_s data_packet);
   //extern virtual task sample_from_bfm();
 
 endclass : rx_monitor_proxy
@@ -62,16 +62,6 @@ function void rx_monitor_proxy::build_phase(uvm_phase phase);
 
 endfunction : build_phase
 
-//--------------------------------------------------------------------------------------------
-// Function: connect_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void rx_monitor_proxy::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-endfunction : connect_phase
 
 //--------------------------------------------------------------------------------------------
 // Function: end_of_elaboration_phase
@@ -82,18 +72,18 @@ endfunction : connect_phase
 //--------------------------------------------------------------------------------------------
 function void rx_monitor_proxy::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
+  rx_mon_bfm_h.rx_mon_proxy_h = this;
 endfunction  : end_of_elaboration_phase
 
+
 //--------------------------------------------------------------------------------------------
-// Function: start_of_simulation_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
+// Function reset_detected
+// This task detect the system reset appliction
 //--------------------------------------------------------------------------------------------
-function void rx_monitor_proxy::start_of_simulation_phase(uvm_phase phase);
-  super.start_of_simulation_phase(phase);
-endfunction : start_of_simulation_phase
+function void rx_monitor_proxy::reset_detected();
+  `uvm_info(get_type_name(), $sformatf("System reset is detected"), UVM_NONE);
+
+endfunction: reset_detected
 
 //--------------------------------------------------------------------------------------------
 // Task: run_phase
@@ -104,25 +94,70 @@ endfunction : start_of_simulation_phase
 //--------------------------------------------------------------------------------------------
 task rx_monitor_proxy::run_phase(uvm_phase phase);
 
-//  phase.raise_objection(this, "rx_monitor_proxy");
+  rx_xtn rx_packet;
+  
+  `uvm_info(get_type_name(), $sformatf("Inside the rx_monitor_proxy"), UVM_LOW);
 
-  super.run_phase(phase);
-  //  rx_mon_bfm_h.wait_for_reset();
-  //  rx_mon_bfm_h.sample_for_idle();
-  //  rx_mon_bfm_h.sample_for_start_bit();
-  //  sample_from_bfm();
-  //  Work here
-  //  ...
+  rx_packet =  rx_xtn::type_id::create("rx_packet");
 
-  // phase.drop_objection(this);
+  // Wait for system reset
+  rx_mon_bfm_h.wait_for_system_reset();
 
+  // Wait for the IDLE state of uart interface
+  rx_mon_bfm_h.wait_for_idle_state();
+  
+  // Generating the BCLK
+  // Used for debugging purpose ans hence used only in simulation
+  // `ifdef SIMULATION_ONLY
+  fork 
+    rx_mon_bfm_h.gen_bclk(rx_agent_cfg_h.rx_baudrate_divisor);
+  join_none
+  //`endif
+  
+
+  // Driving logic
+  forever begin
+    uart_reciver_char_s struct_packet;
+    uart_transfer_cfg_s struct_cfg;
+
+    rx_xtn rx_clone_packet;
+
+    // Wait for transfer to start
+    rx_mon_bfm_h.wait_for_transfer_start();
+
+    rx_seq_item_converter::from_class(rx_packet,rx_agent_cfg_h,struct_packet);
+
+    `uvm_info(get_type_name(),$sformatf("strt rx pkt seq_item from class: , \n %p",
+                                        struct_packet),UVM_LOW)
+
+    rx_mon_bfm_h.sample_data(struct_packet, struct_cfg);
+
+    rx_seq_item_converter::to_class(struct_packet,rx_agent_cfg_h,rx_packet);
+
+    `uvm_info(get_type_name(),$sformatf("Received packet from BFM : , \n %s",
+                                        rx_packet.sprint()),UVM_LOW)
+
+    // Clone and publish the cloned item to the subscribers
+    $cast(rx_clone_packet, rx_packet.clone());
+    `uvm_info(get_type_name(),$sformatf("Sending packet via analysis_port : , \n %s",
+                                        rx_clone_packet.sprint()),UVM_HIGH)
+    rx_analysis_port.write(rx_clone_packet);
+
+  end
+ 
 endtask : run_phase
 
-//task rx_monitor_proxy::sample_from_bfm();
-//sample the data
-//
-//rx_mon_bfm_h.sample_for_data();
-//rx_mon_bfm_h.sample_for_parity_bit();
-//endtask: sample_from_bfm
+
+//-------------------------------------------------------
+// Task : Read
+// Captures the tx data sampled.
+//-------------------------------------------------------
+
+task rx_monitor_proxy::read(uart_reciver_char_s data_packet);
+ rx_seq_item_converter rx_seq_item_conv_h;
+
+
+endtask: read
+
 `endif
 
