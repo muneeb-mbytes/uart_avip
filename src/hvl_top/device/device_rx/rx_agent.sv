@@ -65,7 +65,7 @@ function void rx_agent::build_phase(uvm_phase phase);
   if(!uvm_config_db #(rx_agent_config)::get(this,"","rx_agent_config",rx_agent_cfg_h)) begin
     `uvm_fatal("FATAL_SA_AGENT_CONFIG", $sformatf("Couldn't get the rx_agent_config from config_db"));
   end
-  if(rx_agent_cfg_h.is_active == UVM_ACTIVE) begin
+  if(rx_agent_cfg_h.is_active == UVM_PASSIVE) begin
     rx_drv_proxy_h = rx_driver_proxy::type_id::create("rx_drv_proxy_h",this);
     rx_seqr_h=rx_sequencer::type_id::create("rx_seqr_h",this);
   end
@@ -88,7 +88,7 @@ endfunction : build_phase
 //--------------------------------------------------------------------------------------------
 function void rx_agent::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
-  if(rx_agent_cfg_h.is_active == UVM_ACTIVE) begin
+  if(rx_agent_cfg_h.is_active == UVM_PASSIVE) begin
     rx_drv_proxy_h.rx_agent_cfg_h = rx_agent_cfg_h;
     rx_seqr_h.rx_agent_cfg_h = rx_agent_cfg_h;
     
