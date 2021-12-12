@@ -32,8 +32,6 @@ class tx_monitor_proxy extends uvm_component;
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-//  extern virtual function void reset_detected();
-  extern virtual task read(uart_transfer_char_s data_packet);
 endclass : tx_monitor_proxy
 
 //--------------------------------------------------------------------------------------------
@@ -92,9 +90,11 @@ endfunction  : end_of_elaboration_phase
 task tx_monitor_proxy::run_phase(uvm_phase phase);
   tx_xtn tx_packet;
 
-  `uvm_info(get_type_name(), $sformatf("Inside the tx_monitor_proxy"), UVM_LOW);
+  //`uvm_info(get_type_name(), $sformatf("Inside the tx_monitor_proxy"), UVM_LOW);
 
   tx_packet = tx_xtn::type_id::create("tx_packet");
+
+  //`uvm_info(get_type_name(),$sformatf("mon_req = \n %p",tx_packet.sprint()),UVM_LOW);
 
   // Wait for system reset
   tx_mon_bfm_h.wait_for_system_reset();
@@ -120,17 +120,11 @@ task tx_monitor_proxy::run_phase(uvm_phase phase);
     // Wait for transfer to start
     tx_mon_bfm_h.wait_for_transfer_start();
 
-    // TODO(mshariff): Have a way to print the struct values
-    // tx_uart_seq_item_converter::display_struct(packet);
-    // string s;
-    // s = tx_uart_seq_item_converter::display_struct(packet);
-    // `uvm_info(get_type_name(), $sformatf("Packet to drive : \n %s", s), UVM_HIGH);
+    //tx_seq_item_converter::from_class(tx_packet,tx_agent_cfg_h,struct_packet);
 
-    tx_seq_item_converter::from_class(tx_packet,tx_agent_cfg_h,struct_packet);
+    //`uvm_info(get_type_name(),$sformatf("strt tx pkt seq_item from class: , \n %p",
+    //                                    struct_packet),UVM_LOW)
 
-
-    `uvm_info(get_type_name(),$sformatf("strt tx pkt seq_item from class: , \n %p",
-                                        struct_packet),UVM_LOW)
     tx_mon_bfm_h.sample_data(struct_packet, struct_cfg);
 
     tx_seq_item_converter::to_class(struct_packet,tx_packet);
@@ -146,17 +140,6 @@ task tx_monitor_proxy::run_phase(uvm_phase phase);
 
   end
 endtask : run_phase
-
-//-------------------------------------------------------
-// Task : Read
-// Captures the tx data sampled.
-//-------------------------------------------------------
-
-task tx_monitor_proxy::read(uart_transfer_char_s data_packet);
- tx_seq_item_converter tx_seq_item_conv_h;
-
-
-endtask: read
 
 `endif
 

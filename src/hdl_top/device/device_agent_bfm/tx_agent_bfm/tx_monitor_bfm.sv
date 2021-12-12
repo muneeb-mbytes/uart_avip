@@ -24,6 +24,7 @@ interface tx_monitor_bfm( input pclk,
 
   // Used for holding the UART transfer state
   uart_fsm_state_e state;
+
   bit end_of_transfer;
   //-------------------------------------------------------
   //Package : Importing UVM package
@@ -100,65 +101,28 @@ interface tx_monitor_bfm( input pclk,
     `uvm_info(name, $sformatf("Transfer start is detected"), UVM_NONE);
   endtask: wait_for_transfer_start
 
-//  //-------------------------------------------------------
-//  // Task: detect_bclk
-//  // Detects the edge on bclk with regards to pclk
-//  //-------------------------------------------------------
-//  task detect_bclk();
-//    
-//    bit [1:0] bclk_local;
-//    bit [1:0] tx_local;
-//    edge_detect_e bclk_edge_value;
-//
-//    // Detect the edge on BCLK
-//    do begin
-//
-//      @(negedge pclk);
-//      bclk_local = {bclk_local[0],bclk};
-//      end_of_transfer = 0;
-//
-//      // Stop the transfer when the start bit is active-high
-//      tx_local = {tx_local,tx};
-//      if(tx_local == POSEDGE) begin
-//        `uvm_info("TX_MONITOR_BFM", $sformatf("End of Transfer Detected"), UVM_NONE);
-//        end_of_transfer = 1;
-//        return;
-//      end
-//
-//    end while(! ((bclk_local == POSEDGE) || (bclk_local == NEGEDGE)) );
-//
-//    bclk_edge_value = edge_detect_e'(bclk_local);
-//    `uvm_info("MASTER_MONITOR_BFM", $sformatf("SCLK %s detected", bclk_edge_value.name()),UVM_FULL);
-//  endtask: detect_bclk
-
-
   //-------------------------------------------------------
   // Task: sample_data
   // Used for sampling the tx 
   //-------------------------------------------------------
   task sample_data(inout uart_transfer_char_s data_packet, input uart_transfer_cfg_s cfg_pkt);
+    
     bit bit_clock_divisor;
     //int row_no;
 
     @(negedge pclk);
  
-    //data_packet.tx=tx;
-    // Sampling of TX data
-    // with respect to BCLK
-    //
-    // This loop is forever because the monitor will continue to operate 
-    // till the start_bit is active-low
-   // forever begin
-     
-  //  data_packet.tx=tx;
  // for(int row_no=0; row_no < data_packet.no_of_tx_elements; row_no++) begin
  
     bit_clock_divisor = cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor;
 
     `uvm_info(name, $sformatf("in sample data"), UVM_NONE)
     `uvm_info(name,$sformatf("dt pkt = \n %p",data_packet.no_of_tx_bits_transfer),UVM_LOW) 
-   for(int k=0, bit_no=0; k<=data_packet.no_of_tx_bits_transfer; k++) begin
+    
+    for(int k=0, bit_no=0; k<data_packet.no_of_tx_bits_transfer; k++) begin
+     
      `uvm_info(name, $sformatf("in sample data for loop"), UVM_NONE)
+    
     // Logic for MSB first or LSB first 
     bit_no = cfg_pkt.msb_first ? ((data_packet.no_of_tx_bits_transfer- 1) - k) : k;
 
@@ -167,13 +131,16 @@ interface tx_monitor_bfm( input pclk,
    repeat((bit_clock_divisor/2)-1) begin
      @(negedge pclk);
    end
-      data_packet.tx[bit_no] = tx;
-      uart_bit_counter++;
-      `uvm_info(name, $sformatf("end of loop"), UVM_NONE)
-    //if($countones(data_packet.tx[bit_no]) begin
-    //  break_counter--;
-    //end
+   
+   data_packet.tx[bit_no] = tx;
+   state = uart_fsm_state_e'(bit_no);
+   `uvm_info("DEBUG_MSHA", $sformatf("sample_uart_packet state = %0s and state = %0d",
+                                      state.name(), state), UVM_NONE)
+
+   uart_bit_counter++;
+   `uvm_info(name, $sformatf("end of loop"), UVM_NONE)
   end
+
   `uvm_info(name, $sformatf("begins parity"), UVM_NONE)
     //oversampling_period for each bit
     repeat((bit_clock_divisor/2)-1) begin
@@ -196,69 +163,9 @@ interface tx_monitor_bfm( input pclk,
     `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE) 
     state = STOP;
   end
+
   framing_checks(cfg_pkt);
 
-
-//
-//         //parity_bit_local=parity_e'(cfg_pkt.parity_scheme);
-//        if(parity_bit_local==EVEN_PARITY)begin
-//         foreach(data_packet.tx[i]) begin
-//            if(($countones(data_packet.tx)%2)!==0) begin
-//              parity_error = 1;
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("even parity error is detected"),UVM_FULL);
-//            end
-//            else begin
-//              parity_error = 0;
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("even parity errror is not detected"),UVM_FULL);
-//            end
-//          end
-//        end
-//        
-//        else begin
-//          foreach(data_packet.tx[i]) begin
-//            if(($countones(data_packet.tx)%2)!==0) begin
-//              parity_error = 0;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("odd parity error is detected"),UVM_FULL);
-//            end
-//            else begin
-//              parity_error = 1;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("odd parity error is detected"),UVM_FULL);
-//            end
-//          end
-//        end
-//
-//       uart_type_check=uart_type_e'(cfg_pkt.uart_type);
-//
-//        if(counter==uart_type_check+1)begin
-//         data_packet.tx=tx;
-//         if(data_packet.tx==1)begin
-//           frame_error=0;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("frame error is not  detected"),UVM_FULL);
-//            end
-//            else begin
-//             frame_error=1;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("frame error is detected"),UVM_FULL);
-//           end
-//         end
-//         
-//         foreach(data_packet.tx[i])begin
-//           if(!$countones(data_packet.tx[i])==uart_type_check+2)begin
-//             break_error=1;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("break error is detected"),UVM_FULL);
-//            end
-//            else begin
-//               break_error=0;
-//
-//              `uvm_info("TX_MONITOR_BFM", $sformatf("break error is not  detected"),UVM_FULL);
-//            end
-//             end
-//           end
-   
   endtask: sample_data
 
 task parity_checking(uart_transfer_char_s data_packet,uart_transfer_cfg_s cfg_pkt);

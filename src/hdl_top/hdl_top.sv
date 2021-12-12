@@ -37,11 +37,8 @@ module hdl_top;
   //-------------------------------------------------------
   initial begin
     rst = 1'b1;
-
-    repeat (2) begin
-      @(posedge clk);
-    end
-    rst = 1'b0;
+    
+    #10; rst = 1'b0;
 
     repeat (2) begin
       @(posedge clk);
@@ -59,12 +56,15 @@ module hdl_top;
   //-------------------------------------------------------
   // UART BFM Agent Instantiation
   //-------------------------------------------------------
-  tx_agent_bfm tx_agent_bfm_h(intf);
+  device_agent_bfm device0_agent_bfm_h(intf);
+  //device_agent_bfm device1_agent_bfm_h(intf);
 
   //-------------------------------------------------------
   // UART BFM Agent Instantiation
   //-------------------------------------------------------
-  rx_agent_bfm rx_agent_bfm_h(intf);
+  //rx_agent_bfm rx_agent_bfm_h(intf);
+ assign device0_agent_bfm_h.intf.tx = device0_agent_bfm_h.intf.rx;
+ // assign device0_agent_bfm_h.intf.rx = device1_agent_bfm_h.intf.tx;
 
 endmodule : hdl_top
 

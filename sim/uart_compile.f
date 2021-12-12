@@ -4,7 +4,8 @@
 +incdir+../../src/hvl_top/device/device_tx/
 +incdir+../../src/hvl_top/device/
 +incdir+../../src/hvl_top/device/device/
-+incdir+../../src/hdl_top/device/device_agent_bfm/  
++incdir+../../src/hdl_top/device/device_agent_bfm/tx_agent_bfm/
++incdir+../../src/hdl_top/device/device_agent_bfm/rx_agent_bfm/
 +incdir+../../src/hvl_top/env/virtual_sequencer/ 
 +incdir+../../src/hvl_top/test/virtual_sequences/ 
 +incdir+../../src/hvl_top/env/ 
@@ -26,6 +27,7 @@
 ../../src/hdl_top/device/device_agent_bfm/rx_agent_bfm/rx_driver_bfm.sv
 ../../src/hdl_top/device/device_agent_bfm/rx_agent_bfm/rx_monitor_bfm.sv
 ../../src/hdl_top/device/device_agent_bfm/rx_agent_bfm/rx_agent_bfm.sv
+../../src/hdl_top/device/device_agent_bfm/device_agent_bfm.sv
 ../../src/hdl_top/hdl_top.sv
 ../../src/hvl_top/hvl_top.sv 
 
