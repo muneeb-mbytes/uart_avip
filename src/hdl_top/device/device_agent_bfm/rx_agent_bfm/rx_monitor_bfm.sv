@@ -113,15 +113,23 @@ interface rx_monitor_bfm( input pclk,
   task sample_data(inout uart_reciver_char_s data_packet, input uart_transfer_cfg_s cfg_pkt);
     int bit_clock_divisor; 
     int row_no;
-    data_packet.no_of_rx_bits_transfer = 0;
+    //data_packet.no_of_rx_bits_transfer = 0;
 
-    @(negedge pclk);
+    @(posedge pclk);
+    bit_clock_divisor = cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor;
+    repeat((bit_clock_divisor/2)-1) begin
+      @(posedge pclk);
+    end
+
+    repeat((bit_clock_divisor/2)) begin
+      @(posedge pclk);
+    end
 
     // Derving the bit clock divisor
     
-    bit_clock_divisor = cfg_pkt.oversampling_bits*cfg_pkt.baudrate_divisor;
     `uvm_info(name, $sformatf("in sample data"), UVM_NONE)
-    `uvm_info(name,$sformatf("dt pkt = \n %p",data_packet.no_of_rx_bits_transfer),UVM_LOW)
+    `uvm_info(name,$sformatf("dt pkt = %d",data_packet.no_of_rx_bits_transfer),UVM_LOW)
+    `uvm_info(name,$sformatf("bit_clock_divisor = %d",bit_clock_divisor),UVM_LOW)
     
     for(int k=0, bit_no=0; k<data_packet.no_of_rx_bits_transfer; k++) begin
       
@@ -131,8 +139,8 @@ interface rx_monitor_bfm( input pclk,
       bit_no = cfg_pkt.msb_first ? ((data_packet.no_of_rx_bits_transfer- 1) - k) : k;
       
       //oversampling_period for each bit
-      repeat((bit_clock_divisor/2)-1) begin
-        @(negedge pclk);
+      repeat((bit_clock_divisor/2)) begin
+        @(posedge pclk);
       end
       data_packet.rx[row_no][bit_no] = rx;
       state = uart_fsm_state_e'(bit_no);
@@ -145,13 +153,19 @@ interface rx_monitor_bfm( input pclk,
       //if($countones(data_packet.rx[bit_no]) begin
       //  break_counter--;
       //end
+
+      //oversampling_period for each bit
+      repeat(bit_clock_divisor/2) begin
+        @(posedge pclk);
       end
+
+    end
       `uvm_info(name, $sformatf("begins parity"), UVM_NONE)
       //oversampling_period for each bit
-      repeat((bit_clock_divisor/2)-1) begin
-        @(negedge pclk);
+      repeat((bit_clock_divisor/2)) begin
+        @(posedge pclk);
       end
-      data_packet.rx=rx;
+      data_packet.parity_bit=rx;
       state = PARITY;
       
       `uvm_info("DEBUG_MSHA", $sformatf("sample_uart_packet state = %0s and state = %0d",
@@ -159,15 +173,33 @@ interface rx_monitor_bfm( input pclk,
       //task to detect parity error
       parity_checking(data_packet,cfg_pkt);
       
-      // stop bit detection
-      if(uart_bit_counter+1 == cfg_pkt.uart_type+1) begin
-        do begin
-          @(negedge pclk);
-        end while(rx!=1);
-        
-        `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
-        state = STOP;
+      //oversampling_period for each bit
+      repeat((bit_clock_divisor/2)) begin
+        @(posedge pclk);
       end
+
+      // stop bit detection
+      repeat((bit_clock_divisor/2)) begin
+        @(posedge pclk);
+      end
+
+      if(rx !== 0) begin
+        // TODO(mshariff): 
+        // framing error
+      end
+
+      // 
+      if(uart_bit_counter != cfg_pkt.uart_type) begin
+        // errro saying the DATA is ot fully captured
+      end
+        
+      `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
+      state = STOP;
+
+      repeat((bit_clock_divisor/2)) begin
+        @(posedge pclk);
+      end
+
       framing_checks(cfg_pkt);
     endtask : sample_data
   

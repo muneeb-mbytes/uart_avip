@@ -130,6 +130,8 @@ task rx_monitor_proxy::run_phase(uvm_phase phase);
     `uvm_info(get_type_name(),$sformatf("strt rx pkt seq_item from class: , \n %p",
                                         struct_packet),UVM_LOW)
 
+    rx_cfg_converter::from_class(rx_agent_cfg_h,struct_cfg); 
+
     rx_mon_bfm_h.sample_data(struct_packet, struct_cfg);
 
     rx_seq_item_converter::to_class(struct_packet,rx_agent_cfg_h,rx_packet);

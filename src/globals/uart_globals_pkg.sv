@@ -119,6 +119,7 @@ package uart_globals_pkg;
   typedef struct {
     bit [NO_OF_ROWS-1:0][CHAR_LENGTH-1:0] rx;
     int no_of_rx_bits_transfer;
+    int parity_bit;
   } uart_reciver_char_s;
   
   //struct: uart_transfer_cfg_s

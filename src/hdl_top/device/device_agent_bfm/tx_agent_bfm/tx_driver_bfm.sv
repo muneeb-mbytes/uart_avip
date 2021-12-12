@@ -61,7 +61,7 @@ interface tx_driver_bfm(input pclk, input areset,
   // Task: drive_idle_state
   // Driving the TX lane to be logc 1 for IDLE condition 
   //-------------------------------------------------------
-  task drive_idle_state();
+  task drive_idle_state(int no_of_idle_clks = 2);
     @(posedge pclk);
     `uvm_info(name, $sformatf("Driving the IDLE state"), UVM_HIGH);
     tx <= 1;
@@ -69,6 +69,11 @@ interface tx_driver_bfm(input pclk, input areset,
     `uvm_info("DEBUG_MSHA", $sformatf("drive_idle_state state = %0s and state = %0d",
                                       state.name(), state), UVM_NONE)
     `uvm_info(name, $sformatf("IDLE state Completed"), UVM_HIGH);
+
+    repeat(no_of_idle_clks - 1) begin
+      @(posedge pclk);
+    end
+    
   endtask: drive_idle_state
 
 
