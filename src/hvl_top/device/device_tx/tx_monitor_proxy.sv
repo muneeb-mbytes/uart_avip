@@ -120,11 +120,12 @@ task tx_monitor_proxy::run_phase(uvm_phase phase);
     // Wait for transfer to start
     tx_mon_bfm_h.wait_for_transfer_start();
 
-    //tx_seq_item_converter::from_class(tx_packet,tx_agent_cfg_h,struct_packet);
+    tx_seq_item_converter::from_class(tx_packet,tx_agent_cfg_h,struct_packet);
 
-    //`uvm_info(get_type_name(),$sformatf("strt tx pkt seq_item from class: , \n %p",
-    //                                    struct_packet),UVM_LOW)
+    //   `uvm_info(get_type_name(),$sformatf("strt tx pkt seq_item from class: , \n %p",
+    //                                       struct_packet),UVM_LOW)
 
+    tx_cfg_converter::from_class(tx_agent_cfg_h,struct_cfg); 
     tx_mon_bfm_h.sample_data(struct_packet, struct_cfg);
 
     tx_seq_item_converter::to_class(struct_packet,tx_packet);

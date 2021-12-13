@@ -17,8 +17,8 @@ interface rx_monitor_bfm( input pclk,
   bit parity_error;
   bit [3:0] uart_bit_counter;
   bit break_error;
-  bit [2:0] break_counter = 7;
-  
+  bit data_error;
+  bit [2:0] break_counter ;
   string name = "UART_RX_MONITOR_BFM";
 
   // Used for holding the UART transfer state
@@ -154,6 +154,16 @@ interface rx_monitor_bfm( input pclk,
       //  break_counter--;
       //end
 
+      if(data_packet.rx[row_no][bit_no]==0) begin
+        break_counter++;
+      end
+
+      else begin
+        break_counter = 0;
+      end
+      //condition for break condition
+      break_condition_check(data_packet,cfg_pkt);
+
       //oversampling_period for each bit
       repeat(bit_clock_divisor/2) begin
         @(posedge pclk);
@@ -183,24 +193,32 @@ interface rx_monitor_bfm( input pclk,
         @(posedge pclk);
       end
 
-      if(rx !== 0) begin
+      if(rx != 0) begin
         // TODO(mshariff): 
         // framing error
+        frame_error = 0;
+
+      `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
+      state = STOP;
+      `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL)
+      end
+      else begin
+        frame_error = 1;
+        `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL)
       end
 
       // 
       if(uart_bit_counter != cfg_pkt.uart_type) begin
-        // errro saying the DATA is ot fully captured
+        // errro saying the DATA is not fully captured
+        data_error=1;
+        `uvm_info(name,$sformatf("data error detected"),UVM_NONE)
       end
-        
-      `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
-      state = STOP;
+
+
 
       repeat((bit_clock_divisor/2)) begin
         @(posedge pclk);
       end
-
-      framing_checks(cfg_pkt);
     endtask : sample_data
   
   //--------------------------------------------------------------------------------------------
@@ -220,7 +238,7 @@ interface rx_monitor_bfm( input pclk,
       foreach(data_packet.rx[i]) begin
         parity_check=^(data_packet.rx[i]);
       end
-      parity_error=parity_check?0:1;
+      parity_error=parity_check?1:0;
     end
     
     else begin
@@ -232,31 +250,52 @@ interface rx_monitor_bfm( input pclk,
   endtask: parity_checking
   
   //--------------------------------------------------------------------------------------------
+  //
+  //
+  //--------------------------------------------------------------------------------------------
+  task break_condition_check(uart_reciver_char_s data_packet,uart_transfer_cfg_s cfg_pkt);
+
+    if(break_counter==cfg_pkt.uart_type)begin
+
+      if(data_packet.parity_bit==0)begin
+
+        if(frame_error==1)begin
+          break_error = 1'b1;
+        end
+      end
+    end
+
+    else begin
+      break_error = 1'b0;
+    end 
+  
+  endtask:break_condition_check
+  //--------------------------------------------------------------------------------------------
   //Task: framing check
   //
   //
   //--------------------------------------------------------------------------------------------
-  task framing_checks(uart_transfer_cfg_s cfg_pkt);
-    bit[3:0]uart_type_check;
-    bit rx_local;
-    uart_type_check=uart_type_e'(cfg_pkt.uart_type);
-    if(uart_bit_counter+1 == uart_type_check+1)begin
-      rx_local = 1;
-    end
-    else begin
-      rx_local = 0;
-    end
-    
-    frame_error = rx_local ? 0 : 1;
-  
-    // data_packet.rx=rx;
-    if(frame_error == 0)begin
-      `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL);
-    end
-    else begin
-      `uvm_info(name, $sformatf("frame error is detected"),UVM_FULL);
-    end
-  endtask: framing_checks
+  //task framing_checks(uart_transfer_cfg_s cfg_pkt);
+  //  bit[3:0]uart_type_check;
+  //  bit rx_local;
+  //  uart_type_check=uart_type_e'(cfg_pkt.uart_type);
+  //  if(uart_bit_counter+1 == uart_type_check+1)begin
+  //    rx_local = 1;
+  //  end
+  //  else begin
+  //    rx_local = 0;
+  //  end
+  //  
+  //  frame_error = rx_local ? 0 : 1;
+  //
+  //  // data_packet.rx=rx;
+  //  if(frame_error == 0)begin
+  //    `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL);
+  //  end
+  //  else begin
+  //    `uvm_info(name, $sformatf("frame error is detected"),UVM_FULL);
+  //  end
+  //endtask: framing_checks
 
 // task break_condition_check();
 
