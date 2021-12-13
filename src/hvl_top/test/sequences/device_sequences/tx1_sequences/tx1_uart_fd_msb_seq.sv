@@ -1,25 +1,22 @@
-`ifndef RX_UART_FD_STRING_SEQ_INCLUDED_
-`define RX_UART_FD_STRING_SEQ_INCLUDED_
+`ifndef TX1_UART_FD_MSB_SEQ_INCLUDED_
+`define TX1_UART_FD_MSB_SEQ_INCLUDED_
 
 //--------------------------------------------------------------------------------------------
 // class: extended class from base class
 //--------------------------------------------------------------------------------------------
-class rx_uart_fd_string_seq extends rx_base_sequence;
-
-
+class tx1_uart_fd_msb_seq extends tx1_base_sequence;
+  
   //register with factory so can use create uvm_method 
   //and override in future if necessary 
-  `uvm_object_utils(rx_uart_fd_string_seq)
-
+  `uvm_object_utils(tx1_uart_fd_msb_seq)
 
   //---------------------------------------------
   // Externally defined tasks and functions
   //---------------------------------------------
-
-  extern function new (string name="rx_uart_fd_string_seq");
+  extern function new (string name="tx1_uart_fd_msb_seq");
   extern virtual task body();
 
-endclass:rx_uart_fd_string_seq
+endclass:tx1_uart_fd_msb_seq
 
 //-----------------------------------------------------------------------------
 // Constructor: new
@@ -28,8 +25,7 @@ endclass:rx_uart_fd_string_seq
 // Parameters:
 //  name - instance name of the config_template
 //-----------------------------------------------------------------------------
-
-function rx_uart_fd_string_seq::new(string name="rx_uart_fd_string_seq");
+function tx1_uart_fd_msb_seq::new(string name="tx1_uart_fd_msb_seq");
   super.new(name);
 endfunction:new
 
@@ -37,15 +33,13 @@ endfunction:new
 //task:body
 //based on the request from driver task will drive the transaction
 //-----------------------------------------------------------------------------
-task rx_uart_fd_string_seq::body();
-  req = rx_xtn::type_id::create("req");
+task tx1_uart_fd_msb_seq::body();
+  req = tx_xtn::type_id::create("req"); begin
   start_item(req);
-  //for(int i=0;i<8;i++) begin
-  if(!req.randomize())
-    `uvm_fatal(get_type_name(),"Randomization failed")
-  //end
   req.print();
   finish_item(req);
+end
 endtask:body
 
 `endif
+

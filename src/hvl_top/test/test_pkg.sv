@@ -24,7 +24,7 @@ package test_pkg;
   import device_pkg::*;
   import uart_env_pkg::*;
   import tx_uart_seq_pkg::*;
-  import rx_uart_seq_pkg::*;
+  import tx1_uart_seq_pkg::*;
   import uart_virtual_seq_pkg::*;
 
   //including base_test for testing

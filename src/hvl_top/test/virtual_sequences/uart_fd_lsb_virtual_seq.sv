@@ -8,7 +8,7 @@ class uart_fd_lsb_virtual_seq extends uart_virtual_seq_base;
   `uvm_object_utils(uart_fd_lsb_virtual_seq)
 
   tx_uart_fd_lsb_seq tx_uart_fd_lsb_seq_h;
-  rx_uart_fd_lsb_seq rx_uart_fd_lsb_seq_h;
+  tx1_uart_fd_lsb_seq tx1_uart_fd_lsb_seq_h;
   
   //--------------------------------------------------------------------------------------------
   // Externally defined tasks and functions
@@ -39,15 +39,15 @@ endfunction: new
 task uart_fd_lsb_virtual_seq::body();
  super.body(); //Sets up the sub-sequencer pointer
 
-   //creating tx and rx_virtual sequence handles here  
+   //creating tx and tx1_virtual sequence handles here  
    tx_uart_fd_lsb_seq_h=tx_uart_fd_lsb_seq::type_id::create("tx_uart_fd_lsb_seq_h");
-   rx_uart_fd_lsb_seq_h=rx_uart_fd_lsb_seq::type_id::create("rx_uart_fd_lsb_seq_h");
+   tx1_uart_fd_lsb_seq_h=tx1_uart_fd_lsb_seq::type_id::create("tx1_uart_fd_lsb_seq_h");
 
    //configuring no of devices and starting device sequencers
    fork 
-     //starting rx sequencer with respective to p_sequencer declared in device seq base
-     forever begin : RX_SEQ_START
-       rx_uart_fd_lsb_seq_h.start(p_sequencer.rx_seqr_h);
+     //starting tx1 sequencer with respective to p_sequencer declared in device seq base
+     forever begin : tx1_SEQ_START
+       tx1_uart_fd_lsb_seq_h.start(p_sequencer.tx_seqr_h);
      end
    join_none
      

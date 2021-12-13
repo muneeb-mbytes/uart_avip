@@ -1,27 +1,27 @@
-`ifndef RX_BASE_SEQUENCE_INCLUDED_
-`define RX_BASE_SEQUENCE_INCLUDED_
+`ifndef TX1_BASE_SEQUENCE_INCLUDED_
+`define TX1_BASE_SEQUENCE_INCLUDED_
 //--------------------------------------------------------------------------------------------
-// Class: rx_base_sequence
-// Creating rx_base_seq extends from uvm_sequence 
+// Class: tx1_base_sequence
+// Creating tx1_base_seq extends from uvm_sequence 
 //--------------------------------------------------------------------------------------------
-class rx_base_sequence extends uvm_sequence #(rx_xtn);
+class tx1_base_sequence extends uvm_sequence #(tx_xtn);
   //register with factory so we can override using uvm methods in future.
 
-  `uvm_object_utils(rx_base_sequence)
+  `uvm_object_utils(tx1_base_sequence)
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
-  extern function new(string name = "rx_base_sequence");
+  extern function new(string name = "tx1_base_sequence");
 
-endclass : rx_base_sequence
+endclass : tx1_base_sequence
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
 //
 // Parameters:
-//  name - rx_base_sequence
+//  name - tx1_base_sequence
 //--------------------------------------------------------------------------------------------
-function rx_base_sequence::new(string name = "rx_base_sequence");
+function tx1_base_sequence::new(string name = "tx1_base_sequence");
   super.new(name);
 endfunction : new
 

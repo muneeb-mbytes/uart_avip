@@ -15,7 +15,7 @@
 ../../src/hvl_top/device/device_tx/tx_pkg.sv
 ../../src/hvl_top/device/device_rx/rx_pkg.sv
 ../../src/hvl_top/test/sequences/device_sequences/tx_sequences/tx_uart_seq_pkg.sv
-../../src/hvl_top/test/sequences/device_sequences/rx_sequences/rx_uart_seq_pkg.sv
+../../src/hvl_top/test/sequences/device_sequences/tx1_sequences/tx1_uart_seq_pkg.sv
 ../../src/hvl_top/device/device/device_pkg.sv
 ../../src/hvl_top/env/uart_env_pkg.sv
 ../../src/hvl_top/test/virtual_sequences/uart_virtual_seq_pkg.sv

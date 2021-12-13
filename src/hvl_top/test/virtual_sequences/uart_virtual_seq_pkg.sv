@@ -15,7 +15,7 @@ package uart_virtual_seq_pkg;
   import tx_pkg::*;
   import rx_pkg::*;
   import tx_uart_seq_pkg::*;
-  import rx_uart_seq_pkg::*;
+  import tx1_uart_seq_pkg::*;
   import uart_env_pkg::*;
 
 
