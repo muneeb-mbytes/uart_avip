@@ -37,10 +37,11 @@ endfunction : new
 // based on the request from driver task will drive the transaction 
 //-------------------------------------------------------
 task tx1_uart_fd_8b_seq::body();
+  super.body();
   req=tx_xtn::type_id::create("req");
   req.tx_agent_cfg_h = p_sequencer.tx_agent_cfg_h;  
   start_item(req);
-  if(!req.randomize() with {tx_data.size()==1;}) begin
+  if(!req.randomize() with {tx_data.size()==2;}) begin
     `uvm_fatal(get_type_name(),"Randomization failed")
   end
   req.print();

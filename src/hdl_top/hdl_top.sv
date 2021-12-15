@@ -57,14 +57,14 @@ module hdl_top;
   // UART BFM Agent Instantiation
   //-------------------------------------------------------
   device_agent_bfm device0_agent_bfm_h(intf);
- // device_agent_bfm device1_agent_bfm_h(intf);
+  device_agent_bfm device1_agent_bfm_h(intf);
 
   //-------------------------------------------------------
   // UART BFM Agent Instantiation
   //-------------------------------------------------------
   //rx_agent_bfm rx_agent_bfm_h(intf);
- assign device0_agent_bfm_h.intf.rx = device0_agent_bfm_h.intf.tx;
-// assign device1_agent_bfm_h.intf.rx = device0_agent_bfm_h.intf.tx;
+ assign device0_agent_bfm_h.intf.rx = device1_agent_bfm_h.intf.tx;
+ assign device0_agent_bfm_h.intf.tx = device1_agent_bfm_h.intf.rx;
 
 endmodule : hdl_top
 
