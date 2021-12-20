@@ -110,6 +110,7 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
  //--------------------------------------------------------------------------------------------
 function tx_coverage::new(string name = "tx_coverage", uvm_component parent = null);
   super.new(name,parent);
+  tx_covergroup=new();
 endfunction : new
 
 //--------------------------------------------------------------------------------------------

@@ -104,6 +104,13 @@ function void tx_agent::connect_phase(uvm_phase phase);
     tx_drv_proxy_h.seq_item_port.connect(tx_seqr_h.seq_item_export);
   end
   
+  if(tx_agent_cfg_h.has_coverage) begin
+    // MSHA: tx_cov_h.tx_agent_cfg_h = tx_agent_cfg_h;
+     tx_cov_h.tx_agent_cfg_h = tx_agent_cfg_h;
+    // connect monitor port to coverage
+
+    tx_mon_proxy_h.tx_analysis_port.connect(tx_cov_h.analysis_export);
+  end
   tx_mon_proxy_h.tx_agent_cfg_h = tx_agent_cfg_h;
   
 endfunction : connect_phase
