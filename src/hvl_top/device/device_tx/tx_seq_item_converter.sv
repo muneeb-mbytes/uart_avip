@@ -76,7 +76,7 @@ function void tx_seq_item_converter::to_class(input uart_transfer_char_s input_c
   
   // Defining the size of arrays
   //output_conv_h.tx_data = new[input_conv.tx.size()];
-  output_conv_h.tx_data = new[$size(input_conv.tx)];
+  output_conv_h.tx_data = new[CHAR_LENGTH];
   
   // Storing the values in the respective arrays
   //for(int row_no = 0; row_no < output_cov_h.tx.size(); row_no++) begin

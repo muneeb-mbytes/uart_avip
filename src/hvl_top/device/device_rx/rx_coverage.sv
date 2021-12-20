@@ -12,16 +12,76 @@ class rx_coverage extends uvm_subscriber#(rx_xtn);
   // Variable: rx_agent_cfg_h
   // Declaring handle for rx agent configuration class 
   rx_agent_config rx_agent_cfg_h;
+  rx_xtn rx_data;
+
+  //-------------------------------------------------------
+  // Covergroup
+  // Covergroup consists of the various coverpoints based on the no. of the variables used to improve the coverage.
+  //-------------------------------------------------------
+  covergroup rx_covergroup with function sample (rx_agent_config rx_agent_cfg_h, rx_xtn rx_data);
+  option.per_instance = 1;
+
+     //STOP_BIT_CP : coverpoint stop_bit_e'(rx_agent_cfg_h.stop_bit_duration) {
+       //option.comment = "stop bit";
+       //bins STOP_BIT_ONEBIT = {1};
+       //bins STOP_BIT_ONEHALF = {2};
+       //bins STOP_BIT_TWOBIT = {3};
+
+     //}
+
+     PARITY_CP : coverpoint parity_e'(rx_agent_cfg_h.parity_scheme) {
+       option.comment = "parity bit UART.EVEN and ODD";
+       bins EVEN_PARITY = {0};
+       bins ODD_PARITY  =  {1};
+     }
+     
+     // direction = shift_direction_e'(cfg.on voidi_mode); 
+     SHIFT_DIRECTION_CP : coverpoint shift_direction_e'(rx_agent_cfg_h.shift_dir) {
+       option.comment = "Shift direction UART. MSB and LSB";
+       bins LSB_FIRST = {0};
+       bins MSB_FIRST = {1};
+     }
+
+     UART_TYPE_DATA_CP : coverpoint uart_type_e'(rx_agent_cfg_h.uart_type) {
+      option.comment = "Data size of the packet transfer";
+      bins TRANSFER_5BIT = {5};
+      bins TRANSFER_6BIT = {6};
+      bins TRANSFER_7BIT = {7};
+      bins TRANSFER_8BIT = {8};
+      bins TRANSFER_MANY_BITS = {[16:9]};
+    } 
+    
+    BAUD_RATE_CP : coverpoint (rx_agent_cfg_h.rx_baudrate_divisor) {
+      option.comment = "it control the rate of transfer in communication channel";
+     
+      bins BAUDRATE_DIVISOR_1 = {2}; 
+      bins BAUDRATE_DIVISOR_2 = {4}; 
+      bins BAUDRATE_DIVISOR_3 = {6}; 
+      bins BAUDRATE_DIVISOR_4 = {8}; 
+      bins BAUDRATE_DIVISOR_5 = {[10:$]}; 
+
+       illegal_bins illegal_bin = {0};
+     }
+
+    OVERSAMPLING_CP : coverpoint oversampling_e'(rx_agent_cfg_h.oversampling_bits) {
+      option.comment = "it check for how many clock cycles the single bit remains stable";
+      bins OVERSAMPLING_TWO = {2};
+      bins OVERSAMPLING_FOUR = {4};
+      bins OVERSAMPLING_SIX = {6};
+      bins OVERSAMPLING_EIGHT = {8};
+      bins OVERSAMPLING_MANY_BITS = {[16:$]};
+    }
+  endgroup : rx_covergroup
 
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
   extern function new(string name = "rx_coverage", uvm_component parent = null);
-  extern virtual function void build_phase(uvm_phase phase);
-  extern virtual function void connect_phase(uvm_phase phase);
-  extern virtual function void end_of_elaboration_phase(uvm_phase phase);
-  extern virtual function void start_of_simulation_phase(uvm_phase phase);
-  extern virtual task run_phase(uvm_phase phase);
+  //extern virtual function void build_phase(uvm_phase phase);
+  //extern virtual function void connect_phase(uvm_phase phase);
+  //extern virtual function void end_of_elaboration_phase(uvm_phase phase);
+  extern virtual function void report_phase(uvm_phase phase);
+  //extern virtual task run_phase(uvm_phase phase);
   extern virtual function void write(rx_xtn t);
 
 endclass : rx_coverage
@@ -36,79 +96,24 @@ endclass : rx_coverage
 function rx_coverage::new(string name = "rx_coverage",
                                  uvm_component parent = null);
   super.new(name, parent);
+   rx_covergroup = new(); 
 endfunction : new
 
 //--------------------------------------------------------------------------------------------
-// Function: build_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void rx_coverage::build_phase(uvm_phase phase);
-  super.build_phase(phase);
-endfunction : build_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: connect_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void rx_coverage::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-endfunction : connect_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: end_of_elaboration_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void rx_coverage::end_of_elaboration_phase(uvm_phase phase);
-  super.end_of_elaboration_phase(phase);
-endfunction  : end_of_elaboration_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: start_of_simulation_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void rx_coverage::start_of_simulation_phase(uvm_phase phase);
-  super.start_of_simulation_phase(phase);
-endfunction : start_of_simulation_phase
-
-//--------------------------------------------------------------------------------------------
-// Task: run_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-task rx_coverage::run_phase(uvm_phase phase);
-
-  //phase.raise_objection(this, "rx_coverage");
-
-  super.run_phase(phase);
-
-  // Work here
-  // ...
-
-  //phase.drop_objection(this);
-
-endtask : run_phase
-
-//--------------------------------------------------------------------------------------------
 // Function: write
-// 
+// To acess the subscriber write function is required with default parameter as t
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::write(rx_xtn t);
-  // ...
+    rx_covergroup.sample(rx_agent_cfg_h,t);     
 endfunction: write
 
+//--------------------------------------------------------------------------------------------
+// Function: report_phase
+// Used for reporting the coverage instance percentage values
+//--------------------------------------------------------------------------------------------
+function void rx_coverage::report_phase(uvm_phase phase);
+  `uvm_info(get_type_name(), $sformatf("rx Agent Coverage = %0.2f %%",
+                                       rx_covergroup.get_coverage()), UVM_NONE);
+endfunction: report_phase
 `endif
 

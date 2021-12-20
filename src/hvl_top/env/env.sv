@@ -90,8 +90,8 @@ function void env::connect_phase(uvm_phase phase);
   end
   
   //connecting analysis port to analysis fifo
-  device_h.tx_agent_h.tx_mon_proxy_h.tx_analysis_port.connect(scoreboard_h.tx_xtn_analysis_fifo.analysis_export);
-  device_h.rx_agent_h.rx_mon_proxy_h.rx_analysis_port.connect(scoreboard_h.rx_xtn_analysis_fifo.
+  device_h.tx_agent_h.tx_mon_proxy_h.tx_analysis_port.connect(scoreboard_h.tx_analysis_fifo.analysis_export);
+  device_h.rx_agent_h.rx_mon_proxy_h.rx_analysis_port.connect(scoreboard_h.rx_analysis_fifo.
                                                                                   analysis_export);
 
 endfunction : connect_phase

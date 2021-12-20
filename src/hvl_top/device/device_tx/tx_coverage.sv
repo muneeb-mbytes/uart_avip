@@ -16,102 +16,111 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
-  extern function new(string name = "tx_coverage", uvm_component parent = null);
-  extern virtual function void build_phase(uvm_phase phase);
-  extern virtual function void connect_phase(uvm_phase phase);
-  extern virtual function void end_of_elaboration_phase(uvm_phase phase);
-  extern virtual function void start_of_simulation_phase(uvm_phase phase);
-  extern virtual task run_phase(uvm_phase phase);
-  extern virtual function void write(tx_xtn t);
+   covergroup tx_covergroup with function sample(tx_agent_config tx_agent_cfg_h, tx_xtn tx_data);
+     option.per_instance = 1;
 
-endclass : tx_coverage
+    // START_BIT_CP : coverpoint packet.start_bit {
+      // option.comment = "start bit";
+       //bins START_BIT[] = {[0:1]}
+     //}
 
-//--------------------------------------------------------------------------------------------
-// Construct: new
-//
-// Parameters:
-// name - tx_coverage
-// parent - parent under which this component is created
-//--------------------------------------------------------------------------------------------
-function tx_coverage::new(string name = "tx_coverage",
-                                 uvm_component parent = null);
-  super.new(name, parent);
+     STOP_BIT_CP : coverpoint stop_bit_e'(tx_agent_cfg_h.stop_bit_duration) {
+       option.comment = "stop bit";
+       bins STOP_BIT_ONEBIT = {1};
+       bins STOP_BIT_ONEHALF = {2};
+       bins STOP_BIT_TWOBIT = {3};
+
+     }
+
+     PARITY_CP : coverpoint parity_e'(tx_agent_cfg_h.parity_scheme) {
+       option.comment = "parity bit UART.EVEN and ODD";
+       bins EVEN_PARITY = {0};
+       bins ODD_PARITY  =  {1};
+     }
+     
+     // direction = shift_direction_e'(cfg.on voidi_mode); 
+     SHIFT_DIRECTION_CP : coverpoint shift_direction_e'(tx_agent_cfg_h.shift_dir) {
+       option.comment = "Shift direction UART. MSB and LSB";
+       bins LSB_FIRST = {0};
+       bins MSB_FIRST = {1};
+     }
+
+     UART_TYPE_DATA_CP : coverpoint uart_type_e'(tx_agent_cfg_h.uart_type) {
+      option.comment = "Data size of the packet transfer";
+      bins TRANSFER_5BIT = {5};
+      bins TRANSFER_6BIT = {6};
+      bins TRANSFER_7BIT = {7};
+      bins TRANSFER_8BIT = {8};
+      bins TRANSFER_MANY_BITS = {[9:64]};
+    } 
+    
+    BAUD_RATE_CP : coverpoint (tx_agent_cfg_h.tx_baudrate_divisor) {
+      option.comment = "it control the rate of transfer in communication channel";
+     
+      bins BAUDRATE_DIVISOR_1 = {2}; 
+      bins BAUDRATE_DIVISOR_2 = {4}; 
+      bins BAUDRATE_DIVISOR_3 = {6}; 
+      bins BAUDRATE_DIVISOR_4 = {8}; 
+      bins BAUDRATE_DIVISOR_5 = {[10:$]}; 
+
+       illegal_bins illegal_bin = {0};
+     }
+
+    OVERSAMPLING_CP : coverpoint oversampling_e'(tx_agent_cfg_h.oversampling_bits) {
+      option.comment = "it check for how many clock cycles the single bit remains stable";
+      bins OVERSAMPLING_TWO = {2};
+      bins OVERSAMPLING_FOUR = {4};
+      bins OVERSAMPLING_SIX = {6};
+      bins OVERSAMPLING_EIGHT = {8};
+      bins OVERSAMPLING_MANY_BITS = {[16:$]};
+    }
+
+    //cross of the data transfer with shift direction
+    UART_TYPE_DATA_CP_X_SHIFT_DIRECTIO_CP : cross UART_TYPE_DATA_CP,SHIFT_DIRECTION_CP;
+
+    //cross of the data transfer with stop bits
+    UART_TYPE_DATA_CP_X_STOP_BIT_CP : cross UART_TYPE_DATA_CP,STOP_BIT_CP;
+
+    //cross of the data transfer with parity bit
+    UART_TYPE_DATA_CP_X_PARITY_BIT_CP : cross UART_TYPE_DATA_CP,PARITY_CP;
+
+    //cross of the data transfer with baudrate divisor
+    UART_TYPE_DATA_CP_X_BAUD_RATE_CP : cross UART_TYPE_DATA_CP,BAUD_RATE_CP;
+
+    //cross of the data transfer with shift direction and baudrate divisor
+    UART_TYPE_DATA_CP_X_SHIFT_DIRECTION_CP_X_BAUD_RATE_CP : cross
+    UART_TYPE_DATA_CP,SHIFT_DIRECTION_CP,BAUD_RATE_CP;
+
+  endgroup : tx_covergroup
+
+ //-------------------------------------------------------
+ //Externally defined Tasks and functions
+ //-------------------------------------------------------
+ extern function new(string name = "tx_coverage", uvm_component parent = null);
+ extern virtual function void write(tx_xtn t);
+ //extern virtual function void report_phase(uvm_phase phase);
+
+ endclass : tx_coverage
+
+ //--------------------------------------------------------------------------------------------
+ //Construct: new
+ //Parameters:
+ // name -  tx_coverage
+ // parent - parent under which this component is crested
+ //--------------------------------------------------------------------------------------------
+function tx_coverage::new(string name = "tx_coverage", uvm_component parent = null);
+  super.new(name,parent);
 endfunction : new
 
 //--------------------------------------------------------------------------------------------
-// Function: build_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void tx_coverage::build_phase(uvm_phase phase);
-  super.build_phase(phase);
-endfunction : build_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: connect_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void tx_coverage::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-endfunction : connect_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: end_of_elaboration_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void tx_coverage::end_of_elaboration_phase(uvm_phase phase);
-  super.end_of_elaboration_phase(phase);
-endfunction  : end_of_elaboration_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: start_of_simulation_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-function void tx_coverage::start_of_simulation_phase(uvm_phase phase);
-  super.start_of_simulation_phase(phase);
-endfunction : start_of_simulation_phase
-
-//--------------------------------------------------------------------------------------------
-// Task: run_phase
-// <Description_here>
-//
-// Parameters:
-// phase - uvm phase
-//--------------------------------------------------------------------------------------------
-task tx_coverage::run_phase(uvm_phase phase);
-
-//  phase.raise_objection(this, "tx_coverage");
-
-  super.run_phase(phase);
-
-  // Work here
-  // ...
-
- // phase.drop_objection(this);
-
-endtask : run_phase
-
-//--------------------------------------------------------------------------------------------
-// Function: write
-// 
+//Function : write
+//sampling is done
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::write(tx_xtn t);
-  //  device0_tx device0_tx_h;
-  //  this.device0_tx_h = t;
-  // cg.sample(device0_agent_cfg_h, device0_tx_cov_data);     
-endfunction: write
-//extern function void write(device0_tx device0_tx_h);
+  //`uvm_info("
+    tx_covergroup.sample(tx_agent_cfg_h,t);     
+  endfunction : write 
+
 
 `endif
 
