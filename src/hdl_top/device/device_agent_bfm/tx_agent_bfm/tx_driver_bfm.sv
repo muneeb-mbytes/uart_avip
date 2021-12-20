@@ -20,7 +20,6 @@ interface tx_driver_bfm(input pclk, input areset,
   
   bit bclk;
   bit osclk;
-
   string name = "UART_TX_DRIVER_BFM";
 
   // Used for holding the UART transfer state
@@ -49,9 +48,9 @@ interface tx_driver_bfm(input pclk, input areset,
   // Waiting for system reset to be active
   //-------------------------------------------------------
   task wait_for_reset();
-   // state = state.first();
+    state = state.first();
     //`uvm_info("DEBUG_MSHA", $sformatf("drive_idle_state state = %0s and state = %0d",
-    state = RESET;                                 //state.name(), state), UVM_NONE)
+                                      //state.name(), state), UVM_NONE)
     @(negedge areset);
     `uvm_info(name, $sformatf("System reset detected"), UVM_HIGH);
     @(posedge areset);
@@ -91,16 +90,15 @@ interface tx_driver_bfm(input pclk, input areset,
       end
     end
   endtask: gen_bclk
-
   
   //-------------------------------------------------------
   // Task: gen_oclk
   // Used for generating the oclk with regards to baudrate 
   //-------------------------------------------------------
   task gen_ov_samp_clk(input int baudrate_divisor,int oversampling_bits);
- `uvm_info("DEBUG_MSHA", $sformatf("oversampling_bits = %0d",
+    `uvm_info("DEBUG_MSHA", $sformatf("oversampling_bits = %0d",
                                      oversampling_bits), UVM_NONE)
-   `uvm_info("DEBUG_MSHA", $sformatf(" baudrate_divisor= %0d",
+    `uvm_info("DEBUG_MSHA", $sformatf(" baudrate_divisor= %0d",
                                      baudrate_divisor), UVM_NONE)
 
     forever begin
@@ -108,10 +106,8 @@ interface tx_driver_bfm(input pclk, input areset,
         @(posedge bclk);
         osclk = ~osclk;
       end
-
     end
   endtask: gen_ov_samp_clk
-
 
   //-------------------------------------------------------
   // Task: drive_uart_packet
@@ -178,7 +174,7 @@ interface tx_driver_bfm(input pclk, input areset,
     `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
                                       state.name(), state), UVM_NONE)
     
-    repeat(bit_clock_divisor-1) begin
+    repeat((bit_clock_divisor*cfg_pkt.baudrate_divisor)) begin
       @(posedge pclk);
     end
   end

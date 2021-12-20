@@ -29,7 +29,10 @@ package uart_virtual_seq_pkg;
   `include "uart_fd_msb_virtual_seq.sv"
   `include "uart_fd_baudrate_virtual_seq.sv"
   `include "uart_fd_string_virtual_seq.sv"
-  
+  `include "uart_fd_5b_virtual_seqs.sv"
+  `include "uart_fd_rand_virtual_seqs.sv"
+
+
 endpackage : uart_virtual_seq_pkg
 
 `endif
