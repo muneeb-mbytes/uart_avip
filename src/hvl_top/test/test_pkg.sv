@@ -30,6 +30,9 @@ package test_pkg;
   //including base_test for testing
   `include "base_test.sv"
   `include "uart_fd_8b_test.sv"
+  `include "uart_fd_5b_test.sv"
+  `include "uart_fd_rand_test.sv"
+
  // `include "uart_fd_lsb_test.sv"
  // `include "uart_fd_msb_test.sv"
  // `include "uart_fd_baudrate_test.sv"

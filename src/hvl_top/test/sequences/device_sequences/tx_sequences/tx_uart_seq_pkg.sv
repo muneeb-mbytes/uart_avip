@@ -24,6 +24,8 @@ package tx_uart_seq_pkg;
   `include "tx_uart_fd_msb_seq.sv"
   `include "tx_uart_fd_baudrate_seq.sv"
   `include "tx_uart_fd_string_seq.sv"
+  `include "tx_uart_fd_5b_seq.sv"
+  `include "tx_uart_fd_rand_seq.sv"
 
 endpackage : tx_uart_seq_pkg
 

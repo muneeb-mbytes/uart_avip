@@ -1,34 +1,34 @@
-`ifndef TX_UART_FD_8B_SEQ_INCLUDED_
-`define TX_UART_FD_8B_SEQ_INCLUDED_
+`ifndef TX_UART_FD_RAND_SEQ_INCLUDED_
+`define TX_UART_FD_RAND_SEQ_INCLUDED_
 
 
 //--------------------------------------------------------------------------------------------
 // Class: seq extended from base seq class
 //--------------------------------------------------------------------------------------------
 
-class tx_uart_fd_8b_seq extends tx_base_sequence;
+class tx_uart_fd_rand_seq extends tx_base_sequence;
 
   //-------------------------------------------------------
   // Factory Registration is done to override the object
   //-------------------------------------------------------
-  `uvm_object_utils(tx_uart_fd_8b_seq)
+  `uvm_object_utils(tx_uart_fd_rand_seq)
 
   //-------------------------------------------------------
   // Externally defined tasks and functions
   //-------------------------------------------------------
-  extern function new(string name = "tx_uart_fd_8b_seq");
+  extern function new(string name = "tx_uart_fd_rand_seq");
   extern virtual task body();
 
-endclass : tx_uart_fd_8b_seq
+endclass : tx_uart_fd_rand_seq
 
 //--------------------------------------------------------------------------------------------
 // Construct: new
 // Initializes tx sequence class object 
 //
 // Parameters:
-//  name - tx_uart_fd_8b_seq
+//  name - tx_uart_fd_rand_seq
 //--------------------------------------------------------------------------------------------
-function tx_uart_fd_8b_seq::new(string name = "tx_uart_fd_8b_seq");
+function tx_uart_fd_rand_seq::new(string name = "tx_uart_fd_rand_seq");
   super.new(name);
 endfunction : new
 
@@ -37,7 +37,7 @@ endfunction : new
 // based on the request from driver task will drive the transaction 
 //-------------------------------------------------------
 
-task tx_uart_fd_8b_seq::body();
+task tx_uart_fd_rand_seq::body();
   super.body();
   req=tx_xtn::type_id::create("req"); begin
   req.tx_agent_cfg_h = p_sequencer.tx_agent_cfg_h;  
