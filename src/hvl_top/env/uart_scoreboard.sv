@@ -130,26 +130,26 @@ task uart_scoreboard::run_phase(uvm_phase phase);
  `uvm_info(get_type_name(),$sformatf("printing rx_data1, \n %s",rx_data1.sprint()),UVM_HIGH)
   
  // Data comparision for TX and RX 
-  if (tx_data1.tx_data.size() == rx_data1.rx_data.size())begin 
-   `uvm_info (get_type_name(), $sformatf ("Size of tx data from tx_xtn and rx data from rx_xtn is equal"),UVM_HIGH);
-  end
-  else begin
-   `uvm_error (get_type_name(),$sformatf("Size of tx data and rx data is not equal"));
-  end
+//  if (tx_data1.tx_data.size() == rx_data1.rx_data.size())begin 
+//   `uvm_info (get_type_name(), $sformatf ("Size of tx data from tx_xtn and rx data from rx_xtn is equal"),UVM_HIGH);
+//  end
+//  else begin
+//   `uvm_error (get_type_name(),$sformatf("Size of tx data and rx data is not equal"));
+//  end
 
   foreach(tx_data1.tx_data[i]) begin
-     if(tx_data1.tx_data[i] != rx_data1.rx_data[i]) begin
+     if(tx_data1.tx_data[i] != rx_data1.rx_data) begin
        `uvm_error("ERROR_SC TX_rx_data1_MISMATCH", 
-                 $sformatf("tx_data1 TX[%0d] = 'h%0x and rx_data1 RX [%0d] = 'h%0x", 
+                 $sformatf("tx_data1 TX[%0d] = 'h%0x and rx_data1 RX = 'h%0x", 
                            i, tx_data1.tx_data[i],
-                           i, rx_data1.rx_data[i]) );
+                           rx_data1.rx_data) );
        byte_data_cmp_failed_tx_rx_count++;
      end
      else begin
        `uvm_info("SB_tx_data1_MATCH", 
-                 $sformatf("tx_data1 TX[%0d] = 'h%0x and RX[%0d] = 'h%0x", 
+                 $sformatf("tx_data1 TX[%0d] = 'h%0x and RX = 'h%0x", 
                            i, tx_data1.tx_data[i],
-                           i, rx_data1.rx_data[i]), UVM_HIGH);
+                           rx_data1.rx_data), UVM_HIGH);
                            
        byte_data_cmp_verified_tx_rx_count++;
      end

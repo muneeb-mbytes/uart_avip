@@ -59,10 +59,10 @@ function void rx_seq_item_converter::to_class(input uart_reciver_char_s input_co
   // Storing the values in the respective arrays
   //for(int row_no = 0; row_no < output_cov_h.tx.size(); row_no++) begin
   for(int i=0; i<input_conv.no_of_rx_data_bits_transfer; i++) begin
-    output_conv_h.rx_data[i] = input_conv.rx[i];
-    `uvm_info("device_seq_item_conv_class",
-    $sformatf("To class rx = \n %p",output_conv_h.rx_data[i]),UVM_LOW)
+    output_conv_h.rx_data = input_conv.rx;
   end
+  `uvm_info("device_seq_item_conv_class",
+  $sformatf("To class rx = \n %p",output_conv_h.rx_data),UVM_LOW)
 
 endfunction : to_class
 

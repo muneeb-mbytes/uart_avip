@@ -10,7 +10,7 @@ class rx_xtn extends uvm_sequence_item;
   `uvm_object_utils(rx_xtn)
   
   //input signals
-  bit [CHAR_LENGTH-1:0] rx_data[$];
+  bit [CHAR_LENGTH-1:0] rx_data;
 
   
   //-------------------------------------------------------
