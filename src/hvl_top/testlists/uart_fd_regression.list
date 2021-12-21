@@ -1,0 +1,23 @@
+# Regression list for Simple SPI - Full duplex 
+
+# Directed testcases
+uart_fd_5b_test
+uart_fd_6b_test
+uart_fd_7b_test
+uart_fd_8b_test
+
+uart_fd_lsb_test
+uart_fd_msb_test
+uart_fd_baudrate_test
+uart_cross_uart_type_shift_dir_baudrate_test
+
+uart_fd_rand_test
+uart_fd_even_parity_test
+uart_fd_oversampling_four_test
+uart_fd_oversampling_eight_test
+uart_fd_stop_bit_2b_test
+
+
+
+
+

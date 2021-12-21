@@ -31,6 +31,13 @@ package uart_virtual_seq_pkg;
   `include "uart_fd_string_virtual_seq.sv"
   `include "uart_fd_5b_virtual_seqs.sv"
   `include "uart_fd_rand_virtual_seqs.sv"
+  `include "uart_fd_stop_bit_2b_virtual_seqs.sv"
+  `include "uart_fd_cross_virtual_seq.sv"
+  `include "uart_fd_6b_virtual_seq.sv"
+  `include "uart_fd_7b_virtual_seq.sv"
+  `include "uart_fd_even_parity_virtual_seq.sv"
+  `include "uart_fd_oversampling_four_virtual_seq.sv"
+  `include "uart_fd_oversampling_eight_virtual_seq.sv"
 
 
 endpackage : uart_virtual_seq_pkg

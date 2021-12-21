@@ -31,12 +31,18 @@ package test_pkg;
   `include "base_test.sv"
   `include "uart_fd_8b_test.sv"
   `include "uart_fd_5b_test.sv"
+  `include "uart_fd_6b_test.sv"
+  `include "uart_fd_7b_test.sv"
   `include "uart_fd_rand_test.sv"
-
- // `include "uart_fd_lsb_test.sv"
- // `include "uart_fd_msb_test.sv"
- // `include "uart_fd_baudrate_test.sv"
- // `include "uart_fd_string_test.sv"
+  `include "uart_fd_lsb_test.sv"
+  `include "uart_fd_msb_test.sv"
+  `include "uart_fd_baudrate_test.sv"
+  `include "uart_fd_string_test.sv"
+  `include "uart_fd_even_parity_test.sv"
+  `include "uart_fd_oversampling_four_test.sv"
+  `include "uart_fd_oversampling_eight_test.sv"
+  `include "uart_fd_stop_bit_2b_test.sv"
+  `include "uart_cross_uart_type_shift_dir_baudrate_test.sv"
 
 endpackage : test_pkg
 

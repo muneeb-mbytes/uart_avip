@@ -43,7 +43,7 @@ package uart_globals_pkg;
   typedef enum bit[1:0] {
     STOP_BIT_ONEBIT       = 1,
     STOP_BIT_ONE_HALFBITS = 0,
-    STOP_BIT_TWOBITS      = 2
+    STOP_BIT_TWOBITS      = 3
   } stop_bit_e;
   
   //Enum: uart_type_e

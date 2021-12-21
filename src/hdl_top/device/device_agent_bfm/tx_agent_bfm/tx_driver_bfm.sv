@@ -170,7 +170,12 @@ interface tx_driver_bfm(input pclk, input areset,
     // // TODO(mshariff): Need to add logic for STOP_1_5 and STOP_2
     @(posedge pclk);
     tx <= cfg_pkt.stop_bit;
-    state = STOP_1BIT;
+    if(cfg_pkt.stop_bit == stop_bit_e'(STOP_1BIT)) begin
+      state = STOP_1BIT;
+    end
+    else begin
+      state = STOP_2BIT;
+    end
     `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
                                       state.name(), state), UVM_NONE)
     

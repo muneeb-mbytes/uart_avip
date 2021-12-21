@@ -45,8 +45,9 @@ endfunction : build_phase
 //--------------------------------------------------------------------------------------------
 function void uart_fd_baudrate_test::setup_device_cfg();
   super.setup_device_cfg();
-  env_cfg_h.device_cfg_h.set_baudrate_divisor(.primary_prescalar(1), .secondary_prescalar(0));
-
+  foreach(env_cfg_h.device_cfg_h[i])begin
+  env_cfg_h.device_cfg_h[i].set_baudrate_divisor(.primary_prescalar(1), .secondary_prescalar(0));
+end
 endfunction : setup_device_cfg
 
 `endif

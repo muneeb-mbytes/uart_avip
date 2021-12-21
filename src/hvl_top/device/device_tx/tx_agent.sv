@@ -80,9 +80,9 @@ function void tx_agent::build_phase(uvm_phase phase);
   end
 
  // connect monitor port to coverage
-  if(tx_agent_cfg_h.has_coverage) begin
-    tx_cov_h.tx_agent_cfg_h = tx_agent_cfg_h;
-  end
+//  if(tx_agent_cfg_h.has_coverage) begin
+//    tx_cov_h.tx_agent_cfg_h = tx_agent_cfg_h;
+//  end
 
 endfunction : build_phase
 
@@ -94,7 +94,7 @@ endfunction : build_phase
 // phase - uvm phase
 //--------------------------------------------------------------------------------------------
 function void tx_agent::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
+ super.connect_phase(phase);
   
   if(tx_agent_cfg_h.is_active == UVM_ACTIVE) begin
     tx_drv_proxy_h.tx_agent_cfg_h = tx_agent_cfg_h;
@@ -103,6 +103,8 @@ function void tx_agent::connect_phase(uvm_phase phase);
     //Connecting the ports
     tx_drv_proxy_h.seq_item_port.connect(tx_seqr_h.seq_item_export);
   end
+
+  tx_mon_proxy_h.tx_agent_cfg_h = tx_agent_cfg_h; 
   
   if(tx_agent_cfg_h.has_coverage) begin
     // MSHA: tx_cov_h.tx_agent_cfg_h = tx_agent_cfg_h;

@@ -129,6 +129,7 @@ function void base_test::setup_tx_agent_cfg();
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.stop_bit_duration    = stop_bit_e'(STOP_BIT_ONEBIT);
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.tx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
     env_cfg_h.device_cfg_h[i].tx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
+    env_cfg_h.device_cfg_h[i].tx_agent_config_h.has_coverage         = 1;
   end
 endfunction: setup_tx_agent_cfg
 
@@ -145,6 +146,7 @@ function void base_test::setup_rx_agent_cfg();
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.parity_scheme        = parity_e'(ODD_PARITY);
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.rx_baudrate_divisor  = env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
     env_cfg_h.device_cfg_h[i].rx_agent_config_h.oversampling_bits    = oversampling_e'(OVERSAMPLING_TWO);
+    env_cfg_h.device_cfg_h[i].rx_agent_config_h.has_coverage         = 1;
   end
 
 endfunction: setup_rx_agent_cfg

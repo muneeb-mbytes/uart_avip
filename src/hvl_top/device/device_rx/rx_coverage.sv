@@ -12,7 +12,7 @@ class rx_coverage extends uvm_subscriber#(rx_xtn);
   // Variable: rx_agent_cfg_h
   // Declaring handle for rx agent configuration class 
   rx_agent_config rx_agent_cfg_h;
-  rx_xtn rx_data;
+  //rx_xtn rx_data;
 
   //-------------------------------------------------------
   // Covergroup
@@ -48,7 +48,7 @@ class rx_coverage extends uvm_subscriber#(rx_xtn);
       bins TRANSFER_6BIT = {6};
       bins TRANSFER_7BIT = {7};
       bins TRANSFER_8BIT = {8};
-      bins TRANSFER_MANY_BITS = {[16:9]};
+    //  bins TRANSFER_MANY_BITS = {[16:$]};
     } 
     
     BAUD_RATE_CP : coverpoint (rx_agent_cfg_h.rx_baudrate_divisor) {
@@ -69,7 +69,7 @@ class rx_coverage extends uvm_subscriber#(rx_xtn);
       bins OVERSAMPLING_FOUR = {4};
       bins OVERSAMPLING_SIX = {6};
       bins OVERSAMPLING_EIGHT = {8};
-      bins OVERSAMPLING_MANY_BITS = {[16:$]};
+     // bins OVERSAMPLING_MANY_BITS = {[16:$]};
     }
   endgroup : rx_covergroup
 
@@ -80,9 +80,10 @@ class rx_coverage extends uvm_subscriber#(rx_xtn);
   //extern virtual function void build_phase(uvm_phase phase);
   //extern virtual function void connect_phase(uvm_phase phase);
   //extern virtual function void end_of_elaboration_phase(uvm_phase phase);
+  extern virtual function void write(rx_xtn t);
   extern virtual function void report_phase(uvm_phase phase);
   //extern virtual task run_phase(uvm_phase phase);
-  extern virtual function void write(rx_xtn t);
+  //extern virtual function void write(rx_xtn t);
 
 endclass : rx_coverage
 
@@ -104,6 +105,7 @@ endfunction : new
 // To acess the subscriber write function is required with default parameter as t
 //--------------------------------------------------------------------------------------------
 function void rx_coverage::write(rx_xtn t);
+  `uvm_info(get_type_name()," RX COVERAGE",UVM_LOW);
     rx_covergroup.sample(rx_agent_cfg_h,t);     
 endfunction: write
 

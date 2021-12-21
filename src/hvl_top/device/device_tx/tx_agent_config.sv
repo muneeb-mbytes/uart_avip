@@ -22,7 +22,7 @@ class tx_agent_config extends uvm_object;
 
   // Variable: shift_dir
   // Shifts the data, LSB first or MSB first
-  shift_direction_e shift_dir;
+  rand shift_direction_e shift_dir;
   
   // Variable: stop_bit
   // Used to indicate how many stop bits required 
@@ -30,15 +30,15 @@ class tx_agent_config extends uvm_object;
   
   // Variable: uart_type
   // Used to indicate how many stop bits required 
-  uart_type_e uart_type;
+  rand uart_type_e uart_type;
 
   // Variable: oversampling_bits
   // Tells about how many clk cycles required for each bit
-  oversampling_e oversampling_bits;
+  rand oversampling_e oversampling_bits;
 
   // Variable: parity_bit
   // Tells about even parity or odd parity
-  parity_e parity_scheme;
+  rand parity_e parity_scheme;
 
   // Variable: tx_baudrate_divisor
   // Specifies the baudrate divisor for the transmitter
