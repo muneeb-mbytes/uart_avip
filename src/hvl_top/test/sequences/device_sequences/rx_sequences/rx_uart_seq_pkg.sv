@@ -24,6 +24,7 @@ package rx_uart_seq_pkg;
   `include "rx_uart_fd_msb_seq.sv"
   `include "rx_uart_fd_baudrate_seq.sv"
   `include "rx_uart_fd_string_seq.sv"
+  `include "rx_uart_fd_uarttype_parity_cross_seq.sv"
 
 endpackage : rx_uart_seq_pkg
 

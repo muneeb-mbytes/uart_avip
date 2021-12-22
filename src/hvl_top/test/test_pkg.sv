@@ -42,6 +42,7 @@ package test_pkg;
   `include "uart_fd_oversampling_four_test.sv"
   `include "uart_fd_oversampling_eight_test.sv"
   `include "uart_fd_stop_bit_2b_test.sv"
+  `include "uart_fd_uarttype_parity_cross_test.sv"
   `include "uart_cross_uart_type_shift_dir_baudrate_test.sv"
 
 endpackage : test_pkg

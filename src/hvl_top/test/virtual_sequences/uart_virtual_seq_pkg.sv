@@ -38,6 +38,7 @@ package uart_virtual_seq_pkg;
   `include "uart_fd_even_parity_virtual_seq.sv"
   `include "uart_fd_oversampling_four_virtual_seq.sv"
   `include "uart_fd_oversampling_eight_virtual_seq.sv"
+  `include "uart_fd_uarttype_parity_cross_virtual_seq.sv"
 
 
 endpackage : uart_virtual_seq_pkg

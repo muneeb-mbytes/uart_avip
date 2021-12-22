@@ -33,7 +33,7 @@ package tx_uart_seq_pkg;
   `include "tx_uart_fd_stop_bit_2b_seq.sv"
   `include "tx_uart_fd_oversampling_eight_seq.sv"
   `include "tx_uart_fd_oversampling_four_seq.sv"
-
+  `include "tx_uart_fd_uarttype_parity_cross_seq.sv"
 endpackage : tx_uart_seq_pkg
 
 `endif
