@@ -44,7 +44,7 @@ task uart_fd_rand_virtual_seq::body();
    tx_uart_fd_rand_seq_h=tx_uart_fd_rand_seq::type_id::create("tx_uart_fd_rand_seq_h");
     
    //starting rx sequencer with respective to p_sequencer declared in device seq base
-   repeat(1) begin : TX_SEQ_START
+   repeat(2) begin : TX_SEQ_START
      tx_uart_fd_rand_seq_h.start(p_sequencer.tx_seqr_h);
    end
 

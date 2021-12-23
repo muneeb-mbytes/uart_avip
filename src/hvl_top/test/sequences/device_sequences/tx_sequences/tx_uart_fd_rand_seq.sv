@@ -34,7 +34,8 @@ endfunction : new
 
 //-------------------------------------------------------
 // task:body
-// based on the request from driver task will drive the transaction 
+// based on the request from driver task will drive 
+// the transaction 
 //-------------------------------------------------------
 
 task tx_uart_fd_rand_seq::body();

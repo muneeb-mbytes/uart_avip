@@ -31,6 +31,14 @@ class device_config extends uvm_object;
   //
   // Default value is 2
   protected int baudrate_divisor;
+
+  //-------------------------------------------------------
+  // Constraints for primary prescalar and
+  // secondary prescalar
+  //-------------------------------------------------------
+  constraint primary_prescalar_c{primary_prescalar dist {[0:1]:=80,[2:7]:/20};}
+  constraint secondary_prescalar_c{secondary_prescalar dist {[0:1]:=80,[2:7]:/20};}
+
   //-------------------------------------------------------
   // Externally defined Tasks and Functions
   //-------------------------------------------------------
@@ -96,7 +104,11 @@ endfunction : set_baudrate_divisor
 //  secondary_prescalar - Secondary prescalar value for baudrate calculation
 //--------------------------------------------------------------------------------------------
 function void device_config::post_randomize();
+  `uvm_info("device_agent_cfg",$sformatf("Before pp = %0d , sp = %0d",
+  this.primary_prescalar,this.secondary_prescalar),UVM_FULL)
   set_baudrate_divisor(this.primary_prescalar,this.secondary_prescalar);
+  `uvm_info("device_agent_cfg",$sformatf("After pp = %0d , sp = %0d",
+  this.primary_prescalar,this.secondary_prescalar),UVM_FULL)
 endfunction: post_randomize
 
 //--------------------------------------------------------------------------------------------
