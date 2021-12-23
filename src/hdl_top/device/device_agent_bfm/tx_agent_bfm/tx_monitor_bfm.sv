@@ -10,7 +10,7 @@ import uart_globals_pkg::*;
 
 interface tx_monitor_bfm( input pclk, 
                           input areset,  
-                          input tx
+                          input  tx
                         );
   bit bclk;
   bit frame_error;

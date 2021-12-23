@@ -8,8 +8,8 @@
 class device_config extends uvm_object;
   `uvm_object_utils(device_config)
 
-  tx_agent_config tx_agent_config_h;
-  rx_agent_config rx_agent_config_h;
+  rand tx_agent_config tx_agent_config_h;
+  rand rx_agent_config rx_agent_config_h;
 
   bit has_tx_agent=1;
 

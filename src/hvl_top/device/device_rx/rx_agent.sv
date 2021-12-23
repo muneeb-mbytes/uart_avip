@@ -98,6 +98,14 @@ function void rx_agent::connect_phase(uvm_phase phase);
     // connect monitor port to coverage
   end
   
+  if(rx_agent_cfg_h.has_coverage) begin
+    // MSHA: rx_cov_h.rx_agent_cfg_h = rx_agent_cfg_h;
+     rx_cov_h.rx_agent_cfg_h = rx_agent_cfg_h;
+    // TODO(mshariff): 
+    // connect monitor port to coverage
+
+    rx_mon_proxy_h.rx_analysis_port.connect(rx_cov_h.analysis_export);
+  end
   rx_mon_proxy_h.rx_agent_cfg_h = rx_agent_cfg_h;
   
   //rx_drv_proxy_h.seq_item_port.connect(rx_seqr_h.seq_item_export);

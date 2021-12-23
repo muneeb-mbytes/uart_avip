@@ -27,7 +27,7 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
      STOP_BIT_CP : coverpoint stop_bit_e'(tx_agent_cfg_h.stop_bit_duration) {
        option.comment = "stop bit";
        bins STOP_BIT_ONEBIT = {1};
-       bins STOP_BIT_ONEHALF = {2};
+   //    bins STOP_BIT_ONEHALF = {2};
        bins STOP_BIT_TWOBIT = {3};
 
      }
@@ -51,17 +51,16 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
       bins TRANSFER_6BIT = {6};
       bins TRANSFER_7BIT = {7};
       bins TRANSFER_8BIT = {8};
-      bins TRANSFER_MANY_BITS = {[9:64]};
+  //    bins TRANSFER_MANY_BITS = {[9:64]};
     } 
     
     BAUD_RATE_CP : coverpoint (tx_agent_cfg_h.tx_baudrate_divisor) {
       option.comment = "it control the rate of transfer in communication channel";
      
-      bins BAUDRATE_DIVISOR_1 = {2}; 
-      bins BAUDRATE_DIVISOR_2 = {4}; 
-      bins BAUDRATE_DIVISOR_3 = {6}; 
-      bins BAUDRATE_DIVISOR_4 = {8}; 
-      bins BAUDRATE_DIVISOR_5 = {[10:$]}; 
+      bins BAUDRATE_DIVISOR_2 = {2}; 
+      bins BAUDRATE_DIVISOR_4 = {4}; 
+      bins BAUDRATE_DIVISOR_8 = {8}; 
+      bins BAUDRATE_DIVISOR_MAX = {[10:$]}; 
 
        illegal_bins illegal_bin = {0};
      }
@@ -72,7 +71,7 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
       bins OVERSAMPLING_FOUR = {4};
       bins OVERSAMPLING_SIX = {6};
       bins OVERSAMPLING_EIGHT = {8};
-      bins OVERSAMPLING_MANY_BITS = {[16:$]};
+     // bins OVERSAMPLING_MANY_BITS = {[16:$]};
     }
 
     //cross of the data transfer with shift direction
@@ -98,6 +97,7 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
  //-------------------------------------------------------
  extern function new(string name = "tx_coverage", uvm_component parent = null);
  extern virtual function void write(tx_xtn t);
+ //extern function void write(tx_xtn t);
  //extern virtual function void report_phase(uvm_phase phase);
 
  endclass : tx_coverage
@@ -110,6 +110,7 @@ class tx_coverage extends uvm_subscriber#(tx_xtn);
  //--------------------------------------------------------------------------------------------
 function tx_coverage::new(string name = "tx_coverage", uvm_component parent = null);
   super.new(name,parent);
+  tx_covergroup=new();
 endfunction : new
 
 //--------------------------------------------------------------------------------------------
@@ -117,8 +118,9 @@ endfunction : new
 //sampling is done
 //--------------------------------------------------------------------------------------------
 function void tx_coverage::write(tx_xtn t);
-  //`uvm_info("
-    tx_covergroup.sample(tx_agent_cfg_h,t);     
+  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);  
+  tx_covergroup.sample(tx_agent_cfg_h,t); 
+  `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
   endfunction : write 
 
 

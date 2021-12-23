@@ -51,6 +51,20 @@ function void uart_fd_rand_test::build_phase(uvm_phase phase);
   super.build_phase(phase);
 endfunction : build_phase
 
+
+//function void uart_fd_rand_test::setup_device_cfg();
+//  super.setup_device_cfg();
+//  foreach(env_cfg_h.device_cfg_h[i]) begin
+//    if(! env_cfg_h.device_cfg_h[i].randomize() with { this.tx_agent_config_h.tx_baudrate_divisor == 
+//                                                      env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
+//                                                      this.rx_agent_config_h.rx_baudrate_divisor == 
+//                                                      env_cfg_h.device_cfg_h[i].get_baudrate_divisor();
+//                                                    }) begin
+//      `uvm_fatal(get_type_name(),$sformatf("Randomization failed in device_cfg"))
+//    end
+//  end
+//endfunction : setup_device_cfg
+
 //--------------------------------------------------------------------------------------------
 // Function: setup_device_agent_config
 // Setup the device agent configuration with the required values
@@ -92,7 +106,7 @@ function void uart_fd_rand_test::setup_tx_agent_cfg();
       `uvm_fatal(get_type_name(),$sformatf("Randomization failed in tx test"))
     end
   end
-  
+
  // if(!std::randomize(shift_dir))begin
  //   `uvm_error("test",$sformatf("randomization  of dir failed"))
  // end
