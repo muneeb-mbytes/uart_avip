@@ -14,7 +14,7 @@ class tx_xtn extends uvm_sequence_item;
   
   //input signals
   rand bit[CHAR_LENGTH-1:0] tx_data[];
-  bit parity;
+  bit parity[CHAR_LENGTH];
   int uart_type;
   tx_agent_config tx_agent_cfg_h;
 
@@ -52,58 +52,44 @@ endfunction : new
 //--------------------------------------------------------------------------------------------
 function void tx_xtn::post_randomize();
   
+  bit parity_local;
+  bit [CHAR_LENGTH-1:0]tx_data_local[10];
+  int var_type;
+
   uart_type =  uart_type_e'(tx_agent_cfg_h.uart_type);
   $display("uart_bits_xtn = %0d", uart_type);
-  
-  foreach(tx_data[i]) begin
 
-    // Parity generation
-    if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
-      for(int row_no=0; row_no < tx_data.size(); row_no++)begin
-        for(int i=0; i < uart_type; i++)begin
-          parity = ^tx_data[row_no][i];
-        end
-      end
+  // Converting bits based on uart type for parity generation      
+  for(int row_no=0; row_no < tx_data.size(); row_no++)begin
+    for(int i=0; i < uart_type; i++)begin
+      `uvm_info("DEBUG",$sformatf("uart_type=%0d",uart_type),UVM_HIGH)
+       tx_data_local[row_no][i] = tx_data[row_no][i];
+      `uvm_info("DEBUG",$sformatf("tx_data parity = %0p",tx_data_local),UVM_HIGH)
     end
-    else begin
-      for(int row_no=0; row_no < tx_data.size(); row_no++)begin
-        for(int i=0; i < uart_type; i++)begin
-          parity = ~(^tx_data[row_no][i]);
-        end
-      end
+  end
+  
+  // Parity generation
+  if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
+    for(int row_no=0; row_no < tx_data.size(); row_no++)begin
+      `uvm_info("DEBUG",$sformatf("even data size = %0d",tx_data.size()),UVM_HIGH)
+      parity_local = ^tx_data_local[row_no];
+      `uvm_info("DEBUG",$sformatf(" row_no = %0d",row_no),UVM_HIGH)
+      parity[row_no] = parity_local;
+      `uvm_info("DEBUG_MSHA", $sformatf("parity=%0b row_no=%0d",parity[row_no],row_no), UVM_NONE)
     end
-    `uvm_info("DEBUG_MSHA", $sformatf("parity=%0b",parity), UVM_NONE) 
+  end
+  else begin
+    for(int row_no=0; row_no < tx_data.size(); row_no++)begin
+      `uvm_info("DEBUG",$sformatf("odd data size = %0d",tx_data.size()),UVM_HIGH)
+      parity_local = ~(^tx_data_local[row_no]);
+      `uvm_info("DEBUG",$sformatf(" row_no = %0d",row_no),UVM_HIGH)
+      parity[row_no] = parity_local;
+      `uvm_info("DEBUG_MSHA", $sformatf("parity=%0b row_no=%0d",parity[row_no],row_no), UVM_NONE) 
+    end
   end
 
-  // MSHA:if(tx_agent_cfg_h.parity_scheme == EVEN_PARITY) begin
-  // MSHA:  foreach(tx_data[i]) begin
-  // MSHA:    if(($countones(tx_data[i])%2)!==0) begin
-  // MSHA:      parity_element = 1;
-  // MSHA:    end
-  // MSHA:    else begin
-  // MSHA:      parity_element = 0;
-  // MSHA:    end
-  // MSHA:    tx_data[i][uart_type] = parity_element;
-  // MSHA:  end
-  // MSHA:  $display("parity ele = %b",parity_element);
-  // MSHA:end
-  // MSHA:
-  // MSHA:else begin
-  // MSHA:  foreach(tx_data[i]) begin
-  // MSHA:    if(($countones(tx_data[i])%2)!==0) begin
-  // MSHA:      parity_element = 0;
-  // MSHA:    end
-  // MSHA:    else begin
-  // MSHA:      parity_element = 1;
-  // MSHA:    end
-  // MSHA:    tx_data[i][uart_type] = parity_element;
-  // MSHA:  end
-  // MSHA:  $display("parity ele = %b",parity_element);
-  // MSHA:end
-  
   foreach(tx_data[i]) begin
-    //tx_data[]
-    $display("parity arrat xtn = %b",tx_data[i]);
+    $display("Data array xtn = %b",tx_data[i]);
   end
 
 endfunction

@@ -196,27 +196,24 @@ interface rx_monitor_bfm( input pclk,
       end
 
       if(rx != 0) begin
-        // TODO(mshariff): 
-        // framing error
         frame_error = 0;
 
-      `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
-      state = STOP_1BIT;
-      `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL)
+        `uvm_info(name,$sformatf("stop condition detected"),UVM_NONE)
+        state = STOP_1BIT;
+        `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL)
       end
       else begin
         frame_error = 1;
-        `uvm_info(name, $sformatf("frame error is not  detected"),UVM_FULL)
+        `uvm_info(name, $sformatf("frame error is detected"),UVM_FULL)
       end
 
-      // 
       if(uart_bit_counter != cfg_pkt.uart_type) begin
-        // errro saying the DATA is not fully captured
+        // error saying the DATA is not fully captured
+        `uvm_info(name,$sformatf("uart_bit_counter=%0d , uart_type=%0d",uart_bit_counter,
+        cfg_pkt.uart_type),UVM_FULL)
         data_error=1;
         `uvm_info(name,$sformatf("data error detected"),UVM_NONE)
       end
-
-
 
       repeat((bit_clock_divisor/2)) begin
         @(posedge pclk);

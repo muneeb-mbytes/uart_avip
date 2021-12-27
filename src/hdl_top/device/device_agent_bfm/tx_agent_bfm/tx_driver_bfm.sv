@@ -156,9 +156,10 @@ interface tx_driver_bfm(input pclk, input areset,
 
     //Driving Parity bit 
     @(posedge pclk);
-    tx <= data_packet.parity_bit;
+    tx <= data_packet.parity_bit[row_no];
+    `uvm_info("DEBUG",$sformatf("parity=%0d,row_no=%0d",
+    data_packet.parity_bit[row_no],row_no),UVM_FULL)
     state = PARITY;
-    
     `uvm_info("DEBUG_MSHA", $sformatf("drive_uart_packet state = %0s and state = %0d",
                                       state.name(), state), UVM_NONE)
 

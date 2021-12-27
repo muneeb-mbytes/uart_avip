@@ -164,7 +164,7 @@ endtask : run_phase
 
 task tx_driver_proxy::drive_to_bfm(inout uart_transfer_char_s packet, input uart_transfer_cfg_s packet1);
   tx_drv_bfm_h.drive_uart_packet(packet,packet1); 
-  //`uvm_info(get_type_name(),$sformatf("AFTER STRUCT PACKET : , \n %p",packet1),UVM_LOW);
+  `uvm_info(get_type_name(),$sformatf("AFTER STRUCT PACKET : , \n %p",packet),UVM_LOW);
 endtask : drive_to_bfm
 
 //--------------------------------------------------------------------------------------------

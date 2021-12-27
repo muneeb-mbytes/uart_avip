@@ -109,7 +109,7 @@ package uart_globals_pkg;
   typedef struct {
     bit [NO_OF_ROWS-1:0][CHAR_LENGTH-1:0] tx;
     int no_of_tx_data_bits_transfer;
-    int parity_bit;
+    bit parity_bit[CHAR_LENGTH];
     int no_of_tx_data_elements;
   } uart_transfer_char_s;
 

@@ -172,8 +172,10 @@ interface tx_monitor_bfm( input pclk,
       @(posedge pclk);
     end
 
-    data_packet.parity_bit=tx;
-    state = PARITY;
+    foreach(data_packet.parity_bit[i]) begin
+      data_packet.parity_bit[i]=tx;
+      state = PARITY;
+    end
     `uvm_info("DEBUG_MSHA", $sformatf("sample_uart_packet state = %0s and state = %0d",
                                       state.name(), state), UVM_NONE)
     
@@ -261,20 +263,18 @@ interface tx_monitor_bfm( input pclk,
   //everytime 
   //--------------------------------------------------------------------------------------------
   task break_condition_check(uart_transfer_char_s data_packet,uart_transfer_cfg_s cfg_pkt);
-
     if(break_counter==cfg_pkt.uart_type)begin
-
-      if(data_packet.parity_bit==0)begin
-
-        if(frame_error==1)begin
-          break_error = 1'b1;
+      foreach(data_packet.parity_bit[i]) begin
+        if(data_packet.parity_bit[i]==0)begin
+          if(frame_error==1)begin
+            break_error = 1'b1;
+          end
         end
       end
     end
     else begin
       break_error = 1'b0;
-    end 
-  
+    end
   endtask: break_condition_check
 
 endinterface: tx_monitor_bfm
